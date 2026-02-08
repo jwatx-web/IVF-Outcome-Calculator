@@ -36,7 +36,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=1.2">
+    <link rel="stylesheet" href="style.css?v=1.3">
 </head>
 <body>
     <div class="container">
@@ -168,6 +168,7 @@
 
                 <div class="input-group">
                     <label id="label-grading">Embryo Grading (Optional &mdash; improves accuracy)</label>
+                    <div class="help-text">Leave at 0 to use average rates. Grade affects both euploidy and pregnancy success. <sup class="cite-ref"><a href="#ref-2">[2]</a></sup><sup class="cite-ref"><a href="#ref-3">[3]</a></sup></div>
                     <div class="grade-input-grid">
                         <div class="grade-input-group">
                             <label for="gradeAA">Grade AA/AB Count</label>
@@ -182,10 +183,7 @@
                             <input type="number" id="gradeBC" min="0" max="20" value="0">
                         </div>
                     </div>
-                    <div class="help-text">
-                        Embryo grade affects both euploidy rates and pregnancy success. Leave at 0 to use average rates. <sup class="cite-ref"><a href="#ref-2">[2]</a></sup><sup class="cite-ref"><a href="#ref-3">[3]</a></sup>
-                        <br><strong>Total embryos: <span id="totalEmbryos">6</span></strong>
-                    </div>
+                    <div class="help-text"><strong>Total embryos: <span id="totalEmbryos">6</span></strong></div>
                 </div>
 
                 <div class="input-group">
@@ -206,20 +204,7 @@
                     <div class="help-text">Affects the euploid rate (chromosomally normal) <sup class="cite-ref"><a href="#ref-1">[1]</a></sup></div>
                 </div>
 
-                <div class="toggle-group">
-                    <label>PGT-A Testing (Chromosomal Screening)</label>
-                    <div class="toggle-switch">
-                        <span class="toggle-label">Skip</span>
-                        <label class="switch">
-                            <input type="checkbox" id="doPgtA" checked>
-                            <span class="slider-toggle"></span>
-                        </label>
-                        <span class="toggle-label">Test</span>
-                    </div>
-                    <div class="help-text">Not everyone needs <span class="glossary-term" tabindex="0" data-tooltip="Preimplantation Genetic Testing for Aneuploidy — screens for chromosome number">PGT-A</span>. Skip if not testing embryos for chromosomal abnormalities.</div>
-                </div>
-
-                <div class="input-group" id="pgtaGroup">
+                <div class="input-group">
                     <label for="euploidRate"><span class="glossary-term" tabindex="0" data-tooltip="Preimplantation Genetic Testing for Aneuploidy — screens for chromosome number">PGT-A</span> Success Rate (<span class="glossary-term" tabindex="0" data-tooltip="Having the normal number of chromosomes (46 in humans)">Euploid</span> Rate)</label>
                     <div class="input-row">
                         <input type="range" id="euploidRate" min="10" max="90" value="55" aria-valuemin="10" aria-valuemax="90" aria-valuenow="55">
@@ -405,6 +390,6 @@
         </div>
     </div>
 
-    <script src="script.js?v=1.2"></script>
+    <script src="script.js?v=1.3"></script>
 </body>
 </html>

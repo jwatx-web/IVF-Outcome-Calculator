@@ -59,9 +59,8 @@ function updateSimulation() {
 
     // Genetic testing stage
     const embryoCount = parseInt(document.getElementById('embryoCount').value);
-    const doPgtA = document.getElementById('doPgtA').checked;
     const doPgtM = document.getElementById('doPgtM').checked;
-    const euploidRate = doPgtA ? parseFloat(document.getElementById('euploidRate').value) / 100 : 1.0;
+    const euploidRate = parseFloat(document.getElementById('euploidRate').value) / 100;
     const pgtmRate = doPgtM ? parseFloat(document.getElementById('pgtmRate').value) / 100 : 1.0;
     const implantationRate = parseFloat(document.getElementById('implantationRate').value) / 100;
     const liveBirthRate = parseFloat(document.getElementById('liveBirthRate').value) / 100;
@@ -188,8 +187,7 @@ function updateSimulation() {
         { label: 'Fertilized', count: fertilizedEggs, rate: `${(fertilizationRate * 100).toFixed(0)}%` },
         { label: 'Blastocysts', count: blastocysts, rate: `${(blastocystRate * 100).toFixed(0)}%` },
         { label: 'Tested for Genetics', count: embryoCount, rate: blastocysts > 0 ? `${Math.round(embryoCount / blastocysts * 100)}%` : '0%' },
-        { label: 'Usable Embryos (Expected)', count: expectedValue.toFixed(1), rate: `${(combinedProb * 100).toFixed(0)}%` },
-        { label: 'Live Birth (Expected)', count: (expectedValue * perTransferSuccess).toFixed(1), rate: `${(perTransferSuccess * 100).toFixed(0)}%` }
+        { label: 'Usable Embryos (Expected)', count: expectedValue.toFixed(1), rate: `${(combinedProb * 100).toFixed(0)}%` }
     ];
 
     const maxCount = eggsRetrieved;
@@ -376,25 +374,6 @@ pgtmRateSlider.addEventListener('input', function() {
 });
 
 // ============================================================
-// PGT-A Toggle
-// ============================================================
-const doPgtAToggle = document.getElementById('doPgtA');
-doPgtAToggle.addEventListener('change', function() {
-    const pgtaGroup = document.getElementById('pgtaGroup');
-    if (this.checked) {
-        pgtaGroup.style.display = '';
-        // Restore age-based euploidy calculation
-        const age = parseInt(maternalAgeSlider.value);
-        const calculatedEuploid = calculateEuploidRate(age);
-        euploidRateSlider.value = calculatedEuploid;
-        document.getElementById('euploidRateValue').textContent = calculatedEuploid;
-    } else {
-        pgtaGroup.style.display = 'none';
-    }
-    updateSimulation();
-});
-
-// ============================================================
 // PGT-M Toggle
 // ============================================================
 const doPgtMToggle = document.getElementById('doPgtM');
@@ -415,7 +394,9 @@ doPgtMToggle.addEventListener('change', function() {
 // AMH Egg Estimator
 // ============================================================
 function estimateEggsFromAMH(age, amh) {
-    const lnEggs = 3.21 - 0.036 * age + 0.089 * amh;
+    // Log-AMH regression calibrated to multi-study clinical data
+    // Captures diminishing returns at higher AMH levels
+    const lnEggs = 2.856 - 0.028 * age + 0.631 * Math.log(amh);
     return Math.max(1, Math.min(40, Math.round(Math.exp(lnEggs))));
 }
 
@@ -574,7 +555,6 @@ const paramConfig = [
     { key: 'implant', sliderId: 'implantationRate', numId: null, valueId: 'implantationRateValue' },
     { key: 'lbr', sliderId: 'liveBirthRate', numId: null, valueId: 'liveBirthRateValue' },
     { key: 'frozen', sliderId: null, numId: 'frozenTransfer', valueId: null, isCheckbox: true },
-    { key: 'dopgta', sliderId: null, numId: 'doPgtA', valueId: null, isCheckbox: true },
     { key: 'dopgtm', sliderId: null, numId: 'doPgtM', valueId: null, isCheckbox: true }
 ];
 
@@ -628,12 +608,8 @@ function restoreParamsFromURL() {
 
 // Sync toggle visibility state with their checkboxes
 function syncToggleVisibility() {
-    const pgtaGroup = document.getElementById('pgtaGroup');
     const pgtmGroup = document.getElementById('pgtmGroup');
     const geneticsSection = document.getElementById('geneticInheritanceSection');
-    if (!document.getElementById('doPgtA').checked) {
-        pgtaGroup.style.display = 'none';
-    }
     if (!document.getElementById('doPgtM').checked) {
         pgtmGroup.style.display = 'none';
         if (geneticsSection) geneticsSection.style.display = 'none';
@@ -719,10 +695,8 @@ document.getElementById('resetBtn').addEventListener('click', function() {
     const frozenToggle = document.getElementById('frozenTransfer');
     if (frozenToggle) frozenToggle.checked = true;
 
-    // Reset PGT-A/PGT-M toggles to on
-    document.getElementById('doPgtA').checked = true;
+    // Reset PGT-M toggle to on
     document.getElementById('doPgtM').checked = true;
-    document.getElementById('pgtaGroup').style.display = '';
     document.getElementById('pgtmGroup').style.display = '';
     const geneticsSection = document.getElementById('geneticInheritanceSection');
     if (geneticsSection) geneticsSection.style.display = '';

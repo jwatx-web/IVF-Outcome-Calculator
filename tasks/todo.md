@@ -81,6 +81,15 @@
 - [x] URL param sharing for new toggles (dopgta, dopgtm)
 - [x] Cache-busting version strings on CSS/JS imports
 
+## v1.2 Updates
+- [x] Mobile padding fix (body 8→16px at 480px breakpoint)
+- [x] Stage timeline: all 5 stages on single row on mobile (no wrap)
+- [x] "Leave at 0" help text moved above grade inputs
+- [x] Removed PGT-A skip toggle (redundant — euploidy slider auto-calculates)
+- [x] Removed "Live Birth (Expected)" from funnel chart (confusing vs overall probability)
+- [x] AMH formula recalibrated: log-AMH regression (age 38/AMH 3.0 → 12 eggs, was 8)
+- [x] Cache-busting bumped to ?v=1.3
+
 ## Deferred to v2
 - [ ] 3E: Side-by-side comparison mode
 - [ ] Advanced AMH model (FSH + AFC inputs, simple/advanced mode toggle)
@@ -92,4 +101,4 @@
 - [ ] ICSI decision tree (male factor severity assessment)
 
 ## Review Notes
-_Phase 0-5 complete. Phase 6 QA in progress. v1.1 features deployed._
+_Phase 0-5 complete. Phase 6 QA in progress. v1.2 polish deployed._

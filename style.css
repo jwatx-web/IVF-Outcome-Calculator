@@ -658,12 +658,10 @@ body {
 .funnel-stage:nth-child(4) .funnel-bar { background: var(--color-accent) !important; opacity: 0.61; }
 .funnel-stage:nth-child(5) .funnel-bar { background: var(--color-accent) !important; opacity: 0.48; }
 .funnel-stage:nth-child(6) .funnel-bar { background: var(--color-accent) !important; opacity: 0.34; }
-.funnel-stage:nth-child(7) .funnel-bar { background: var(--color-accent) !important; opacity: 0.20; }
 
 /* Ensure funnel bar text stays readable at low opacities */
 .funnel-stage:nth-child(5) .funnel-bar,
-.funnel-stage:nth-child(6) .funnel-bar,
-.funnel-stage:nth-child(7) .funnel-bar {
+.funnel-stage:nth-child(6) .funnel-bar {
   color: var(--color-text);
 }
 
@@ -892,11 +890,11 @@ body {
 /* --- Responsive: Phone --- */
 @media (max-width: 480px) {
   body {
-    padding: var(--space-xs);
+    padding: var(--space-sm);
   }
 
   .header {
-    padding: var(--space-md) 0;
+    padding: var(--space-md) var(--space-xs);
   }
 
   .header h1 {
@@ -904,9 +902,10 @@ body {
   }
 
   .stage-indicator {
-    flex-wrap: wrap;
-    gap: var(--space-xs);
-    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 2px;
+    justify-content: space-between;
+    padding: 0;
   }
 
   .stage-indicator::before {
@@ -914,9 +913,15 @@ body {
   }
 
   .stage {
-    flex: 0 0 auto;
-    width: calc(33.333% - var(--space-xs));
-    font-size: 10px;
+    flex: 1;
+    width: auto;
+    font-size: 9px;
+  }
+
+  .stage-number {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
   }
 
   .stat-grid {

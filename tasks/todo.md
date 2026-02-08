@@ -73,5 +73,23 @@
 | sources.json | - | 431 lines |
 | **Total** | **1,760** | **2,920 lines** |
 
+## v1.1 Updates
+- [x] Font size bump (body 15→16px, help text 12→13px, descriptions 13→14px)
+- [x] PGT-A skip toggle (hides euploidy slider, sets rate to 100%)
+- [x] PGT-M skip toggle (hides PGT-M slider + Genetic Inheritance section)
+- [x] AMH-based egg count estimator (La Marca formula: age + AMH)
+- [x] URL param sharing for new toggles (dopgta, dopgtm)
+- [x] Cache-busting version strings on CSS/JS imports
+
+## Deferred to v2
+- [ ] 3E: Side-by-side comparison mode
+- [ ] Advanced AMH model (FSH + AFC inputs, simple/advanced mode toggle)
+- [ ] Multiple cycles estimator (cumulative success across 2-6 cycles)
+- [ ] Donor eggs pathway (different success model, recipient age less important)
+- [ ] Inheritance pattern selector (autosomal dominant, X-linked recessive/dominant)
+- [ ] Egg freezing calculator (age at freeze, thaw survival rates)
+- [ ] PGT-SR for structural rearrangements (balanced translocations)
+- [ ] ICSI decision tree (male factor severity assessment)
+
 ## Review Notes
-_Phase 0-5 complete. Phase 6 QA in progress. Phase 3E (comparison mode) deferred to v2._
+_Phase 0-5 complete. Phase 6 QA in progress. v1.1 features deployed._

@@ -59,8 +59,10 @@ function updateSimulation() {
 
     // Genetic testing stage
     const embryoCount = parseInt(document.getElementById('embryoCount').value);
-    const euploidRate = parseFloat(document.getElementById('euploidRate').value) / 100;
-    const pgtmRate = parseFloat(document.getElementById('pgtmRate').value) / 100;
+    const doPgtA = document.getElementById('doPgtA').checked;
+    const doPgtM = document.getElementById('doPgtM').checked;
+    const euploidRate = doPgtA ? parseFloat(document.getElementById('euploidRate').value) / 100 : 1.0;
+    const pgtmRate = doPgtM ? parseFloat(document.getElementById('pgtmRate').value) / 100 : 1.0;
     const implantationRate = parseFloat(document.getElementById('implantationRate').value) / 100;
     const liveBirthRate = parseFloat(document.getElementById('liveBirthRate').value) / 100;
 
@@ -373,6 +375,94 @@ pgtmRateSlider.addEventListener('input', function() {
     updateSimulation();
 });
 
+// ============================================================
+// PGT-A Toggle
+// ============================================================
+const doPgtAToggle = document.getElementById('doPgtA');
+doPgtAToggle.addEventListener('change', function() {
+    const pgtaGroup = document.getElementById('pgtaGroup');
+    if (this.checked) {
+        pgtaGroup.style.display = '';
+        // Restore age-based euploidy calculation
+        const age = parseInt(maternalAgeSlider.value);
+        const calculatedEuploid = calculateEuploidRate(age);
+        euploidRateSlider.value = calculatedEuploid;
+        document.getElementById('euploidRateValue').textContent = calculatedEuploid;
+    } else {
+        pgtaGroup.style.display = 'none';
+    }
+    updateSimulation();
+});
+
+// ============================================================
+// PGT-M Toggle
+// ============================================================
+const doPgtMToggle = document.getElementById('doPgtM');
+doPgtMToggle.addEventListener('change', function() {
+    const pgtmGroup = document.getElementById('pgtmGroup');
+    const geneticsSection = document.getElementById('geneticInheritanceSection');
+    if (this.checked) {
+        pgtmGroup.style.display = '';
+        if (geneticsSection) geneticsSection.style.display = '';
+    } else {
+        pgtmGroup.style.display = 'none';
+        if (geneticsSection) geneticsSection.style.display = 'none';
+    }
+    updateSimulation();
+});
+
+// ============================================================
+// AMH Egg Estimator
+// ============================================================
+function estimateEggsFromAMH(age, amh) {
+    const lnEggs = 3.21 - 0.036 * age + 0.089 * amh;
+    return Math.max(1, Math.min(40, Math.round(Math.exp(lnEggs))));
+}
+
+const amhToggle = document.getElementById('amhToggle');
+const amhPanel = document.getElementById('amhPanel');
+const amhAgeInput = document.getElementById('amhAge');
+const amhLevelInput = document.getElementById('amhLevel');
+const amhResult = document.getElementById('amhResult');
+
+amhToggle.addEventListener('click', function(e) {
+    e.preventDefault();
+    amhPanel.style.display = amhPanel.style.display === 'none' ? '' : 'none';
+});
+
+function updateAMHEstimate() {
+    const amh = parseFloat(amhLevelInput.value);
+    const age = parseInt(amhAgeInput.value);
+    if (!amh || !age) {
+        amhResult.textContent = '';
+        return;
+    }
+    const estimated = estimateEggsFromAMH(age, amh);
+    amhResult.textContent = 'Estimated ~' + estimated + ' eggs based on AMH ' + amh.toFixed(1) + ' ng/mL at age ' + age;
+    // Update eggs retrieved slider
+    eggsRetrievedSlider.value = estimated;
+    eggsRetrievedNum.value = estimated;
+    updateSimulation();
+}
+
+amhLevelInput.addEventListener('input', updateAMHEstimate);
+
+// Sync AMH age ↔ Maternal Age bidirectionally
+amhAgeInput.addEventListener('input', function() {
+    maternalAgeSlider.value = this.value;
+    document.getElementById('maternalAgeValue').textContent = this.value;
+    const calculatedEuploid = calculateEuploidRate(parseInt(this.value));
+    euploidRateSlider.value = calculatedEuploid;
+    document.getElementById('euploidRateValue').textContent = calculatedEuploid;
+    updateAMHEstimate();
+});
+
+// When maternal age slider changes, sync to AMH age input
+const originalMaternalAgeHandler = maternalAgeSlider.oninput;
+maternalAgeSlider.addEventListener('input', function() {
+    amhAgeInput.value = this.value;
+});
+
 const implantationRateSlider = document.getElementById('implantationRate');
 const liveBirthRateSlider = document.getElementById('liveBirthRate');
 
@@ -483,7 +573,9 @@ const paramConfig = [
     { key: 'gradeBC', sliderId: null, numId: 'gradeBC', valueId: null },
     { key: 'implant', sliderId: 'implantationRate', numId: null, valueId: 'implantationRateValue' },
     { key: 'lbr', sliderId: 'liveBirthRate', numId: null, valueId: 'liveBirthRateValue' },
-    { key: 'frozen', sliderId: null, numId: 'frozenTransfer', valueId: null, isCheckbox: true }
+    { key: 'frozen', sliderId: null, numId: 'frozenTransfer', valueId: null, isCheckbox: true },
+    { key: 'dopgta', sliderId: null, numId: 'doPgtA', valueId: null, isCheckbox: true },
+    { key: 'dopgtm', sliderId: null, numId: 'doPgtM', valueId: null, isCheckbox: true }
 ];
 
 function encodeParamsToURL() {
@@ -534,8 +626,23 @@ function restoreParamsFromURL() {
     return restored;
 }
 
+// Sync toggle visibility state with their checkboxes
+function syncToggleVisibility() {
+    const pgtaGroup = document.getElementById('pgtaGroup');
+    const pgtmGroup = document.getElementById('pgtmGroup');
+    const geneticsSection = document.getElementById('geneticInheritanceSection');
+    if (!document.getElementById('doPgtA').checked) {
+        pgtaGroup.style.display = 'none';
+    }
+    if (!document.getElementById('doPgtM').checked) {
+        pgtmGroup.style.display = 'none';
+        if (geneticsSection) geneticsSection.style.display = 'none';
+    }
+}
+
 // Restore params on page load (before initial updateSimulation already ran, so re-run)
 if (restoreParamsFromURL()) {
+    syncToggleVisibility();
     updateSimulation();
 }
 
@@ -611,6 +718,20 @@ document.getElementById('resetBtn').addEventListener('click', function() {
     // Reset frozen transfer toggle
     const frozenToggle = document.getElementById('frozenTransfer');
     if (frozenToggle) frozenToggle.checked = true;
+
+    // Reset PGT-A/PGT-M toggles to on
+    document.getElementById('doPgtA').checked = true;
+    document.getElementById('doPgtM').checked = true;
+    document.getElementById('pgtaGroup').style.display = '';
+    document.getElementById('pgtmGroup').style.display = '';
+    const geneticsSection = document.getElementById('geneticInheritanceSection');
+    if (geneticsSection) geneticsSection.style.display = '';
+
+    // Reset AMH panel
+    document.getElementById('amhPanel').style.display = 'none';
+    document.getElementById('amhLevel').value = '';
+    document.getElementById('amhAge').value = 38;
+    document.getElementById('amhResult').textContent = '';
 
     // Clear URL params
     history.replaceState(null, '', window.location.pathname);

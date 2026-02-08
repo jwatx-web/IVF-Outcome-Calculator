@@ -249,28 +249,6 @@ function updateSimulation() {
             ? `If you get ${medianUsableEmbryos}+ usable embryos, there's a possibility of having embryos left for a second child. Overall probability: ${(probAtLeast2Births * 100).toFixed(1)}%.`
             : `Very low probability with expected embryo count. Consider banking embryos from multiple cycles for family planning.`;
 
-    // Calculate cumulative success rates
-    let cumulativeHtml = '';
-    let cumulativeProb = 0;
-
-    for (let transfers = 1; transfers <= Math.min(5, Math.ceil(expectedValue * 1.5)); transfers++) {
-        cumulativeProb = 1 - Math.pow(1 - perTransferSuccess, transfers);
-        const prevProb = transfers > 1 ? (1 - Math.pow(1 - perTransferSuccess, transfers - 1)) : 0;
-        const marginalIncrease = cumulativeProb - prevProb;
-
-        cumulativeHtml += `
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 10px; background: white; border-radius: 6px;">
-                <span style="font-weight: 600; color: #333334;">After ${transfers} transfer${transfers > 1 ? 's' : ''}:</span>
-                <div>
-                    <span style="font-size: 20px; font-weight: 700; color: #C4553A;">${(cumulativeProb * 100).toFixed(1)}%</span>
-                    ${transfers > 1 ? `<span style="font-size: 12px; color: #6B6B6C; margin-left: 8px;">(+${(marginalIncrease * 100).toFixed(1)}%)</span>` : ''}
-                </div>
-            </div>
-        `;
-    }
-
-    document.getElementById('cumulativeResults').innerHTML = cumulativeHtml;
-
     // Draw probability bars
     const barsContainer = document.getElementById('probabilityBars');
     barsContainer.innerHTML = '';

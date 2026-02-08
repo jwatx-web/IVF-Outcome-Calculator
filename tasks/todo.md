@@ -178,3 +178,29 @@
 
 ## Review Notes
 _Phase 0-5 complete. v2.1 QA fixes applied._
+
+---
+
+## Backlog (Queued)
+
+### Design & Tooling
+- [ ] Develop a design principles document or skill for later use
+
+### SEO
+- [ ] Maximize SEO visibility — audit and improve site SEO
+
+### Legal
+- [ ] Ensure full legal compliance — assess need for privacy policy, terms of use, data usage page
+
+### Analytics
+- [ ] Add site analytics (e.g. Google Analytics)
+
+### UX Improvements
+- [ ] Add detailed description tooltips for medical terms (e.g. what is a blastocyst, what does "live birth per transfer" mean)
+- [ ] Assess feasibility of eggs retrieval slider not starting at 12 (appear as blank slate to start)
+
+### Housekeeping
+- [ ] File cleanup and archive (e.g. handoff files, old docs)
+
+### Bug Fixes
+- [ ] Fix bug: "Understanding the Results" always says "between 1-4 embryos" regardless of input

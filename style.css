@@ -37,6 +37,91 @@
   box-sizing: border-box;
 }
 
+/* --- Shared Design Patterns (see docs/design-catalog.md) --- */
+
+/* Section containers: data display vs input */
+.section-primary {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.section-secondary {
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+/* Heading hierarchy */
+.heading-section {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--color-text);
+  margin-bottom: var(--space-md);
+  line-height: 1.3;
+  text-align: left;
+}
+
+.heading-subsection {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--color-text);
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+/* Card patterns */
+.card-data {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  text-align: center;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-data:hover {
+  border-color: rgba(43, 94, 73, 0.3);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.card-info {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-info:hover {
+  border-color: rgba(43, 94, 73, 0.3);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+/* Number display sizes */
+.display-large {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 400;
+  color: var(--color-accent);
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.display-medium {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--color-accent);
+}
+
 /* --- Page Load Animations --- */
 @keyframes fadeInUp {
   from {
@@ -598,6 +683,7 @@ body {
 .genetics-section {
   background: var(--color-white);
   border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-accent);
   border-radius: var(--radius-md);
   padding: var(--space-md);
   margin-bottom: var(--space-lg);
@@ -606,10 +692,10 @@ body {
 
 .genetics-section h3 {
   font-family: var(--font-display);
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 400;
   color: var(--color-text);
-  margin-bottom: var(--space-sm);
+  margin-bottom: 20px;
 }
 
 .genetics-grid {
@@ -621,13 +707,15 @@ body {
 .genetics-card {
   background: var(--color-bg);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  padding: var(--space-sm);
-  transition: border-color 0.2s ease;
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  text-align: center;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .genetics-card:hover {
   border-color: rgba(43, 94, 73, 0.3);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
 .genetics-title {
@@ -639,9 +727,11 @@ body {
 
 .genetics-prob {
   font-family: var(--font-display);
-  font-size: 24px;
+  font-size: 36px;
   font-weight: 400;
   color: var(--color-accent);
+  line-height: 1.1;
+  margin-bottom: 6px;
 }
 
 .genetics-desc {
@@ -957,15 +1047,16 @@ body {
 
 .outcome-card {
   background: var(--color-bg);
-  border-left: 3px solid var(--color-accent);
-  border-radius: var(--radius-sm);
-  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
   margin-bottom: var(--space-sm);
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .outcome-card:hover {
-  border-left-color: var(--color-accent-light);
+  border-color: rgba(43, 94, 73, 0.3);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
 .outcome-card h4 {
@@ -1085,7 +1176,8 @@ body {
     grid-template-columns: 1fr;
   }
 
-  .stat-value {
+  .stat-value,
+  .genetics-prob {
     font-size: 28px;
   }
 

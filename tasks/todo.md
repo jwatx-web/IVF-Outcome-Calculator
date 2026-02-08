@@ -98,6 +98,16 @@
 - [x] Increased spacing: input groups 28px, funnel stages 20px, probability bars 20px, funnel bars 48px
 - [x] Cache-busting bumped to ?v=1.4
 
+## v1.4 Updates (Design Audit)
+- [x] Replaced editable number inputs with value displays for consistency (Eggs Retrieved, Embryo Count)
+- [x] Fixed value-display mobile alignment (left-align at 480px breakpoint)
+- [x] Reduced body padding from 32px to 16px
+- [x] Tightened section heading margin from 32px to 20px
+- [x] Lightened toggle-group padding (16px vertical, 32px horizontal)
+- [x] Added accent top border to results and outcomes sections
+- [x] Fixed disclaimer banner over-padding (32px → 20px horizontal)
+- [x] Cache-busting bumped to ?v=1.5
+
 ## Deferred to v2
 - [ ] 3E: Side-by-side comparison mode
 - [ ] Advanced AMH model (FSH + AFC inputs, simple/advanced mode toggle)
@@ -109,4 +119,4 @@
 - [ ] ICSI decision tree (male factor severity assessment)
 
 ## Review Notes
-_Phase 0-5 complete. Phase 6 QA in progress. v1.3 fixes deployed._
+_Phase 0-5 complete. Phase 6 QA in progress. v1.4 design audit deployed._

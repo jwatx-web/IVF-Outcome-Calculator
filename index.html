@@ -36,7 +36,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=1.4">
+    <link rel="stylesheet" href="style.css?v=1.5">
 </head>
 <body>
     <div class="container">
@@ -111,7 +111,7 @@
                     <label for="eggsRetrieved">Eggs Retrieved</label>
                     <div class="input-row">
                         <input type="range" id="eggsRetrieved" min="1" max="40" value="12" aria-valuemin="1" aria-valuemax="40" aria-valuenow="12">
-                        <input type="number" id="eggsRetrievedNum" min="1" max="40" value="12">
+                        <div class="value-display"><span id="eggsRetrievedValue">12</span></div>
                     </div>
                     <div class="help-text">Total number of eggs collected during retrieval</div>
                 </div>
@@ -190,7 +190,7 @@
                     <label for="embryoCount">Number of Blastocysts Sent for Testing</label>
                     <div class="input-row">
                         <input type="range" id="embryoCount" min="1" max="20" value="4" aria-valuemin="1" aria-valuemax="20" aria-valuenow="4">
-                        <input type="number" id="embryoCountNum" min="1" max="20" value="4">
+                        <div class="value-display"><span id="embryoCountValue">4</span></div>
                     </div>
                     <div class="help-text">Total blastocysts sent for genetic testing (auto-syncs with grades or early stages if specified)</div>
                 </div>
@@ -390,6 +390,6 @@
         </div>
     </div>
 
-    <script src="script.js?v=1.4"></script>
+    <script src="script.js?v=1.5"></script>
 </body>
 </html>

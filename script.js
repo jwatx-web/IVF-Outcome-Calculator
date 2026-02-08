@@ -74,7 +74,7 @@ function updateSimulation() {
     // Sync total embryos with blastocysts if no grades specified
     if (totalGraded === 0) {
         document.getElementById('embryoCount').value = blastocysts;
-        document.getElementById('embryoCountNum').value = blastocysts;
+        document.getElementById('embryoCountValue').textContent = blastocysts;
     }
 
     // Sync total embryos display
@@ -292,12 +292,10 @@ function updateSimulation() {
 
 // Event listeners for all inputs
 const eggsRetrievedSlider = document.getElementById('eggsRetrieved');
-const eggsRetrievedNum = document.getElementById('eggsRetrievedNum');
 const maturityRateSlider = document.getElementById('maturityRate');
 const fertilizationRateSlider = document.getElementById('fertilizationRate');
 const blastocystRateSlider = document.getElementById('blastocystRate');
 const embryoCountSlider = document.getElementById('embryoCount');
-const embryoCountNum = document.getElementById('embryoCountNum');
 const maternalAgeSlider = document.getElementById('maternalAge');
 const euploidRateSlider = document.getElementById('euploidRate');
 const pgtmRateSlider = document.getElementById('pgtmRate');
@@ -307,12 +305,7 @@ const gradeBAInput = document.getElementById('gradeBA');
 const gradeBCInput = document.getElementById('gradeBC');
 
 eggsRetrievedSlider.addEventListener('input', function() {
-    eggsRetrievedNum.value = this.value;
-    updateSimulation();
-});
-
-eggsRetrievedNum.addEventListener('input', function() {
-    eggsRetrievedSlider.value = this.value;
+    document.getElementById('eggsRetrievedValue').textContent = this.value;
     updateSimulation();
 });
 
@@ -337,7 +330,7 @@ function syncGradeCounts() {
                  parseInt(gradeBCInput.value || 0);
     if (total > 0) {
         embryoCountSlider.value = total;
-        embryoCountNum.value = total;
+        document.getElementById('embryoCountValue').textContent = total;
     }
     updateSimulation();
 }
@@ -347,12 +340,7 @@ gradeBAInput.addEventListener('input', syncGradeCounts);
 gradeBCInput.addEventListener('input', syncGradeCounts);
 
 embryoCountSlider.addEventListener('input', function() {
-    embryoCountNum.value = this.value;
-    updateSimulation();
-});
-
-embryoCountNum.addEventListener('input', function() {
-    embryoCountSlider.value = this.value;
+    document.getElementById('embryoCountValue').textContent = this.value;
     updateSimulation();
 });
 
@@ -423,7 +411,7 @@ function updateAMHEstimate() {
     amhResult.textContent = 'Estimated ~' + estimated + ' eggs based on AMH ' + amh.toFixed(1) + ' ng/mL at age ' + age;
     // Update eggs retrieved slider
     eggsRetrievedSlider.value = estimated;
-    eggsRetrievedNum.value = estimated;
+    document.getElementById('eggsRetrievedValue').textContent = estimated;
     updateSimulation();
 }
 
@@ -542,11 +530,11 @@ loadCitations();
 // URL Parameter Sharing (Phase 3B)
 // ============================================================
 const paramConfig = [
-    { key: 'eggs', sliderId: 'eggsRetrieved', numId: 'eggsRetrievedNum', valueId: null },
+    { key: 'eggs', sliderId: 'eggsRetrieved', numId: null, valueId: 'eggsRetrievedValue' },
     { key: 'mii', sliderId: 'maturityRate', numId: null, valueId: 'maturityRateValue' },
     { key: 'fert', sliderId: 'fertilizationRate', numId: null, valueId: 'fertilizationRateValue' },
     { key: 'blast', sliderId: 'blastocystRate', numId: null, valueId: 'blastocystRateValue' },
-    { key: 'count', sliderId: 'embryoCount', numId: 'embryoCountNum', valueId: null },
+    { key: 'count', sliderId: 'embryoCount', numId: null, valueId: 'embryoCountValue' },
     { key: 'age', sliderId: 'maternalAge', numId: null, valueId: 'maternalAgeValue' },
     { key: 'euploid', sliderId: 'euploidRate', numId: null, valueId: 'euploidRateValue' },
     { key: 'pgtm', sliderId: 'pgtmRate', numId: null, valueId: 'pgtmRateValue' },
@@ -667,9 +655,9 @@ document.getElementById('shareBtn').addEventListener('click', function() {
 document.getElementById('resetBtn').addEventListener('click', function() {
     // Default values matching the HTML defaults
     const defaults = {
-        eggsRetrieved: 12, eggsRetrievedNum: 12,
+        eggsRetrieved: 12,
         maturityRate: 80, fertilizationRate: 75, blastocystRate: 50,
-        embryoCount: 4, embryoCountNum: 4,
+        embryoCount: 4,
         maternalAge: 38, euploidRate: 55, pgtmRate: 75,
         gradeAA: 0, gradeBA: 0, gradeBC: 0,
         implantationRate: 50, liveBirthRate: 75
@@ -682,6 +670,7 @@ document.getElementById('resetBtn').addEventListener('click', function() {
 
     // Reset value displays
     const displays = {
+        eggsRetrievedValue: 12, embryoCountValue: 4,
         maturityRateValue: 80, fertilizationRateValue: 75, blastocystRateValue: 50,
         maternalAgeValue: 38, euploidRateValue: 55, pgtmRateValue: 75,
         implantationRateValue: 50, liveBirthRateValue: 75

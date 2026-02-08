@@ -647,7 +647,10 @@ function restoreParamsFromURL() {
 
         if (cfg.sliderId) {
             const slider = document.getElementById(cfg.sliderId);
-            if (slider) slider.value = val;
+            if (slider) {
+                if (parseInt(val) > parseInt(slider.max)) slider.max = val;
+                slider.value = val;
+            }
         }
         if (cfg.numId) {
             const num = document.getElementById(cfg.numId);

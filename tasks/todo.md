@@ -146,5 +146,10 @@
 - [x] Display: "Total graded: X / Y sent for testing"
 - [x] Cache-busting bumped to ?v=1.8
 
+## v1.8 Updates (URL Share Fix)
+- [x] Fixed URL restore bug: slider value clamped by stale max in `restoreParamsFromURL()`
+- [x] Bump slider `max` before setting `value` to prevent browser silent clamping
+- [x] Cache-busting bumped to ?v=1.9
+
 ## Review Notes
-_Phase 0-5 complete. v1.7 Stage 4 flow redesign deployed._
+_Phase 0-5 complete. v1.8 URL share fix deployed._

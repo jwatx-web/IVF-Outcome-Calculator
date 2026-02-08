@@ -36,7 +36,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=1.3">
+    <link rel="stylesheet" href="style.css?v=1.4">
 </head>
 <body>
     <div class="container">
@@ -91,7 +91,7 @@
                 <h3>Stage 1 &ndash; 3: From Retrieval to Blastocyst</h3>
 
                 <div class="input-group">
-                    <a href="#" class="amh-toggle" id="amhToggle">Don't know your egg count? Estimate from AMH level</a>
+                    <a href="#" class="amh-toggle" id="amhToggle">Don't know your egg count? Estimate from AMH level &darr;</a>
                     <div class="amh-panel" id="amhPanel" style="display:none;">
                         <div class="amh-inputs">
                             <div class="amh-input-group">
@@ -172,25 +172,25 @@
                     <div class="grade-input-grid">
                         <div class="grade-input-group">
                             <label for="gradeAA">Grade AA/AB Count</label>
-                            <input type="number" id="gradeAA" min="0" max="20" value="5">
+                            <input type="number" id="gradeAA" min="0" max="20" value="0">
                         </div>
                         <div class="grade-input-group">
                             <label for="gradeBA">Grade BA/BB Count</label>
-                            <input type="number" id="gradeBA" min="0" max="20" value="1">
+                            <input type="number" id="gradeBA" min="0" max="20" value="0">
                         </div>
                         <div class="grade-input-group">
                             <label for="gradeBC">Grade BC/CB/CC</label>
                             <input type="number" id="gradeBC" min="0" max="20" value="0">
                         </div>
                     </div>
-                    <div class="help-text"><strong>Total embryos: <span id="totalEmbryos">6</span></strong></div>
+                    <div class="help-text"><strong>Total embryos: <span id="totalEmbryos">0</span></strong></div>
                 </div>
 
                 <div class="input-group">
                     <label for="embryoCount">Number of Blastocysts Sent for Testing</label>
                     <div class="input-row">
-                        <input type="range" id="embryoCount" min="1" max="20" value="6" aria-valuemin="1" aria-valuemax="20" aria-valuenow="6">
-                        <input type="number" id="embryoCountNum" min="1" max="20" value="6">
+                        <input type="range" id="embryoCount" min="1" max="20" value="4" aria-valuemin="1" aria-valuemax="20" aria-valuenow="4">
+                        <input type="number" id="embryoCountNum" min="1" max="20" value="4">
                     </div>
                     <div class="help-text">Total blastocysts sent for genetic testing (auto-syncs with grades or early stages if specified)</div>
                 </div>
@@ -390,6 +390,6 @@
         </div>
     </div>
 
-    <script src="script.js?v=1.3"></script>
+    <script src="script.js?v=1.4"></script>
 </body>
 </html>

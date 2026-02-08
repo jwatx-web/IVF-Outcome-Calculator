@@ -90,6 +90,14 @@
 - [x] AMH formula recalibrated: log-AMH regression (age 38/AMH 3.0 → 12 eggs, was 8)
 - [x] Cache-busting bumped to ?v=1.3
 
+## v1.3 Updates
+- [x] Fixed funnel bug: "Tested for Genetics" capped at blastocyst count (was showing 300%)
+- [x] Default grade inputs changed from 5/1/0 to 0/0/0 (matches "Leave at 0" instruction)
+- [x] AMH toggle restyled as bordered pill button (was subtle text link, easy to miss)
+- [x] TrumpRx-level spacing overhaul (space-md 24→32px, space-lg 48→56px, space-xl 72→80px)
+- [x] Increased spacing: input groups 28px, funnel stages 20px, probability bars 20px, funnel bars 48px
+- [x] Cache-busting bumped to ?v=1.4
+
 ## Deferred to v2
 - [ ] 3E: Side-by-side comparison mode
 - [ ] Advanced AMH model (FSH + AFC inputs, simple/advanced mode toggle)
@@ -101,4 +109,4 @@
 - [ ] ICSI decision tree (male factor severity assessment)
 
 ## Review Notes
-_Phase 0-5 complete. Phase 6 QA in progress. v1.2 polish deployed._
+_Phase 0-5 complete. Phase 6 QA in progress. v1.3 fixes deployed._

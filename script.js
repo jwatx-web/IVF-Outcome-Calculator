@@ -180,14 +180,15 @@ function updateSimulation() {
         }
     }
 
-    // Draw funnel chart
+    // Draw funnel chart — cap "Tested for Genetics" at blastocyst count
+    const testedCount = Math.min(embryoCount, blastocysts);
     const funnelData = [
         { label: 'Eggs Retrieved', count: eggsRetrieved, rate: '100%' },
         { label: 'Mature Eggs (MII)', count: matureEggs, rate: `${(maturityRate * 100).toFixed(0)}%` },
         { label: 'Fertilized', count: fertilizedEggs, rate: `${(fertilizationRate * 100).toFixed(0)}%` },
         { label: 'Blastocysts', count: blastocysts, rate: `${(blastocystRate * 100).toFixed(0)}%` },
-        { label: 'Tested for Genetics', count: embryoCount, rate: blastocysts > 0 ? `${Math.round(embryoCount / blastocysts * 100)}%` : '0%' },
-        { label: 'Usable Embryos (Expected)', count: expectedValue.toFixed(1), rate: `${(combinedProb * 100).toFixed(0)}%` }
+        { label: 'Tested for Genetics', count: testedCount, rate: blastocysts > 0 ? `${Math.round(testedCount / blastocysts * 100)}%` : '0%' },
+        { label: 'Usable Embryos (Expected)', count: expectedValue.toFixed(1), rate: testedCount > 0 ? `${Math.round(expectedValue / testedCount * 100)}%` : '0%' }
     ];
 
     const maxCount = eggsRetrieved;
@@ -668,9 +669,9 @@ document.getElementById('resetBtn').addEventListener('click', function() {
     const defaults = {
         eggsRetrieved: 12, eggsRetrievedNum: 12,
         maturityRate: 80, fertilizationRate: 75, blastocystRate: 50,
-        embryoCount: 6, embryoCountNum: 6,
+        embryoCount: 4, embryoCountNum: 4,
         maternalAge: 38, euploidRate: 55, pgtmRate: 75,
-        gradeAA: 5, gradeBA: 1, gradeBC: 0,
+        gradeAA: 0, gradeBA: 0, gradeBC: 0,
         implantationRate: 50, liveBirthRate: 75
     };
 

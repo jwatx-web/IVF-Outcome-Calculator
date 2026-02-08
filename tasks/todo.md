@@ -151,5 +151,30 @@
 - [x] Bump slider `max` before setting `value` to prevent browser silent clamping
 - [x] Cache-busting bumped to ?v=1.9
 
+## v2.0 UI Improvements (Design Spec)
+- [x] Task 4: Fix footnote close bug — added click-to-toggle, outside-click close, Escape key close
+- [x] Task 8: Medical disclaimer — non-dismissible, terracotta left border, 14px font, darker text
+- [x] Task 2: Design consistency audit — unified stat cards across results & pregnancy, standardized disclaimer padding
+- [x] Task 9: Font size & spacing — bumped all 13px→14px, 12px→13px, h2 26→28px, labels 14→15px
+- [x] Task 5: Slider onboarding animation — pulse keyframes on eggs slider thumb, removed on first input
+- [x] Task 1: Radiant background gradients — subtle radial gradients (5% green top-left, 3.5% terracotta bottom-right)
+- [x] Task 3: WCAG audit — prefers-reduced-motion, slider 44px touch targets, track pseudo-elements, contrast verified
+- [x] Task 6: Viewport animations — IntersectionObserver for number tick-up + staggered bar fills
+- [x] Task 7: Embryo grading UX — stepper buttons with quality indicators + segmented progress bar
+
+## v2.1 QA Fixes
+- [x] Fix 1: Design consistency — 3-tier section hierarchy (input=bg-alt, output=white+green top, info=white)
+- [x] Fix 2: Disclaimer border changed from terracotta to green accent (consistent with site)
+- [x] Fix 3: Slider thumb alignment — added margin-top: -9px for WebKit centering
+- [x] Fix 4: Slider pulse animation — fixed box-shadow conflict, excluded box-shadow from transition
+- [x] Fix 5: Footnotes — restructured loadCitations() so click handlers work even when fetch fails (file://)
+- [x] Fix 6: Stepper padding — added margin-top: var(--space-sm) to grade-stepper-grid
+- [x] Fix 7: Viewport tick-up — wired mostLikely, atLeast1Birth, atLeast2Births, noSuccess; added percentDecimal format
+- [x] Fix 8: Background gradients — increased opacity (5%→8% green, 3.5%→5% terracotta) and spread
+- [x] Chart sections promoted to Tier 2 (green top accent border)
+- [x] Pregnancy section changed to Tier 1 (bg-alt, matching other input sections)
+- [x] References section changed to Tier 3 (white bg)
+- [x] Cache-busting bumped to ?v=2.1
+
 ## Review Notes
-_Phase 0-5 complete. v1.8 URL share fix deployed._
+_Phase 0-5 complete. v2.1 QA fixes applied._

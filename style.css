@@ -54,13 +54,43 @@
   to { opacity: 1; }
 }
 
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15), 0 0 0 0 rgba(43, 94, 73, 0.4); }
+  50% { box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15), 0 0 0 10px rgba(43, 94, 73, 0); }
+}
+
+/* Slider onboarding: pulse the first slider thumb until user interacts */
+.pristine #eggsRetrieved::-webkit-slider-thumb {
+  animation: pulse 2s ease-in-out infinite;
+  transition: transform 0.2s ease; /* exclude box-shadow to avoid conflicting with animation */
+}
+
+.pristine #eggsRetrieved::-moz-range-thumb {
+  animation: pulse 2s ease-in-out infinite;
+  transition: transform 0.2s ease;
+}
+
+/* --- Reduced Motion Accessibility --- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* --- Base Typography --- */
 body {
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.6;
   color: var(--color-text);
-  background: var(--color-bg);
+  background:
+    radial-gradient(circle at 10% 15%, rgba(43, 94, 73, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(196, 85, 58, 0.10) 0%, transparent 45%);
+  background-color: var(--color-bg);
   min-height: 100vh;
   padding: var(--space-sm);
   -webkit-font-smoothing: antialiased;
@@ -76,43 +106,21 @@ body {
 
 /* --- Medical Disclaimer Banner --- */
 .disclaimer-banner {
-  background: var(--color-accent-bg);
+  background: rgba(43, 94, 73, 0.12);
   border: 1px solid rgba(43, 94, 73, 0.18);
+  border-left: 4px solid var(--color-accent);
   border-radius: var(--radius-sm);
-  padding: var(--space-sm) 20px;
+  padding: var(--space-sm);
   margin-bottom: var(--space-md);
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-sm);
-  font-size: 13px;
-  color: var(--color-accent);
-  line-height: 1.5;
+  font-size: 14px;
+  color: var(--color-text);
+  line-height: 1.6;
   animation: fadeInUp 0.5s ease-out;
-}
-
-.disclaimer-banner p {
-  flex: 1;
 }
 
 .disclaimer-banner strong {
   font-weight: 600;
-}
-
-.disclaimer-close {
-  background: none;
-  border: none;
   color: var(--color-accent);
-  cursor: pointer;
-  font-size: 18px;
-  line-height: 1;
-  padding: 2px 6px;
-  border-radius: var(--radius-sm);
-  transition: background 0.2s ease;
-  flex-shrink: 0;
-}
-
-.disclaimer-close:hover {
-  background: rgba(43, 94, 73, 0.12);
 }
 
 /* --- Header --- */
@@ -177,7 +185,7 @@ body {
   padding: 0;
   background: none;
   border-radius: 0;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   color: var(--color-text-muted);
   gap: var(--space-xs);
@@ -243,7 +251,7 @@ body {
 .input-group > label {
   display: block;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 15px;
   color: var(--color-text);
   margin-bottom: var(--space-xs);
 }
@@ -257,23 +265,41 @@ body {
 /* --- Range Sliders --- */
 .input-row input[type="range"] {
   flex: 1;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--color-border);
+  height: 44px; /* WCAG 2.5.5: minimum 44px touch target */
+  border-radius: 3px;
+  background: transparent;
   outline: none;
   -webkit-appearance: none;
   transition: background 0.2s ease;
 }
 
-.input-row input[type="range"]:hover {
+.input-row input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--color-border);
+}
+
+.input-row input[type="range"]:hover::-webkit-slider-runnable-track {
+  background: rgba(51, 51, 52, 0.25);
+}
+
+.input-row input[type="range"]::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--color-border);
+  border: none;
+}
+
+.input-row input[type="range"]:hover::-moz-range-track {
   background: rgba(51, 51, 52, 0.25);
 }
 
 .input-row input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
+  margin-top: -9px; /* Center 24px thumb on 6px track: -(24-6)/2 */
   border-radius: 50%;
   background: var(--color-accent);
   cursor: pointer;
@@ -291,8 +317,8 @@ body {
 }
 
 .input-row input[type="range"]::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: var(--color-accent);
   cursor: pointer;
@@ -389,7 +415,7 @@ body {
 
 .amh-input-group label {
   display: block;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--color-text);
   margin-bottom: 4px;
@@ -407,7 +433,7 @@ body {
 
 /* --- Help Text --- */
 .help-text {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--color-text-muted);
   margin-top: 8px;
   line-height: 1.5;
@@ -426,13 +452,13 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: var(--space-sm);
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .summary-stat-label {
   color: var(--color-text-muted);
   margin-bottom: 4px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .summary-stat-value {
@@ -442,37 +468,130 @@ body {
   color: var(--color-accent);
 }
 
-/* --- Grade Inputs Grid --- */
-.grade-input-grid {
+/* --- Grade Stepper Controls --- */
+.grade-stepper-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-sm);
+  margin-top: var(--space-sm);
   margin-bottom: var(--space-sm);
 }
 
-.grade-input-group label {
-  display: block;
-  font-size: 13px;
-  color: var(--color-text-muted);
-  margin-bottom: 4px;
+.grade-stepper-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
-.grade-input-group input[type="number"] {
-  width: 100%;
-  padding: var(--space-xs);
+.grade-stepper-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.grade-quality {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.grade-quality-best { background: var(--color-accent); }
+.grade-quality-good { background: #D4A843; }
+.grade-quality-fair { background: var(--color-text-muted); }
+
+.grade-quality-text {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 0;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-family: var(--font-body);
-  color: var(--color-text);
+  overflow: hidden;
   background: var(--color-white);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.grade-input-group input[type="number"]:focus {
-  outline: none;
-  border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px var(--color-accent-bg);
+.stepper-btn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: var(--color-bg);
+  color: var(--color-accent);
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  font-family: var(--font-body);
+  line-height: 1;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.stepper-btn:hover {
+  background: var(--color-accent-bg);
+}
+
+.stepper-btn:active {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+.stepper-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+}
+
+.stepper-value {
+  min-width: 36px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--color-accent);
+  padding: 0 4px;
+  line-height: 44px;
+}
+
+/* Grade progress bar */
+.grade-progress {
+  margin-top: 4px;
+}
+
+.grade-progress-bar {
+  display: flex;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--color-bg-alt);
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.grade-progress-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.grade-fill-aa { background: var(--color-accent); }
+.grade-fill-ba { background: #D4A843; }
+.grade-fill-bc { background: var(--color-text-muted); }
+
+.grade-progress-label {
+  font-size: 14px;
+  color: var(--color-text-muted);
 }
 
 /* --- Genetics Section --- */
@@ -512,7 +631,7 @@ body {
 }
 
 .genetics-title {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--color-text);
   margin-bottom: 4px;
@@ -526,7 +645,7 @@ body {
 }
 
 .genetics-desc {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--color-text-muted);
   margin-top: 4px;
 }
@@ -544,7 +663,7 @@ body {
 
 .results-section h2 {
   font-family: var(--font-display);
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 400;
   color: var(--color-text);
   margin-bottom: var(--space-md);
@@ -582,7 +701,7 @@ body {
 }
 
 .stat-label {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--color-text-muted);
   line-height: 1.4;
 }
@@ -596,14 +715,14 @@ body {
 }
 
 .grade-breakdown-title {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--color-accent);
   margin-bottom: var(--space-xs);
 }
 
 .grade-breakdown-content {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--color-text);
   line-height: 1.8;
 }
@@ -612,6 +731,7 @@ body {
 .chart-section {
   background: var(--color-white);
   border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-accent);
   border-radius: var(--radius-md);
   padding: var(--space-md);
   margin-bottom: var(--space-lg);
@@ -634,7 +754,7 @@ body {
 .funnel-label {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--color-text-muted);
   margin-bottom: 6px;
   padding: 0 2px;
@@ -648,7 +768,7 @@ body {
 
 .funnel-rate {
   color: var(--color-text-muted);
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .funnel-bar-container {
@@ -718,13 +838,27 @@ body {
   padding-right: var(--space-sm);
   color: var(--color-white);
   font-weight: 600;
-  font-size: 12px;
+  font-size: 13px;
   border-radius: var(--radius-sm);
 }
 
 .bar-fill.highlight {
   background: var(--color-highlight);
 }
+
+/* --- Viewport-entry bar animations --- */
+.chart-section:not(.in-view) .funnel-bar,
+.chart-section:not(.in-view) .bar-fill {
+  width: 0% !important;
+}
+
+/* Stagger funnel bars on viewport entry */
+.chart-section.in-view .funnel-stage:nth-child(1) .funnel-bar { transition-delay: 0ms; }
+.chart-section.in-view .funnel-stage:nth-child(2) .funnel-bar { transition-delay: 80ms; }
+.chart-section.in-view .funnel-stage:nth-child(3) .funnel-bar { transition-delay: 160ms; }
+.chart-section.in-view .funnel-stage:nth-child(4) .funnel-bar { transition-delay: 240ms; }
+.chart-section.in-view .funnel-stage:nth-child(5) .funnel-bar { transition-delay: 320ms; }
+.chart-section.in-view .funnel-stage:nth-child(6) .funnel-bar { transition-delay: 400ms; }
 
 /* --- Info Box --- */
 .info-box {
@@ -744,14 +878,14 @@ body {
 }
 
 .info-box p {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--color-text-muted);
   line-height: 1.7;
 }
 
 /* --- Pregnancy / Transfer Section --- */
 .pregnancy-section {
-  background: var(--color-white);
+  background: var(--color-bg-alt);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--space-md);
@@ -762,7 +896,7 @@ body {
 
 .pregnancy-section h2 {
   font-family: var(--font-display);
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 400;
   color: var(--color-text);
   margin-bottom: var(--space-md);
@@ -796,10 +930,10 @@ body {
   gap: var(--space-sm);
 }
 
-/* Re-style stat-cards inside pregnancy-section */
+/* Stat cards in pregnancy section: match results section styling */
 .pregnancy-stats .stat-card {
-  background: var(--color-accent-bg);
-  border-color: rgba(43, 94, 73, 0.15);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
 }
 
 /* --- Pregnancy Outcomes --- */
@@ -897,7 +1031,7 @@ body {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .grade-input-grid {
+  .grade-stepper-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 
@@ -955,8 +1089,8 @@ body {
     font-size: 28px;
   }
 
-  .grade-input-grid {
-    grid-template-columns: 1fr;
+  .grade-stepper-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .outcome-card h4 {
@@ -1195,7 +1329,7 @@ textarea:focus-visible,
   color: #FFFFFF;
   padding: 8px 12px;
   border-radius: var(--radius-sm);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 400;
   line-height: 1.5;
   white-space: normal;
@@ -1264,7 +1398,7 @@ textarea:focus-visible,
   color: var(--color-white);
   padding: 8px 12px;
   border-radius: var(--radius-sm);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 400;
   line-height: 1.5;
   white-space: normal;
@@ -1287,13 +1421,15 @@ textarea:focus-visible,
 }
 
 .cite-ref a:hover .cite-tooltip,
-.cite-ref a:focus .cite-tooltip {
+.cite-ref a:focus .cite-tooltip,
+.cite-tooltip.active {
   display: block;
+  pointer-events: auto;
 }
 
 /* --- References Section --- */
 .references-section {
-  background: var(--color-bg-alt);
+  background: var(--color-white);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--space-md);
@@ -1303,7 +1439,7 @@ textarea:focus-visible,
 
 .references-section h2 {
   font-family: var(--font-display);
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 400;
   color: var(--color-text);
   margin-bottom: var(--space-md);
@@ -1313,7 +1449,7 @@ textarea:focus-visible,
 .reference-item {
   padding: var(--space-sm) 0;
   border-bottom: 1px solid var(--color-border);
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.7;
   color: var(--color-text-muted);
 }
@@ -1362,7 +1498,6 @@ textarea:focus-visible,
   }
 
   .disclaimer-banner,
-  .disclaimer-close,
   .toolbar,
   .stage-indicator {
     display: none !important;

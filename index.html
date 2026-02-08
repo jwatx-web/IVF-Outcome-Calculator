@@ -36,15 +36,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=1.9">
+    <link rel="stylesheet" href="style.css?v=2.1">
 </head>
 <body>
     <div class="container">
 
         <!-- Medical Disclaimer Banner -->
-        <div class="disclaimer-banner" id="disclaimerBanner">
+        <div class="disclaimer-banner" id="disclaimerBanner" role="alert">
             <p><strong>Medical Disclaimer:</strong> This calculator provides estimates based on published averages and statistical models. It is not a substitute for professional medical advice. Consult your fertility specialist for guidance specific to your situation.</p>
-            <button class="disclaimer-close" onclick="document.getElementById('disclaimerBanner').style.display='none'" aria-label="Dismiss disclaimer">&times;</button>
         </div>
 
         <!-- Header -->
@@ -87,7 +86,7 @@
             </div>
 
             <!-- Stage 1-3: Retrieval to Blastocyst -->
-            <div class="input-section" aria-label="Stage 1 through 3: From Retrieval to Blastocyst">
+            <div class="input-section pristine" aria-label="Stage 1 through 3: From Retrieval to Blastocyst">
                 <h3>Stage 1 &ndash; 3: From Retrieval to Blastocyst</h3>
 
                 <div class="input-group">
@@ -177,22 +176,53 @@
 
                 <div class="input-group">
                     <label id="label-grading">Embryo Grading (Optional &mdash; improves accuracy)</label>
-                    <div class="help-text">Enter the grade breakdown of the embryos being tested. Leave at 0 to use average rates. <sup class="cite-ref"><a href="#ref-2">[2]</a></sup><sup class="cite-ref"><a href="#ref-3">[3]</a></sup></div>
-                    <div class="grade-input-grid">
-                        <div class="grade-input-group">
-                            <label for="gradeAA">Grade AA/AB Count</label>
-                            <input type="number" id="gradeAA" min="0" max="20" value="0">
+                    <div class="help-text">Assign grades to embryos being tested. Leave at 0 to use average rates. <sup class="cite-ref"><a href="#ref-2">[2]</a></sup><sup class="cite-ref"><a href="#ref-3">[3]</a></sup></div>
+                    <div class="grade-stepper-grid">
+                        <div class="grade-stepper-group">
+                            <div class="grade-stepper-label">
+                                <span class="grade-quality grade-quality-best"></span>
+                                <span>AA/AB <span class="grade-quality-text">Best</span></span>
+                            </div>
+                            <div class="stepper">
+                                <button type="button" class="stepper-btn stepper-dec" data-target="gradeAA" aria-label="Decrease AA/AB count">&minus;</button>
+                                <span class="stepper-value" id="gradeAADisplay">0</span>
+                                <button type="button" class="stepper-btn stepper-inc" data-target="gradeAA" aria-label="Increase AA/AB count">+</button>
+                            </div>
+                            <input type="number" id="gradeAA" min="0" max="20" value="0" hidden>
                         </div>
-                        <div class="grade-input-group">
-                            <label for="gradeBA">Grade BA/BB Count</label>
-                            <input type="number" id="gradeBA" min="0" max="20" value="0">
+                        <div class="grade-stepper-group">
+                            <div class="grade-stepper-label">
+                                <span class="grade-quality grade-quality-good"></span>
+                                <span>BA/BB <span class="grade-quality-text">Good</span></span>
+                            </div>
+                            <div class="stepper">
+                                <button type="button" class="stepper-btn stepper-dec" data-target="gradeBA" aria-label="Decrease BA/BB count">&minus;</button>
+                                <span class="stepper-value" id="gradeBADisplay">0</span>
+                                <button type="button" class="stepper-btn stepper-inc" data-target="gradeBA" aria-label="Increase BA/BB count">+</button>
+                            </div>
+                            <input type="number" id="gradeBA" min="0" max="20" value="0" hidden>
                         </div>
-                        <div class="grade-input-group">
-                            <label for="gradeBC">Grade BC/CB/CC</label>
-                            <input type="number" id="gradeBC" min="0" max="20" value="0">
+                        <div class="grade-stepper-group">
+                            <div class="grade-stepper-label">
+                                <span class="grade-quality grade-quality-fair"></span>
+                                <span>BC/CB/CC <span class="grade-quality-text">Fair</span></span>
+                            </div>
+                            <div class="stepper">
+                                <button type="button" class="stepper-btn stepper-dec" data-target="gradeBC" aria-label="Decrease BC/CB/CC count">&minus;</button>
+                                <span class="stepper-value" id="gradeBCDisplay">0</span>
+                                <button type="button" class="stepper-btn stepper-inc" data-target="gradeBC" aria-label="Increase BC/CB/CC count">+</button>
+                            </div>
+                            <input type="number" id="gradeBC" min="0" max="20" value="0" hidden>
                         </div>
                     </div>
-                    <div class="help-text"><strong>Total graded: <span id="totalEmbryos">0</span> / <span id="blastocystLimit">4</span> sent for testing</strong></div>
+                    <div class="grade-progress">
+                        <div class="grade-progress-bar">
+                            <div class="grade-progress-fill grade-fill-aa" id="gradeFillAA"></div>
+                            <div class="grade-progress-fill grade-fill-ba" id="gradeFillBA"></div>
+                            <div class="grade-progress-fill grade-fill-bc" id="gradeFillBC"></div>
+                        </div>
+                        <div class="grade-progress-label"><strong><span id="totalEmbryos">0</span> / <span id="blastocystLimit">4</span></strong> graded</div>
+                    </div>
                 </div>
 
                 <div class="input-group">
@@ -390,6 +420,6 @@
         </div>
     </div>
 
-    <script src="script.js?v=1.9"></script>
+    <script src="script.js?v=2.1"></script>
 </body>
 </html>

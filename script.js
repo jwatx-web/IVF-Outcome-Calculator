@@ -377,6 +377,9 @@ function updatePipelineAndResetTestingCount() {
 
 eggsRetrievedSlider.addEventListener('input', function() {
     document.getElementById('eggsRetrievedValue').textContent = this.value;
+    // Remove onboarding pulse on first interaction
+    const pristine = this.closest('.pristine');
+    if (pristine) pristine.classList.remove('pristine');
     updatePipelineAndResetTestingCount();
 });
 
@@ -400,15 +403,86 @@ function syncGradeCounts() {
     const embryoCount = parseInt(embryoCountSlider.value) || 1;
     clampGradesToLimit(embryoCount);
     updateSimulation();
+    if (typeof updateGradeDisplays === 'function') {
+        updateGradeDisplays();
+        updateStepperStates();
+    }
 }
 
 gradeAAInput.addEventListener('input', syncGradeCounts);
 gradeBAInput.addEventListener('input', syncGradeCounts);
 gradeBCInput.addEventListener('input', syncGradeCounts);
 
+// Stepper button controls for grade inputs
+function updateGradeDisplays() {
+    document.getElementById('gradeAADisplay').textContent = gradeAAInput.value;
+    document.getElementById('gradeBADisplay').textContent = gradeBAInput.value;
+    document.getElementById('gradeBCDisplay').textContent = gradeBCInput.value;
+    updateGradeProgressBar();
+}
+
+function updateGradeProgressBar() {
+    const aa = parseInt(gradeAAInput.value) || 0;
+    const ba = parseInt(gradeBAInput.value) || 0;
+    const bc = parseInt(gradeBCInput.value) || 0;
+    const limit = parseInt(embryoCountSlider.value) || 1;
+
+    const aaPercent = (aa / limit) * 100;
+    const baPercent = (ba / limit) * 100;
+    const bcPercent = (bc / limit) * 100;
+
+    document.getElementById('gradeFillAA').style.width = aaPercent + '%';
+    document.getElementById('gradeFillBA').style.width = baPercent + '%';
+    document.getElementById('gradeFillBC').style.width = bcPercent + '%';
+}
+
+document.querySelectorAll('.stepper-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const targetId = this.dataset.target;
+        const input = document.getElementById(targetId);
+        if (!input) return;
+
+        const max = parseInt(input.max) || 20;
+        const min = parseInt(input.min) || 0;
+        let val = parseInt(input.value) || 0;
+
+        if (this.classList.contains('stepper-inc')) {
+            val = Math.min(max, val + 1);
+        } else {
+            val = Math.max(min, val - 1);
+        }
+
+        input.value = val;
+        syncGradeCounts();
+        updateGradeDisplays();
+        updateStepperStates();
+        encodeParamsToURL();
+    });
+});
+
+function updateStepperStates() {
+    const inputs = [gradeAAInput, gradeBAInput, gradeBCInput];
+    const total = inputs.reduce((sum, inp) => sum + (parseInt(inp.value) || 0), 0);
+    const limit = parseInt(embryoCountSlider.value) || 1;
+
+    document.querySelectorAll('.stepper-inc').forEach(btn => {
+        btn.disabled = total >= limit;
+    });
+    document.querySelectorAll('.stepper-dec').forEach(btn => {
+        const input = document.getElementById(btn.dataset.target);
+        btn.disabled = (parseInt(input.value) || 0) <= 0;
+    });
+}
+
+// Initial stepper state
+updateGradeDisplays();
+updateStepperStates();
+
 embryoCountSlider.addEventListener('input', function() {
     document.getElementById('embryoCountValue').textContent = this.value;
     updateSimulation();
+    updateGradeDisplays();
+    updateStepperStates();
 });
 
 maternalAgeSlider.addEventListener('input', function() {
@@ -520,6 +594,40 @@ updateSimulation();
 // Citations: Load sources.json and build references + tooltips
 // ============================================================
 function loadCitations() {
+    // Set up click/dismiss handlers for citation links — works even if fetch fails
+    function setupCitationHandlers() {
+        document.querySelectorAll('.cite-ref a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const thisTooltip = this.querySelector('.cite-tooltip');
+                if (thisTooltip) {
+                    const wasActive = thisTooltip.classList.contains('active');
+                    document.querySelectorAll('.cite-tooltip.active').forEach(t => t.classList.remove('active'));
+                    if (!wasActive) thisTooltip.classList.add('active');
+                } else {
+                    // No tooltip (fetch failed) — scroll to reference anchor
+                    const href = this.getAttribute('href');
+                    if (href) {
+                        const target = document.querySelector(href);
+                        if (target) target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.cite-ref')) {
+                document.querySelectorAll('.cite-tooltip.active').forEach(t => t.classList.remove('active'));
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.cite-tooltip.active').forEach(t => t.classList.remove('active'));
+            }
+        });
+    }
+
     fetch('sources.json')
         .then(response => {
             if (!response.ok) throw new Error('Failed to load sources.json');
@@ -581,13 +689,18 @@ function loadCitations() {
                     link.appendChild(tooltip);
                 }
             });
+
+            // Attach handlers after tooltips are created
+            setupCitationHandlers();
         })
         .catch(err => {
             console.warn('Citations could not be loaded:', err);
             const refSection = document.getElementById('referencesSection');
             if (refSection) {
-                refSection.innerHTML = '<h2>Sources & References</h2><p style="color: var(--color-text-muted); font-size: 13px;">Citations could not be loaded. See sources.json for full reference list.</p>';
+                refSection.innerHTML = '<h2>Sources & References</h2><p style="color: #6B6B6C; font-size: 14px;">Citations could not be loaded. See sources.json for full reference list.</p>';
             }
+            // Still set up handlers so clicks don't navigate away
+            setupCitationHandlers();
         });
 }
 
@@ -810,3 +923,140 @@ if (frozenTransferToggle) {
         updateSimulation();
     });
 }
+
+// ============================================================
+// Viewport-Entry Animations (Task 6)
+// ============================================================
+(function setupViewportAnimations() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        // Still add .in-view so bars render at full width
+        document.querySelectorAll('.chart-section').forEach(s => s.classList.add('in-view'));
+        return;
+    }
+
+    // Track which sections have had their initial animation
+    const animated = new Set();
+
+    // Observe chart sections — add .in-view class to trigger CSS bar animations
+    // Use MutationObserver to handle dynamically-rendered bars
+    document.querySelectorAll('.chart-section').forEach(section => {
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !animated.has(entry.target)) {
+                    animated.add(entry.target);
+                    // Delay slightly to ensure bars render at 0% first
+                    setTimeout(() => {
+                        entry.target.classList.add('in-view');
+                        // Add stagger delays to probability bars (dynamic count)
+                        entry.target.querySelectorAll('.probability-bar .bar-fill').forEach((bar, i) => {
+                            bar.style.transitionDelay = (i * 60) + 'ms';
+                        });
+                    }, 50);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        observer.observe(section);
+    });
+
+    // Observe results section — tick up stat numbers
+    const resultsSection = document.querySelector('.results-section');
+    if (resultsSection) {
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !animated.has(resultsSection)) {
+                    animated.add(resultsSection);
+                    tickUpNumber('expectedValue', 'decimal', 600);
+                    tickUpNumber('combinedProb', 'percent', 600);
+                    tickUpNumber('mostLikely', 'integer', 600);
+                    observer.unobserve(resultsSection);
+                }
+            });
+        }, { threshold: 0.3 });
+        observer.observe(resultsSection);
+    }
+
+    // Observe pregnancy stats — tick up those numbers too
+    const pregnancySection = document.querySelector('.pregnancy-section');
+    if (pregnancySection) {
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !animated.has(pregnancySection)) {
+                    animated.add(pregnancySection);
+                    tickUpNumber('perTransferSuccess', 'percent', 600);
+                    tickUpNumber('expectedTransfers', 'decimal', 600);
+                    observer.unobserve(pregnancySection);
+                }
+            });
+        }, { threshold: 0.3 });
+        observer.observe(pregnancySection);
+    }
+
+    // Observe pregnancy outcomes — tick up probabilities
+    const outcomesSection = document.querySelector('.pregnancy-outcomes');
+    if (outcomesSection) {
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !animated.has(outcomesSection)) {
+                    animated.add(outcomesSection);
+                    tickUpNumber('atLeast1Birth', 'percentDecimal', 600);
+                    tickUpNumber('atLeast2Births', 'percentDecimal', 600);
+                    tickUpNumber('noSuccess', 'percentDecimal', 600);
+                    observer.unobserve(outcomesSection);
+                }
+            });
+        }, { threshold: 0.3 });
+        observer.observe(outcomesSection);
+    }
+
+    function tickUpNumber(id, format, duration) {
+        const el = document.getElementById(id);
+        if (!el) return;
+
+        const text = el.textContent.trim();
+
+        // Handle range format like "2-3" — don't animate, just leave as-is
+        if (text.includes('-') && format === 'integer') return;
+
+        let target;
+        if (format === 'percent') {
+            target = parseFloat(text);
+            if (isNaN(target)) return;
+            el.textContent = '0%';
+        } else if (format === 'percentDecimal') {
+            target = parseFloat(text);
+            if (isNaN(target)) return;
+            el.textContent = '0.0%';
+        } else if (format === 'integer') {
+            target = parseInt(text);
+            if (isNaN(target)) return;
+            el.textContent = '0';
+        } else {
+            target = parseFloat(text);
+            if (isNaN(target)) return;
+            el.textContent = '0.0';
+        }
+
+        const startTime = performance.now();
+
+        function tick(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+            const current = target * eased;
+
+            if (format === 'percent') {
+                el.textContent = Math.round(current) + '%';
+            } else if (format === 'percentDecimal') {
+                el.textContent = (current).toFixed(1) + '%';
+            } else if (format === 'integer') {
+                el.textContent = Math.round(current);
+            } else {
+                el.textContent = current.toFixed(1);
+            }
+
+            if (progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+    }
+})();

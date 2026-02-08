@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IVF Outcome Calculator</title>
+    <meta name="description" content="Free IVF outcome calculator with PGT-A and PGT-M genetic testing predictions. Estimate expected embryos, success rates, and live birth probability based on your specific parameters.">
+    <meta name="keywords" content="IVF calculator, PGT-A, PGT-M, embryo calculator, IVF success rate, genetic testing, blastocyst, euploid rate, fertility calculator">
+    <link rel="canonical" href="https://ivf-outcome-calculator.com/">
+    <!-- Open Graph -->
+    <meta property="og:title" content="IVF Outcome Calculator — Estimate Your Expected Results">
+    <meta property="og:description" content="Calculate expected usable embryos and live birth probability with PGT-A and PGT-M genetic testing.">
+    <meta property="og:url" content="https://ivf-outcome-calculator.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="IVF Outcome Calculator">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="IVF Outcome Calculator">
+    <meta name="twitter:description" content="Calculate expected usable embryos and live birth probability with PGT-A and PGT-M genetic testing.">
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "IVF Outcome Calculator",
+      "description": "Calculate expected usable embryos based on PGT-A and PGT-M testing with probability distributions and live birth estimates.",
+      "url": "https://ivf-outcome-calculator.com/",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Any",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <!-- Google Fonts: preconnect + load -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+
+        <!-- Medical Disclaimer Banner -->
+        <div class="disclaimer-banner" id="disclaimerBanner">
+            <p><strong>Medical Disclaimer:</strong> This calculator provides estimates based on published averages and statistical models. It is not a substitute for professional medical advice. Consult your fertility specialist for guidance specific to your situation.</p>
+            <button class="disclaimer-close" onclick="document.getElementById('disclaimerBanner').style.display='none'" aria-label="Dismiss disclaimer">&times;</button>
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <h1>IVF Outcome Calculator</h1>
+            <p>Calculate expected usable embryos based on <span class="glossary-term" tabindex="0" data-tooltip="Preimplantation Genetic Testing for Aneuploidy — screens for chromosome number">PGT-A</span> and <span class="glossary-term" tabindex="0" data-tooltip="Preimplantation Genetic Testing for Monogenic disorders — screens for specific genetic diseases">PGT-M</span> testing</p>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <button class="btn btn-secondary" id="shareBtn">Share This Scenario</button>
+            <button class="btn btn-secondary" id="resetBtn">Reset to Defaults</button>
+            <button class="btn btn-secondary" id="printBtn">Print Results</button>
+        </div>
+
+        <div class="content" role="main">
+
+            <!-- Stage Timeline -->
+            <div class="stage-indicator" aria-label="IVF process stages">
+                <div class="stage active">
+                    <div class="stage-number">1</div>
+                    <div>Egg Retrieval</div>
+                </div>
+                <div class="stage active">
+                    <div class="stage-number">2</div>
+                    <div>Fertilization</div>
+                </div>
+                <div class="stage active">
+                    <div class="stage-number">3</div>
+                    <div>Blastocyst</div>
+                </div>
+                <div class="stage active">
+                    <div class="stage-number">4</div>
+                    <div>Genetic Testing</div>
+                </div>
+                <div class="stage active">
+                    <div class="stage-number">5</div>
+                    <div>Transfer &amp; Birth</div>
+                </div>
+            </div>
+
+            <!-- Stage 1-3: Retrieval to Blastocyst -->
+            <div class="input-section" aria-label="Stage 1 through 3: From Retrieval to Blastocyst">
+                <h3>Stage 1 &ndash; 3: From Retrieval to Blastocyst</h3>
+
+                <div class="input-group">
+                    <label for="eggsRetrieved">Eggs Retrieved</label>
+                    <div class="input-row">
+                        <input type="range" id="eggsRetrieved" min="1" max="40" value="12" aria-valuemin="1" aria-valuemax="40" aria-valuenow="12">
+                        <input type="number" id="eggsRetrievedNum" min="1" max="40" value="12">
+                    </div>
+                    <div class="help-text">Total number of eggs collected during retrieval</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="maturityRate">Mature Egg Rate (<span class="glossary-term" tabindex="0" data-tooltip="Metaphase II — a mature egg ready for fertilization">MII</span>)</label>
+                    <div class="input-row">
+                        <input type="range" id="maturityRate" min="50" max="95" value="80" aria-valuemin="50" aria-valuemax="95" aria-valuenow="80">
+                        <div class="value-display"><span id="maturityRateValue">80</span>%</div>
+                    </div>
+                    <div class="help-text">Percentage of eggs that are mature and ready for fertilization (typical: 75-85%) <sup class="cite-ref"><a href="#ref-4">[4]</a></sup></div>
+                </div>
+
+                <div class="input-group">
+                    <label for="fertilizationRate">Fertilization Rate</label>
+                    <div class="input-row">
+                        <input type="range" id="fertilizationRate" min="50" max="95" value="75" aria-valuemin="50" aria-valuemax="95" aria-valuenow="75">
+                        <div class="value-display"><span id="fertilizationRateValue">75</span>%</div>
+                    </div>
+                    <div class="help-text">Percentage of mature eggs that successfully fertilize (<span class="glossary-term" tabindex="0" data-tooltip="Intracytoplasmic Sperm Injection — direct injection of sperm into egg">ICSI</span>: 70-80%, conventional: 60-75%) <sup class="cite-ref"><a href="#ref-4">[4]</a></sup></div>
+                </div>
+
+                <div class="input-group">
+                    <label for="blastocystRate"><span class="glossary-term" tabindex="0" data-tooltip="Day 5-6 embryo with ~100+ cells, ready for transfer or biopsy">Blastocyst</span> Development Rate</label>
+                    <div class="input-row">
+                        <input type="range" id="blastocystRate" min="30" max="70" value="50" aria-valuemin="30" aria-valuemax="70" aria-valuenow="50">
+                        <div class="value-display"><span id="blastocystRateValue">50</span>%</div>
+                    </div>
+                    <div class="help-text">Percentage of fertilized eggs that develop to day 5/6 blastocyst (typical: 40-60%) <sup class="cite-ref"><a href="#ref-4">[4]</a></sup></div>
+                </div>
+
+                <!-- Summary Stats -->
+                <div class="summary-stats">
+                    <div class="summary-stats-grid">
+                        <div>
+                            <div class="summary-stat-label">Mature Eggs</div>
+                            <div class="summary-stat-value" id="matureEggs">10</div>
+                        </div>
+                        <div>
+                            <div class="summary-stat-label">Fertilized</div>
+                            <div class="summary-stat-value" id="fertilizedEggs">7</div>
+                        </div>
+                        <div>
+                            <div class="summary-stat-label">Blastocysts</div>
+                            <div class="summary-stat-value" id="blastocysts">4</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 4: Genetic Testing -->
+            <div class="input-section" aria-label="Stage 4: Genetic Testing">
+                <h3>Stage 4: Genetic Testing</h3>
+
+                <div class="input-group">
+                    <label id="label-grading">Embryo Grading (Optional &mdash; improves accuracy)</label>
+                    <div class="grade-input-grid">
+                        <div class="grade-input-group">
+                            <label for="gradeAA">Grade AA/AB Count</label>
+                            <input type="number" id="gradeAA" min="0" max="20" value="5">
+                        </div>
+                        <div class="grade-input-group">
+                            <label for="gradeBA">Grade BA/BB Count</label>
+                            <input type="number" id="gradeBA" min="0" max="20" value="1">
+                        </div>
+                        <div class="grade-input-group">
+                            <label for="gradeBC">Grade BC/CB/CC</label>
+                            <input type="number" id="gradeBC" min="0" max="20" value="0">
+                        </div>
+                    </div>
+                    <div class="help-text">
+                        Embryo grade affects both euploidy rates and pregnancy success. Leave at 0 to use average rates. <sup class="cite-ref"><a href="#ref-2">[2]</a></sup><sup class="cite-ref"><a href="#ref-3">[3]</a></sup>
+                        <br><strong>Total embryos: <span id="totalEmbryos">6</span></strong>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="embryoCount">Number of Blastocysts Sent for Testing</label>
+                    <div class="input-row">
+                        <input type="range" id="embryoCount" min="1" max="20" value="6" aria-valuemin="1" aria-valuemax="20" aria-valuenow="6">
+                        <input type="number" id="embryoCountNum" min="1" max="20" value="6">
+                    </div>
+                    <div class="help-text">Total blastocysts sent for genetic testing (auto-syncs with grades or early stages if specified)</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="maternalAge">Maternal Age</label>
+                    <div class="input-row">
+                        <input type="range" id="maternalAge" min="25" max="45" value="38" aria-valuemin="25" aria-valuemax="45" aria-valuenow="38">
+                        <div class="value-display"><span id="maternalAgeValue">38</span> years</div>
+                    </div>
+                    <div class="help-text">Affects the euploid rate (chromosomally normal) <sup class="cite-ref"><a href="#ref-1">[1]</a></sup></div>
+                </div>
+
+                <div class="input-group">
+                    <label for="euploidRate"><span class="glossary-term" tabindex="0" data-tooltip="Preimplantation Genetic Testing for Aneuploidy — screens for chromosome number">PGT-A</span> Success Rate (<span class="glossary-term" tabindex="0" data-tooltip="Having the normal number of chromosomes (46 in humans)">Euploid</span> Rate)</label>
+                    <div class="input-row">
+                        <input type="range" id="euploidRate" min="10" max="90" value="55" aria-valuemin="10" aria-valuemax="90" aria-valuenow="55">
+                        <div class="value-display"><span id="euploidRateValue">55</span>%</div>
+                    </div>
+                    <div class="help-text">Auto-calculated based on age, but you can adjust manually <sup class="cite-ref"><a href="#ref-1">[1]</a></sup><sup class="cite-ref"><a href="#ref-2">[2]</a></sup></div>
+                </div>
+
+                <div class="input-group">
+                    <label for="pgtmRate"><span class="glossary-term" tabindex="0" data-tooltip="Preimplantation Genetic Testing for Monogenic disorders — screens for specific genetic diseases">PGT-M</span> Success Rate (Genetic Disease Screening)</label>
+                    <div class="input-row">
+                        <input type="range" id="pgtmRate" min="10" max="100" value="75" aria-valuemin="10" aria-valuemax="100" aria-valuenow="75">
+                        <div class="value-display"><span id="pgtmRateValue">75</span>%</div>
+                    </div>
+                    <div class="help-text">For recessive conditions with both parents as carriers: typically 75% <sup class="cite-ref"><a href="#ref-5">[5]</a></sup></div>
+                </div>
+            </div>
+
+            <!-- Genetic Inheritance -->
+            <div class="genetics-section" aria-label="Genetic Inheritance Information">
+                <h3>Genetic Inheritance (Both Parents Carriers)</h3>
+                <div class="genetics-grid">
+                    <div class="genetics-card">
+                        <div class="genetics-title">Unaffected (AA)</div>
+                        <div class="genetics-prob">25%</div>
+                        <div class="genetics-desc">Usable &mdash; No disease gene</div>
+                    </div>
+                    <div class="genetics-card">
+                        <div class="genetics-title">Carrier (Aa)</div>
+                        <div class="genetics-prob">50%</div>
+                        <div class="genetics-desc">Usable &mdash; Healthy carrier</div>
+                    </div>
+                    <div class="genetics-card">
+                        <div class="genetics-title">Affected (aa)</div>
+                        <div class="genetics-prob">25%</div>
+                        <div class="genetics-desc">Unusable &mdash; Has disease</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expected Outcomes -->
+            <div class="results-section" aria-label="Expected Outcomes">
+                <h2>Expected Outcomes</h2>
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="expectedValue" aria-live="polite">2.5</div>
+                        <div class="stat-label">Expected Usable<br>Embryos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="mostLikely" aria-live="polite">2-3</div>
+                        <div class="stat-label">Most Likely<br>Outcome</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="combinedProb" aria-live="polite">41%</div>
+                        <div class="stat-label">Per Embryo<br>Success Rate</div>
+                    </div>
+                </div>
+                <div id="gradeBreakdown" style="margin-top: 15px; display: none;">
+                    <div class="grade-breakdown-panel">
+                        <div class="grade-breakdown-title">Expected Usable by Grade:</div>
+                        <div id="gradeBreakdownContent" class="grade-breakdown-content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Funnel Chart -->
+            <div class="chart-section" aria-label="IVF Journey Funnel Chart">
+                <h3>Complete IVF Journey Funnel</h3>
+                <div id="funnelChart"></div>
+            </div>
+
+            <!-- Probability Distribution -->
+            <div class="chart-section" aria-label="Probability Distribution">
+                <h3>Probability Distribution</h3>
+                <div id="probabilityBars"></div>
+
+                <div class="info-box">
+                    <h4>Understanding the Results</h4>
+                    <p id="interpretation"></p>
+                </div>
+            </div>
+
+            <!-- Stage 5: Transfer & Pregnancy -->
+            <div class="pregnancy-section" aria-label="Stage 5: Transfer and Pregnancy Success">
+                <h2>Stage 5: Transfer &amp; Pregnancy Success</h2>
+
+                <div class="toggle-group">
+                    <label>Transfer Type</label>
+                    <div class="toggle-switch">
+                        <span class="toggle-label">Fresh</span>
+                        <label class="switch">
+                            <input type="checkbox" id="frozenTransfer" checked>
+                            <span class="slider-toggle"></span>
+                        </label>
+                        <span class="toggle-label">Frozen</span>
+                    </div>
+                    <div class="help-text">Frozen embryo transfers typically have 5-10% higher implantation rates <sup class="cite-ref"><a href="#ref-6">[6]</a></sup></div>
+                </div>
+
+                <div class="transfer-input">
+                    <label for="implantationRate">Implantation Success Rate</label>
+                    <div class="input-row">
+                        <input type="range" id="implantationRate" min="20" max="80" value="50" aria-valuemin="20" aria-valuemax="80" aria-valuenow="50">
+                        <div class="value-display"><span id="implantationRateValue">50</span>%</div>
+                    </div>
+                    <div class="help-text">
+                        Typical range: 40-60% for high-quality euploid embryos at age 38 <sup class="cite-ref"><a href="#ref-6">[6]</a></sup>
+                    </div>
+                </div>
+
+                <div class="transfer-input">
+                    <label for="liveBirthRate">Live Birth Rate (After Implantation)</label>
+                    <div class="input-row">
+                        <input type="range" id="liveBirthRate" min="50" max="95" value="75" aria-valuemin="50" aria-valuemax="95" aria-valuenow="75">
+                        <div class="value-display"><span id="liveBirthRateValue">75</span>%</div>
+                    </div>
+                    <div class="help-text">
+                        Accounts for miscarriage risk (typically 70-80% live birth after positive pregnancy) <sup class="cite-ref"><a href="#ref-7">[7]</a></sup>
+                    </div>
+                </div>
+
+                <div class="pregnancy-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="perTransferSuccess" aria-live="polite">38%</div>
+                        <div class="stat-label">Live Birth Rate<br>Per Transfer</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="expectedTransfers" aria-live="polite">2.6</div>
+                        <div class="stat-label">Expected Transfers<br>to Success</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Overall Pregnancy Outcomes -->
+            <div class="pregnancy-outcomes" aria-label="Overall Pregnancy Outcomes">
+                <h3>Overall Success Probability (Combining All Stages)</h3>
+
+                <div class="outcome-card">
+                    <h4>
+                        <span>At least 1 live birth with available embryos</span>
+                        <span class="outcome-prob" id="atLeast1Birth" aria-live="polite">--</span>
+                    </h4>
+                    <div class="outcome-description" id="atLeast1Description"></div>
+                </div>
+
+                <div class="outcome-card">
+                    <h4>
+                        <span>2 or more live births possible</span>
+                        <span class="outcome-prob" id="atLeast2Births" aria-live="polite">--</span>
+                    </h4>
+                    <div class="outcome-description" id="atLeast2Description"></div>
+                </div>
+
+                <div class="outcome-card">
+                    <h4>
+                        <span>No successful pregnancy from this cycle</span>
+                        <span class="outcome-prob" id="noSuccess" aria-live="polite">--</span>
+                    </h4>
+                    <div class="outcome-description">Despite having usable embryos, all transfers fail to result in live birth</div>
+                </div>
+
+                <div class="cumulative-section">
+                    <h4>
+                        <span>Probability of Success After Multiple Embryos</span>
+                    </h4>
+                    <div id="cumulativeResults" aria-live="polite"></div>
+                </div>
+            </div>
+
+            <!-- Sources & References -->
+            <div class="references-section" id="referencesSection" aria-label="Sources and References">
+                <h2>Sources &amp; References</h2>
+                <div id="referencesList"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+# IVF Outcome Calculator — Worklog
+
+## Phase 0: Project Setup
+- [x] Init git repo
+- [x] Create tasks/todo.md and tasks/lessons.md
+- [x] Decompose ivf_simulator.html into index.html, style.css, script.js
+- [x] Verify decomposed site works identically
+- [ ] Create GitHub repo and push initial commit
+
+## Phase 1: Visual Redesign (/frontend-design skill)
+- [x] Define design system (CSS variables, fonts, colors)
+- [x] Restructure HTML layout (header, stage indicator, input sections, results)
+- [x] Restyle all components (inputs, cards, funnel chart, probability bars)
+- [x] Add page load animations and micro-interactions
+- [x] Mobile responsiveness (768px, 480px breakpoints)
+- [x] Medical disclaimer banner
+
+## Phase 2: Source Citations
+- [x] Create sources.json with all citation data (7 groups, 19 sources, 10 verified PMIDs)
+- [x] Add citation UI (superscript [1]-[7] links next to help text)
+- [x] Add citation tooltips on hover (shows author, year, journal)
+- [x] Add Sources & References section at page bottom (loaded from sources.json)
+
+## Phase 3: Robustness Enhancements
+- [x] 3A: Glossary/tooltips for medical terms (MII, ICSI, PGT-A, PGT-M, Euploid, Blastocyst)
+- [x] 3B: URL parameter sharing (14 params encoded to URL) + Share/Reset/Print buttons
+- [x] 3C: Print-friendly CSS (hides sliders, white bg, page breaks, URL footer)
+- [x] 3D: Fresh vs. frozen transfer toggle (adjusts implantation rate +/- 5%)
+- [ ] 3E: Side-by-side comparison mode (deferred to v2)
+
+## Phase 4: Accessibility (WCAG 2.1 AA)
+- [x] ARIA landmarks (role="main", aria-label on 10 sections)
+- [x] aria-live="polite" on 6 results containers
+- [x] aria-valuemin/max/now on all range inputs (updated dynamically)
+- [x] Keyboard accessible glossary terms (tabindex="0")
+- [x] Visible focus indicators (:focus-visible, 2px accent outline)
+- [x] for/id label associations on all 13 inputs
+- [x] .sr-only screen-reader-only utility class
+
+## Phase 5: SEO & Deployment
+- [x] Meta tags (description, keywords, canonical URL)
+- [x] Open Graph meta tags (title, description, url, type, site_name)
+- [x] Twitter Card meta tags
+- [x] Schema.org JSON-LD (WebApplication, HealthApplication)
+- [x] Deployment files (CNAME, robots.txt, sitemap.xml)
+- [x] DNS setup instructions (docs/dns-setup.md)
+- [x] README.md
+- [ ] Create GitHub repo, push, enable Pages
+
+## Phase 6: QA Verification
+- [ ] HTML validation (balanced tags, no duplicate IDs)
+- [ ] CSS validation (all classes used have styles)
+- [ ] JavaScript validation (syntax check, DOM ID matching)
+- [ ] Calculation accuracy verification
+- [ ] Citation integrity (JSON valid, all refs match)
+- [ ] Accessibility check (ARIA attributes, focus indicators)
+- [ ] Performance check (total size < 100KB)
+
+## JS Inline Color Fixes
+- [x] rgba(255,255,255,0.3) → rgba(51, 51, 52, 0.15) (grade breakdown border)
+- [x] #2d3748 → #333334 (cumulative results text)
+- [x] #c53030 → #C4553A (cumulative results probability)
+- [x] #718096 → #6B6B6C (cumulative results marginal increase)
+
+---
+
+## File Size Summary
+| File | Before | After |
+|------|--------|-------|
+| index.html | 321 lines | 373 lines |
+| style.css | 1,027 lines | 1,437 lines |
+| script.js | 412 lines | 679 lines |
+| sources.json | - | 431 lines |
+| **Total** | **1,760** | **2,920 lines** |
+
+## Review Notes
+_Phase 0-5 complete. Phase 6 QA in progress. Phase 3E (comparison mode) deferred to v2._

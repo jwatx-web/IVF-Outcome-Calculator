@@ -369,6 +369,7 @@ function updatePipelineAndResetTestingCount() {
     const blast = parseFloat(blastocystRateSlider.value) / 100;
     const blastocysts = Math.round(Math.round(Math.round(eggs * mat) * fert) * blast);
     const testingCount = Math.max(1, blastocysts);
+    embryoCountSlider.max = testingCount;
     embryoCountSlider.value = testingCount;
     document.getElementById('embryoCountValue').textContent = testingCount;
     updateSimulation();

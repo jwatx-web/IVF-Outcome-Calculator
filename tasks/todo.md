@@ -118,5 +118,23 @@
 - [ ] PGT-SR for structural rearrangements (balanced translocations)
 - [ ] ICSI decision tree (male factor severity assessment)
 
+## v1.5 Updates (Critical QA)
+- [x] Grade inputs dynamically clamped to blastocyst count (can't exceed pipeline output)
+- [x] New `clampGradesToBlastocysts()` function — clamps values + updates max attributes
+- [x] `syncGradeCounts()` rewritten with blastocyst awareness (computes pipeline, clamps before syncing)
+- [x] `embryoCount` slider max dynamically set to blastocyst count
+- [x] `expectedValue` capped at `testedCount` in both grade-specific and simple-average paths
+- [x] `testedCount` computed earlier (before grade-specific block) for proper capping
+- [x] `embryoCount` read AFTER sync (was reading stale pre-sync value)
+- [x] "Total embryos: X / Y blastocysts" display shows constraint limit
+- [x] Cache-busting bumped to ?v=1.6
+
+## v1.6 Updates (Slider Desync Fix)
+- [x] `totalEmbryos` display always shows `totalGraded` (was showing raw slider value when grades=0)
+- [x] `embryoCount` slider disabled when grades are entered (prevents desync with grade-specific calculation)
+- [x] Blastocysts=0 edge case guard — zeroes all results, shows helpful message, disables slider
+- [x] CSS disabled state for range inputs (opacity + muted thumb)
+- [x] Cache-busting bumped to ?v=1.7
+
 ## Review Notes
-_Phase 0-5 complete. Phase 6 QA in progress. v1.4 design audit deployed._
+_Phase 0-5 complete. Phase 6 QA in progress. v1.6 slider desync fix applied._

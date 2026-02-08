@@ -306,6 +306,21 @@ body {
   box-shadow: 0 2px 8px rgba(43, 94, 73, 0.3);
 }
 
+.input-row input[type="range"]:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.input-row input[type="range"]:disabled::-webkit-slider-thumb {
+  background: var(--color-text-muted);
+  cursor: default;
+}
+
+.input-row input[type="range"]:disabled::-moz-range-thumb {
+  background: var(--color-text-muted);
+  cursor: default;
+}
+
 /* --- Number Inputs --- */
 .input-row input[type="number"] {
   width: 80px;

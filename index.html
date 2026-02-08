@@ -36,7 +36,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=1.7">
+    <link rel="stylesheet" href="style.css?v=1.8">
 </head>
 <body>
     <div class="container">
@@ -167,8 +167,17 @@
                 <h3>Stage 4: Genetic Testing</h3>
 
                 <div class="input-group">
+                    <label for="embryoCount">Blastocysts Sent for Testing</label>
+                    <div class="input-row">
+                        <input type="range" id="embryoCount" min="1" max="20" value="4" aria-valuemin="1" aria-valuemax="20" aria-valuenow="4">
+                        <div class="value-display"><span id="embryoCountValue">4</span></div>
+                    </div>
+                    <div class="help-text">How many blastocysts are you sending for genetic testing? (default: all)</div>
+                </div>
+
+                <div class="input-group">
                     <label id="label-grading">Embryo Grading (Optional &mdash; improves accuracy)</label>
-                    <div class="help-text">Leave at 0 to use average rates. Grade affects both euploidy and pregnancy success. <sup class="cite-ref"><a href="#ref-2">[2]</a></sup><sup class="cite-ref"><a href="#ref-3">[3]</a></sup></div>
+                    <div class="help-text">Enter the grade breakdown of the embryos being tested. Leave at 0 to use average rates. <sup class="cite-ref"><a href="#ref-2">[2]</a></sup><sup class="cite-ref"><a href="#ref-3">[3]</a></sup></div>
                     <div class="grade-input-grid">
                         <div class="grade-input-group">
                             <label for="gradeAA">Grade AA/AB Count</label>
@@ -183,16 +192,7 @@
                             <input type="number" id="gradeBC" min="0" max="20" value="0">
                         </div>
                     </div>
-                    <div class="help-text"><strong>Total embryos: <span id="totalEmbryos">0</span> / <span id="blastocystLimit">4</span> blastocysts</strong></div>
-                </div>
-
-                <div class="input-group">
-                    <label for="embryoCount">Number of Blastocysts Sent for Testing</label>
-                    <div class="input-row">
-                        <input type="range" id="embryoCount" min="1" max="20" value="4" aria-valuemin="1" aria-valuemax="20" aria-valuenow="4">
-                        <div class="value-display"><span id="embryoCountValue">4</span></div>
-                    </div>
-                    <div class="help-text">Total blastocysts sent for genetic testing (auto-syncs with grades or early stages if specified)</div>
+                    <div class="help-text"><strong>Total graded: <span id="totalEmbryos">0</span> / <span id="blastocystLimit">4</span> sent for testing</strong></div>
                 </div>
 
                 <div class="input-group">
@@ -390,6 +390,6 @@
         </div>
     </div>
 
-    <script src="script.js?v=1.7"></script>
+    <script src="script.js?v=1.8"></script>
 </body>
 </html>

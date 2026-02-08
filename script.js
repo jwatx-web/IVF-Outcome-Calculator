@@ -40,10 +40,10 @@ function binomialProbability(n, k, p) {
     return choose(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
 }
 
-// Clamp grade inputs so total never exceeds pipeline blastocyst count
-function clampGradesToBlastocysts(blastocysts) {
+// Clamp grade inputs so total never exceeds the testing count
+function clampGradesToLimit(limit) {
     const inputs = [gradeAAInput, gradeBAInput, gradeBCInput];
-    let remaining = blastocysts;
+    let remaining = limit;
 
     // Clamp each grade input in order, preserving as much as possible
     inputs.forEach(input => {
@@ -58,7 +58,7 @@ function clampGradesToBlastocysts(blastocysts) {
         const others = inputs
             .filter((_, j) => j !== i)
             .reduce((sum, inp) => sum + (parseInt(inp.value) || 0), 0);
-        input.max = Math.max(0, blastocysts - others);
+        input.max = Math.max(0, limit - others);
     });
 }
 
@@ -74,26 +74,16 @@ function updateSimulation() {
     const fertilizedEggs = Math.round(matureEggs * fertilizationRate);
     const blastocysts = Math.round(fertilizedEggs * blastocystRate);
 
-    // Clamp grades & embryoCount to blastocyst pipeline
-    clampGradesToBlastocysts(blastocysts);
-    const blastocystMax = Math.max(1, blastocysts);
-    embryoCountSlider.max = blastocystMax;
-    embryoCountSlider.setAttribute('aria-valuemax', blastocystMax);
-    if (parseInt(embryoCountSlider.value) > blastocysts) {
-        embryoCountSlider.value = blastocysts;
-        document.getElementById('embryoCountValue').textContent = blastocysts;
-    }
-
     // Update early stage displays
     document.getElementById('matureEggs').textContent = matureEggs;
     document.getElementById('fertilizedEggs').textContent = fertilizedEggs;
     document.getElementById('blastocysts').textContent = blastocysts;
-    document.getElementById('blastocystLimit').textContent = blastocysts;
 
     // Guard: 0 blastocysts — zero out all results and return early
     if (blastocysts === 0) {
         document.getElementById('totalEmbryos').textContent = 0;
         document.getElementById('embryoCountValue').textContent = 0;
+        document.getElementById('blastocystLimit').textContent = 0;
         document.getElementById('expectedValue').textContent = '0.0';
         document.getElementById('mostLikely').textContent = '0';
         document.getElementById('combinedProb').textContent = '0%';
@@ -112,34 +102,40 @@ function updateSimulation() {
         return;
     }
 
+    // Constrain embryoCount slider to blastocyst count
+    const blastocystMax = Math.max(1, blastocysts);
+    embryoCountSlider.max = blastocystMax;
+    embryoCountSlider.disabled = false;
+    embryoCountSlider.setAttribute('aria-valuemax', blastocystMax);
+    if (parseInt(embryoCountSlider.value) > blastocysts) {
+        embryoCountSlider.value = blastocysts;
+        document.getElementById('embryoCountValue').textContent = blastocysts;
+    }
+
+    // Read embryoCount (the user's chosen testing count)
+    const embryoCount = parseInt(document.getElementById('embryoCount').value);
+
+    // Clamp grades to embryoCount (not blastocysts) — grades must sum to testing count
+    clampGradesToLimit(embryoCount);
+
     // Get grade counts (already clamped above)
     const gradeAA = parseInt(document.getElementById('gradeAA').value) || 0;
     const gradeBA = parseInt(document.getElementById('gradeBA').value) || 0;
     const gradeBC = parseInt(document.getElementById('gradeBC').value) || 0;
     const totalGraded = gradeAA + gradeBA + gradeBC;
 
-    // Slider is always auto-computed (from grades or pipeline) — keep disabled
-    embryoCountSlider.disabled = true;
-
-    // Sync embryoCount slider BEFORE reading it
-    if (totalGraded === 0) {
-        document.getElementById('embryoCount').value = blastocysts;
-        document.getElementById('embryoCountValue').textContent = blastocysts;
-    }
-
-    // NOW read embryoCount (after sync)
-    const embryoCount = parseInt(document.getElementById('embryoCount').value);
     const doPgtM = document.getElementById('doPgtM').checked;
     const euploidRate = parseFloat(document.getElementById('euploidRate').value) / 100;
     const pgtmRate = doPgtM ? parseFloat(document.getElementById('pgtmRate').value) / 100 : 1.0;
     const implantationRate = parseFloat(document.getElementById('implantationRate').value) / 100;
     const liveBirthRate = parseFloat(document.getElementById('liveBirthRate').value) / 100;
 
-    // Compute testedCount — used for capping expectedValue
-    const testedCount = Math.min(embryoCount, blastocysts);
+    // testedCount = embryoCount (capped at blastocysts, already enforced by slider max)
+    const testedCount = embryoCount;
 
-    // Sync total embryos display (always show graded count, not slider value)
+    // Sync displays
     document.getElementById('totalEmbryos').textContent = totalGraded;
+    document.getElementById('blastocystLimit').textContent = embryoCount;
 
     // Use grade-specific calculations if grades are provided
     let expectedUsableByGrade = {};
@@ -365,44 +361,43 @@ const gradeAAInput = document.getElementById('gradeAA');
 const gradeBAInput = document.getElementById('gradeBA');
 const gradeBCInput = document.getElementById('gradeBC');
 
+// Pipeline sliders: reset testing count to "all" when pipeline changes
+function updatePipelineAndResetTestingCount() {
+    const eggs = parseInt(eggsRetrievedSlider.value);
+    const mat = parseFloat(maturityRateSlider.value) / 100;
+    const fert = parseFloat(fertilizationRateSlider.value) / 100;
+    const blast = parseFloat(blastocystRateSlider.value) / 100;
+    const blastocysts = Math.round(Math.round(Math.round(eggs * mat) * fert) * blast);
+    const testingCount = Math.max(1, blastocysts);
+    embryoCountSlider.value = testingCount;
+    document.getElementById('embryoCountValue').textContent = testingCount;
+    updateSimulation();
+}
+
 eggsRetrievedSlider.addEventListener('input', function() {
     document.getElementById('eggsRetrievedValue').textContent = this.value;
-    updateSimulation();
+    updatePipelineAndResetTestingCount();
 });
 
 maturityRateSlider.addEventListener('input', function() {
     document.getElementById('maturityRateValue').textContent = this.value;
-    updateSimulation();
+    updatePipelineAndResetTestingCount();
 });
 
 fertilizationRateSlider.addEventListener('input', function() {
     document.getElementById('fertilizationRateValue').textContent = this.value;
-    updateSimulation();
+    updatePipelineAndResetTestingCount();
 });
 
 blastocystRateSlider.addEventListener('input', function() {
     document.getElementById('blastocystRateValue').textContent = this.value;
-    updateSimulation();
+    updatePipelineAndResetTestingCount();
 });
 
 function syncGradeCounts() {
-    // Compute current pipeline blastocysts for clamping
-    const eggs = parseInt(document.getElementById('eggsRetrieved').value);
-    const mat = parseFloat(document.getElementById('maturityRate').value) / 100;
-    const fert = parseFloat(document.getElementById('fertilizationRate').value) / 100;
-    const blast = parseFloat(document.getElementById('blastocystRate').value) / 100;
-    const blastocysts = Math.round(Math.round(Math.round(eggs * mat) * fert) * blast);
-
-    // Clamp grades so total doesn't exceed blastocysts
-    clampGradesToBlastocysts(blastocysts);
-
-    const total = parseInt(gradeAAInput.value || 0) +
-                 parseInt(gradeBAInput.value || 0) +
-                 parseInt(gradeBCInput.value || 0);
-    if (total > 0) {
-        embryoCountSlider.value = total;
-        document.getElementById('embryoCountValue').textContent = total;
-    }
+    // Clamp grades to the current testing count (embryoCount slider)
+    const embryoCount = parseInt(embryoCountSlider.value) || 1;
+    clampGradesToLimit(embryoCount);
     updateSimulation();
 }
 

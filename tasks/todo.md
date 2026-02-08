@@ -136,5 +136,15 @@
 - [x] CSS disabled state for range inputs (opacity + muted thumb)
 - [x] Cache-busting bumped to ?v=1.7
 
+## v1.7 Updates (Stage 4 Flow Redesign)
+- [x] Reordered HTML: testing count slider BEFORE grade inputs
+- [x] Re-enabled embryoCount slider as primary user input (max = blastocysts)
+- [x] Grades now clamp to embryoCount (not blastocysts) — prevents overcount
+- [x] Removed grade→slider auto-sync (slider drives grades, not vice versa)
+- [x] Pipeline changes reset testing count to "all blastocysts"
+- [x] Renamed `clampGradesToBlastocysts` → `clampGradesToLimit` for clarity
+- [x] Display: "Total graded: X / Y sent for testing"
+- [x] Cache-busting bumped to ?v=1.8
+
 ## Review Notes
-_Phase 0-5 complete. Phase 6 QA in progress. v1.6 slider desync fix applied._
+_Phase 0-5 complete. v1.7 Stage 4 flow redesign deployed._

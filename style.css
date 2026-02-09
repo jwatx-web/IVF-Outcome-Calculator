@@ -12,7 +12,7 @@
   --color-accent: #2F4A73;
   --color-accent-light: #4A6FA5;
   --color-accent-bg: rgba(47, 74, 115, 0.08);
-  --color-border: rgba(0, 0, 0, 0.05);
+  --color-border: rgba(0, 0, 0, 0.03);
   --color-highlight: #D4956B;
   --color-white: #FFFFFF;
   --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
@@ -314,7 +314,7 @@ body {
   font-weight: 700;
   font-size: 13px;
   line-height: 1;
-  border: 2px solid var(--color-border);
+  border: 1px solid var(--color-border);
   transition: all 0.3s ease;
 }
 

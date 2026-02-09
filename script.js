@@ -906,11 +906,27 @@ document.getElementById('printBtn').addEventListener('click', function() {
 });
 
 // ============================================================
-// Accessibility: Update aria-valuenow on all range inputs
+// Accessibility: Update aria-valuenow and aria-valuetext on all range inputs
 // ============================================================
+const sliderUnits = {
+    eggsRetrieved: v => v + ' eggs',
+    maturityRate: v => v + '%',
+    fertilizationRate: v => v + '%',
+    blastocystRate: v => v + '%',
+    embryoCount: v => v + ' embryos',
+    maternalAge: v => v + ' years',
+    euploidRate: v => v + '%',
+    pgtmRate: v => v + '%',
+    implantationRate: v => v + '%',
+    liveBirthRate: v => v + '%'
+};
+
 document.querySelectorAll('input[type="range"]').forEach(slider => {
+    const fmt = sliderUnits[slider.id];
+    if (fmt) slider.setAttribute('aria-valuetext', fmt(slider.value));
     slider.addEventListener('input', function() {
         this.setAttribute('aria-valuenow', this.value);
+        if (fmt) this.setAttribute('aria-valuetext', fmt(this.value));
     });
 });
 

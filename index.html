@@ -243,12 +243,12 @@
                     <div class="help-text">Auto-calculated based on age, but you can adjust manually <sup class="cite-ref"><a href="#ref-1">[1]</a></sup><sup class="cite-ref"><a href="#ref-2">[2]</a></sup></div>
                 </div>
 
-                <div class="toggle-group">
+                <div class="input-group">
                     <label>PGT-M Testing (Genetic Disease Screening)</label>
                     <div class="toggle-switch">
                         <span class="toggle-label">Skip</span>
                         <label class="switch">
-                            <input type="checkbox" id="doPgtM" checked>
+                            <input type="checkbox" id="doPgtM" checked role="switch" aria-label="PGT-M genetic disease screening">
                             <span class="slider-toggle"></span>
                         </label>
                         <span class="toggle-label">Test</span>
@@ -355,12 +355,12 @@
             <div class="pregnancy-section" aria-label="Transfer and Pregnancy Success">
                 <h2>Transfer &amp; Pregnancy Success</h2>
 
-                <div class="toggle-group">
+                <div class="input-group">
                     <label>Transfer Type</label>
                     <div class="toggle-switch">
                         <span class="toggle-label">Fresh</span>
                         <label class="switch">
-                            <input type="checkbox" id="frozenTransfer" checked>
+                            <input type="checkbox" id="frozenTransfer" checked role="switch" aria-label="Transfer type: fresh or frozen">
                             <span class="slider-toggle"></span>
                         </label>
                         <span class="toggle-label">Frozen</span>
@@ -368,7 +368,7 @@
                     <div class="help-text">Frozen embryo transfers typically have 5-10% higher implantation rates <sup class="cite-ref"><a href="#ref-6">[6]</a></sup></div>
                 </div>
 
-                <div class="transfer-input">
+                <div class="input-group">
                     <label for="implantationRate">Implantation Success Rate</label>
                     <div class="input-row">
                         <input type="range" id="implantationRate" min="20" max="80" value="50" aria-valuemin="20" aria-valuemax="80" aria-valuenow="50">
@@ -379,7 +379,7 @@
                     </div>
                 </div>
 
-                <div class="transfer-input">
+                <div class="input-group">
                     <label for="liveBirthRate">Live Birth Rate (After Implantation)</label>
                     <div class="input-row">
                         <input type="range" id="liveBirthRate" min="50" max="95" value="75" aria-valuemin="50" aria-valuemax="95" aria-valuenow="75">
@@ -411,7 +411,7 @@
                         <div class="outcome-prob" id="atLeast1Birth" aria-live="polite">--</div>
                         <div class="outcome-label">At Least 1 Live Birth</div>
                         <hr class="insight-separator">
-                        <button class="outcome-toggle">Learn more</button>
+                        <button class="outcome-toggle" aria-label="Learn more about at least 1 live birth probability">Learn more</button>
                         <div class="outcome-description" id="atLeast1Description"></div>
                     </div>
 
@@ -419,7 +419,7 @@
                         <div class="outcome-prob" id="atLeast2Births" aria-live="polite">--</div>
                         <div class="outcome-label">2+ Live Births Possible</div>
                         <hr class="insight-separator">
-                        <button class="outcome-toggle">Learn more</button>
+                        <button class="outcome-toggle" aria-label="Learn more about 2+ live births probability">Learn more</button>
                         <div class="outcome-description" id="atLeast2Description"></div>
                     </div>
 
@@ -427,7 +427,7 @@
                         <div class="outcome-prob" id="noSuccess" aria-live="polite">--</div>
                         <div class="outcome-label">No Successful Pregnancy</div>
                         <hr class="insight-separator">
-                        <button class="outcome-toggle">Learn more</button>
+                        <button class="outcome-toggle" aria-label="Learn more about no successful pregnancy probability">Learn more</button>
                         <div class="outcome-description">All transfers fail to result in live birth</div>
                     </div>
                 </div>

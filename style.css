@@ -8,7 +8,7 @@
   --color-bg: #FFFFFF;
   --color-bg-alt: #FAFAFA;
   --color-text: #151619;
-  --color-text-muted: #6B7280;
+  --color-text-muted: #5F6570;
   --color-accent: #2F4A73;
   --color-accent-light: #4A6FA5;
   --color-accent-bg: rgba(47, 74, 115, 0.08);
@@ -725,9 +725,9 @@ body {
 .input-row input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
-  margin-top: -8px; /* Center 20px thumb on 4px track: -(20-4)/2 */
+  width: 24px;
+  height: 24px;
+  margin-top: -10px; /* Center 24px thumb on 4px track: -(24-4)/2 */
   border-radius: 50%;
   background: var(--color-accent);
   cursor: pointer;
@@ -745,8 +745,8 @@ body {
 }
 
 .input-row input[type="range"]::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: var(--color-accent);
   cursor: pointer;
@@ -1411,31 +1411,6 @@ body {
   text-align: left;
 }
 
-.transfer-input {
-  background: rgba(15, 23, 42, 0.05);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(15, 23, 42, 0.05);
-  border-radius: var(--radius-md);
-  padding: var(--space-md);
-  margin-bottom: var(--space-md);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.transfer-input label {
-  display: block;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--color-text-muted);
-  margin-bottom: var(--space-xs);
-}
-
-.transfer-input .help-text {
-  color: var(--color-text-muted);
-  margin-top: var(--space-xs);
-}
 
 .pregnancy-stats {
   display: grid;
@@ -1443,12 +1418,6 @@ body {
   gap: var(--space-sm);
 }
 
-/* Stat cards in pregnancy section: glass inset styling */
-.pregnancy-stats .stat-card {
-  background: rgba(15, 23, 42, 0.05);
-  border: 1px solid rgba(15, 23, 42, 0.05);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
-}
 
 /* --- Pregnancy Outcomes --- */
 .pregnancy-outcomes {
@@ -1789,8 +1758,6 @@ body {
   }
 
   .stepper-btn {
-    width: 36px;
-    height: 36px;
     font-size: 18px;
   }
 
@@ -1899,21 +1866,6 @@ textarea:focus-visible,
 }
 
 /* --- Toggle Switch (Fresh/Frozen) --- */
-.toggle-group {
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--space-sm) var(--space-md);
-  margin-bottom: var(--space-md);
-}
-
-.toggle-group > label {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--color-text);
-  margin-bottom: var(--space-xs);
-}
 
 .toggle-switch {
   display: flex;
@@ -1932,6 +1884,8 @@ textarea:focus-visible,
   display: inline-block;
   width: 48px;
   height: 26px;
+  padding: 9px 0; /* WCAG 2.5.5: expand to 44px touch target */
+  box-sizing: content-box;
 }
 
 .switch input {

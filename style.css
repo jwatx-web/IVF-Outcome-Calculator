@@ -1823,6 +1823,10 @@ body {
     margin-bottom: 80px;
   }
 
+  .input-group:first-of-type {
+    margin-top: -40px;
+  }
+
   .value-display {
     min-width: 48px;
     font-size: 16px;

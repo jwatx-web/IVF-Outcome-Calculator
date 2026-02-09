@@ -1447,6 +1447,15 @@ body {
   letter-spacing: -0.02em;
 }
 
+.heading-subtitle {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  letter-spacing: 0;
+  margin-top: 4px;
+}
+
 .outcome-card {
   background: rgba(255, 255, 255, 0.7);
   -webkit-backdrop-filter: blur(12px);
@@ -1568,7 +1577,8 @@ body {
   .bento-cta {
     grid-column: span 2;
     flex-direction: column;
-    text-align: center;
+    text-align: left;
+    gap: var(--space-sm);
   }
 
   .bento-card {
@@ -1695,6 +1705,10 @@ body {
     border-radius: var(--radius-md);
   }
 
+  .bento-card.bento-cta {
+    padding: var(--space-md);
+  }
+
   .bento-hero .stat-value {
     font-size: 36px;
   }
@@ -1733,7 +1747,9 @@ body {
   .stage {
     flex: 1;
     width: auto;
-    font-size: 9px;
+    font-size: 7px;
+    letter-spacing: 0.05em;
+    gap: 4px;
   }
 
   .stage-number {
@@ -1758,12 +1774,14 @@ body {
   }
 
   .stepper-btn {
-    font-size: 18px;
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
   }
 
   .stepper-value {
-    min-width: 28px;
-    font-size: 16px;
+    min-width: 24px;
+    font-size: 14px;
     line-height: 36px;
     padding: 0 2px;
   }
@@ -1897,10 +1915,10 @@ textarea:focus-visible,
 .slider-toggle {
   position: absolute;
   cursor: pointer;
-  top: 0;
+  top: 9px;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 9px;
   background-color: var(--color-border);
   transition: 0.3s;
   border-radius: 26px;

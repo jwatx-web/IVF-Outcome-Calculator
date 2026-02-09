@@ -334,17 +334,18 @@ function updateSimulation() {
     });
 
     // Update interpretation
-    const cumulative1to4 = probabilities
-        .filter(p => p.count >= 1 && p.count <= 4)
-        .reduce((sum, p) => sum + p.probability, 0);
-
-    const cumulative0 = probabilities[0].probability;
-    const cumulativeAll = probabilities[embryoCount].probability;
+    const atLeast1 = 1 - probabilities[0].probability;
+    const mostLikelyMin = Math.min(...maxProbIndices);
+    const mostLikelyMax = Math.max(...maxProbIndices);
+    const mostLikelyLabel = mostLikelyMin === mostLikelyMax
+        ? `${mostLikelyMin}`
+        : `${mostLikelyMin}-${mostLikelyMax}`;
+    const mostLikelyProb = maxProbIndices.reduce((sum, k) => sum + probabilities[k].probability, 0);
 
     document.getElementById('interpretation').textContent =
-        `You have a ${(cumulative1to4 * 100).toFixed(0)}% chance of getting 1-4 usable embryos. ` +
-        `There's a ${(cumulative0 * 100).toFixed(1)}% chance of no usable embryos, and a ` +
-        `${(cumulativeAll * 100).toFixed(1)}% chance that all ${embryoCount} embryos are usable.`;
+        `Your most likely outcome is ${mostLikelyLabel} usable embryo${mostLikelyMax !== 1 ? 's' : ''} ` +
+        `(${(mostLikelyProb * 100).toFixed(0)}% chance). ` +
+        `Overall, you have a ${(atLeast1 * 100).toFixed(0)}% chance of at least 1 usable embryo.`;
 }
 
 // Event listeners for all inputs

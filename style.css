@@ -959,7 +959,7 @@ body {
 }
 
 .bar-container {
-  height: 28px;
+  height: 48px;
   background: var(--color-bg-alt);
   border-radius: var(--radius-sm);
   overflow: hidden;

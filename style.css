@@ -219,7 +219,7 @@
 
 /* Hero card stat */
 .bento-hero .stat-value {
-  font-size: 80px;
+  font-size: 61px;
   color: var(--color-accent);
   margin-bottom: var(--space-xs);
 }
@@ -240,13 +240,13 @@
 
 /* Medium stat size (wide card) */
 .bento-stat-medium {
-  font-size: 48px;
+  font-size: 38px;
   margin-bottom: var(--space-xs);
 }
 
 /* Compact stat size (standard card) */
 .bento-stat-compact {
-  font-size: 56px;
+  font-size: 46px;
   margin-bottom: var(--space-xs);
   text-align: center;
 }
@@ -702,7 +702,7 @@ body {
 }
 
 .input-row input[type="range"]::-webkit-slider-runnable-track {
-  height: 3px;
+  height: 4px;
   border-radius: 2px;
   background: rgba(47, 74, 115, 0.12);
 }
@@ -712,7 +712,7 @@ body {
 }
 
 .input-row input[type="range"]::-moz-range-track {
-  height: 3px;
+  height: 4px;
   border-radius: 2px;
   background: rgba(47, 74, 115, 0.12);
   border: none;
@@ -727,7 +727,7 @@ body {
   appearance: none;
   width: 20px;
   height: 20px;
-  margin-top: -8.5px; /* Center 20px thumb on 3px track: -(20-3)/2 */
+  margin-top: -8px; /* Center 20px thumb on 4px track: -(20-4)/2 */
   border-radius: 50%;
   background: var(--color-accent);
   cursor: pointer;
@@ -801,7 +801,7 @@ body {
   min-width: 60px;
   text-align: left;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 19px;
   color: var(--color-accent);
   font-family: var(--font-display);
   letter-spacing: -0.02em;
@@ -1068,7 +1068,7 @@ body {
 
 .genetics-prob {
   font-family: var(--font-display);
-  font-size: 72px;
+  font-size: 49px;
   font-weight: 400;
   color: var(--color-accent);
   line-height: 1.0;
@@ -1076,7 +1076,7 @@ body {
 }
 
 .genetics-prob .unit {
-  font-size: 28px;
+  font-size: 19px;
   margin-left: 2px;
 }
 
@@ -1169,7 +1169,7 @@ body {
 
 .stat-value {
   font-family: var(--font-display);
-  font-size: 72px;
+  font-size: 49px;
   font-weight: 400;
   color: var(--color-accent);
   margin-bottom: 16px;
@@ -1272,10 +1272,10 @@ body {
 
 .funnel-bar-container {
   background: rgba(47, 74, 115, 0.06);
-  border-radius: 12px;
+  border-radius: 24px;
   overflow: hidden;
   position: relative;
-  height: 48px;
+  height: 63px;
 }
 
 /* Override the inline gradient backgrounds set by JS */
@@ -1289,7 +1289,7 @@ body {
   font-size: 14px;
   transition: width 0.5s ease;
   justify-content: space-between;
-  border-radius: 12px;
+  border-radius: 24px;
 }
 
 /* Funnel bar text: ensure readable on lighter bars */
@@ -1319,7 +1319,7 @@ body {
 .bar-container {
   height: 36px;
   background: rgba(47, 74, 115, 0.06);
-  border-radius: 12px;
+  border-radius: 24px;
   overflow: hidden;
   position: relative;
 }
@@ -1335,7 +1335,7 @@ body {
   color: var(--color-white);
   font-weight: 600;
   font-size: 13px;
-  border-radius: 12px;
+  border-radius: 24px;
 }
 
 .bar-fill.highlight {
@@ -1507,7 +1507,7 @@ body {
 
 .outcome-prob {
   font-family: var(--font-display);
-  font-size: 80px;
+  font-size: 61px;
   font-weight: 400;
   color: var(--color-accent);
   line-height: 1.0;
@@ -1608,15 +1608,15 @@ body {
   }
 
   .bento-hero .stat-value {
-    font-size: 64px;
+    font-size: 49px;
   }
 
   .bento-stat-medium {
-    font-size: 40px;
+    font-size: 30px;
   }
 
   .bento-stat-compact {
-    font-size: 48px;
+    font-size: 37px;
   }
 
   .bento-wide-content {
@@ -1657,12 +1657,12 @@ body {
   }
 
   .outcome-prob {
-    font-size: 56px;
+    font-size: 43px;
   }
 
   .stat-value,
   .genetics-prob {
-    font-size: 56px;
+    font-size: 38px;
   }
 
   .stage-indicator {
@@ -1727,15 +1727,15 @@ body {
   }
 
   .bento-hero .stat-value {
-    font-size: 48px;
-  }
-
-  .bento-stat-medium {
     font-size: 36px;
   }
 
+  .bento-stat-medium {
+    font-size: 28px;
+  }
+
   .bento-stat-compact {
-    font-size: 40px;
+    font-size: 30px;
   }
 
   .header {
@@ -1780,7 +1780,7 @@ body {
 
   .stat-value,
   .genetics-prob {
-    font-size: 42px;
+    font-size: 32px;
   }
 
   .grade-stepper-grid {
@@ -1821,7 +1821,7 @@ body {
   }
 
   .outcome-prob {
-    font-size: 42px;
+    font-size: 32px;
   }
 
   .pregnancy-stats {
@@ -1840,7 +1840,7 @@ body {
   .value-display {
     text-align: left;
     min-width: auto;
-    font-size: 18px;
+    font-size: 16px;
     margin-top: 4px;
   }
 }

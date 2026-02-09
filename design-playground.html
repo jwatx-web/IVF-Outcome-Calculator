@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IVF Calculator — Design System Playground</title>
+<style>
+  /* === Dark theme shell === */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --shell-bg: #0f1117;
+    --shell-surface: #1a1c25;
+    --shell-border: rgba(255,255,255,0.08);
+    --shell-text: #e1e2e6;
+    --shell-muted: #8b8d97;
+    --shell-accent: #6b9fff;
+    --ctrl-bg: #22242e;
+    --ctrl-hover: #2a2d38;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--shell-bg);
+    color: var(--shell-text);
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    grid-template-rows: 1fr auto;
+    height: 100vh;
+  }
+
+  /* === Controls Panel === */
+  .controls {
+    grid-row: 1 / 3;
+    overflow-y: auto;
+    border-right: 1px solid var(--shell-border);
+    padding: 20px;
+    background: var(--shell-surface);
+  }
+
+  .controls::-webkit-scrollbar { width: 6px; }
+  .controls::-webkit-scrollbar-track { background: transparent; }
+  .controls::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+  .controls h1 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+  }
+
+  .controls .subtitle {
+    font-size: 12px;
+    color: var(--shell-muted);
+    margin-bottom: 20px;
+  }
+
+  /* Presets */
+  .presets {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+
+  .preset-btn {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--shell-border);
+    background: var(--ctrl-bg);
+    color: var(--shell-text);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .preset-btn:hover { background: var(--ctrl-hover); border-color: var(--shell-accent); }
+  .preset-btn.active { background: var(--shell-accent); color: #000; border-color: var(--shell-accent); }
+
+  /* Control Groups */
+  .ctrl-group {
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--shell-border);
+    padding-bottom: 16px;
+  }
+
+  .ctrl-group:last-child { border-bottom: none; }
+
+  .ctrl-group-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--shell-muted);
+    margin-bottom: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    user-select: none;
+  }
+
+  .ctrl-group-title::after {
+    content: '▾';
+    font-size: 9px;
+    transition: transform 0.2s;
+  }
+
+  .ctrl-group.collapsed .ctrl-group-title::after { transform: rotate(-90deg); }
+  .ctrl-group.collapsed .ctrl-group-body { display: none; }
+
+  .ctrl-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .ctrl-label {
+    font-size: 12px;
+    color: var(--shell-text);
+    flex-shrink: 0;
+  }
+
+  .ctrl-value {
+    font-size: 11px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    color: var(--shell-muted);
+    min-width: 48px;
+    text-align: right;
+  }
+
+  /* Sliders */
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 120px;
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    outline: none;
+    margin: 0 8px;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--shell-accent);
+    cursor: pointer;
+    box-shadow: 0 0 6px rgba(107,159,255,0.4);
+  }
+
+  /* Color Pickers */
+  .color-ctrl {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .color-ctrl input[type="color"] {
+    -webkit-appearance: none;
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--shell-border);
+    border-radius: 6px;
+    cursor: pointer;
+    background: transparent;
+    padding: 0;
+  }
+
+  .color-ctrl input[type="color"]::-webkit-color-swatch-wrapper { padding: 2px; }
+  .color-ctrl input[type="color"]::-webkit-color-swatch { border-radius: 3px; border: none; }
+
+  /* Select */
+  select {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--shell-border);
+    background: var(--ctrl-bg);
+    color: var(--shell-text);
+    cursor: pointer;
+    outline: none;
+  }
+
+  select:focus { border-color: var(--shell-accent); }
+
+  /* Toggles */
+  .toggle-ctrl {
+    position: relative;
+    width: 36px;
+    height: 20px;
+    cursor: pointer;
+  }
+
+  .toggle-ctrl input { display: none; }
+
+  .toggle-track {
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    transition: background 0.2s;
+  }
+
+  .toggle-ctrl input:checked + .toggle-track { background: var(--shell-accent); }
+
+  .toggle-track::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.2s;
+  }
+
+  .toggle-ctrl input:checked + .toggle-track::after { transform: translateX(16px); }
+
+  /* === Preview Area === */
+  .preview-area {
+    overflow-y: auto;
+    padding: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .preview-frame {
+    width: 100%;
+    max-width: 880px;
+    min-height: 100%;
+  }
+
+  /* === Prompt Area === */
+  .prompt-area {
+    border-top: 1px solid var(--shell-border);
+    padding: 16px 24px;
+    background: var(--shell-surface);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .prompt-text {
+    flex: 1;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--shell-muted);
+    max-height: 80px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .copy-btn {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--shell-accent);
+    background: transparent;
+    color: var(--shell-accent);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+
+  .copy-btn:hover { background: var(--shell-accent); color: #000; }
+  .copy-btn.copied { background: #22c55e; border-color: #22c55e; color: #000; }
+
+  /* === Preview Component Styles (injected via CSS vars) === */
+  .preview-frame {
+    --p-bg: #FFFFFF;
+    --p-bg-alt: #FAFAFA;
+    --p-text: #151619;
+    --p-text-muted: #6B7280;
+    --p-accent: #2F4A73;
+    --p-accent-light: #4A6FA5;
+    --p-accent-bg: rgba(47, 74, 115, 0.08);
+    --p-highlight: #D4956B;
+    --p-border: rgba(0, 0, 0, 0.03);
+    --p-radius-sm: 8px;
+    --p-radius-md: 24px;
+    --p-radius-lg: 32px;
+    --p-radius-card: 40px;
+    --p-space-xs: 8px;
+    --p-space-sm: 16px;
+    --p-space-md: 32px;
+    --p-space-lg: 56px;
+    --p-space-card: 48px;
+    --p-blur: 40px;
+    --p-glass-opacity: 0.4;
+    --p-glass-border-opacity: 0.2;
+    --p-shadow-y: 20px;
+    --p-shadow-blur: 40px;
+    --p-shadow-opacity: 0.05;
+    --p-font-display: 'Playfair Display', Georgia, serif;
+    --p-font-body: 'Inter', -apple-system, sans-serif;
+  }
+
+  /* === Preview Internals === */
+  .pv-page {
+    font-family: var(--p-font-body);
+    color: var(--p-text);
+    padding: 40px 32px;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    min-height: 600px;
+  }
+
+  .pv-aura {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .pv-page > *:not(.pv-aura) { position: relative; z-index: 1; }
+
+  /* Header */
+  .pv-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .pv-header h1 {
+    font-family: var(--p-font-display);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--p-text);
+    margin-bottom: 8px;
+  }
+
+  .pv-header h1 em { font-style: italic; }
+
+  .pv-header p {
+    color: var(--p-text-muted);
+    font-weight: 400;
+  }
+
+  /* Glass Card */
+  .pv-glass-card {
+    border-radius: var(--p-radius-card);
+    padding: var(--p-space-card);
+    margin-bottom: 24px;
+    transition: all 0.3s ease;
+  }
+
+  .pv-glass-card:hover {
+    border-color: rgba(47, 74, 115, 0.15) !important;
+  }
+
+  .pv-glass-card h2 {
+    font-family: var(--p-font-display);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--p-text);
+    margin-bottom: 24px;
+  }
+
+  /* Slider Preview */
+  .pv-input-group {
+    margin-bottom: 20px;
+  }
+
+  .pv-input-label {
+    display: block;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--p-text-muted);
+    margin-bottom: 6px;
+  }
+
+  .pv-input-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .pv-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 3px;
+    border-radius: 2px;
+    outline: none;
+  }
+
+  .pv-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--p-accent);
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(47, 74, 115, 0.25);
+  }
+
+  .pv-value-display {
+    font-family: var(--p-font-display);
+    /* font-size set dynamically by renderPreview() */
+    color: var(--p-accent);
+    letter-spacing: -0.02em;
+    min-width: 48px;
+    text-align: right;
+  }
+
+  .pv-help-text {
+    font-size: 13px;
+    color: var(--p-text-muted);
+    margin-top: 6px;
+  }
+
+  /* Stat Cards */
+  .pv-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .pv-stat-card {
+    border-radius: var(--p-radius-lg);
+    padding: var(--p-space-card);
+    text-align: center;
+    transition: all 0.2s ease;
+  }
+
+  .pv-stat-card:hover {
+    border-color: rgba(47, 74, 115, 0.3) !important;
+  }
+
+  .pv-stat-value {
+    font-family: var(--p-font-display);
+    font-weight: 400;
+    color: var(--p-accent);
+    line-height: 1.0;
+    margin-bottom: 8px;
+  }
+
+  .pv-stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--p-text-muted);
+  }
+
+  /* Badge */
+  .pv-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--p-accent);
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+  }
+
+  /* Button */
+  .pv-btn {
+    font-family: var(--p-font-body);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+
+  /* Bento Hero */
+  .pv-bento-section { margin-top: 32px; }
+
+  .pv-bento-header h2 {
+    font-family: var(--p-font-display);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--p-text);
+    margin-bottom: 4px;
+  }
+
+  .pv-bento-header p {
+    font-size: 14px;
+    color: var(--p-text-muted);
+    margin-bottom: 20px;
+  }
+
+  .pv-bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .pv-bento-hero {
+    grid-column: span 2;
+    grid-row: span 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: var(--p-space-card);
+  }
+
+  /* font-size set dynamically by renderPreview() */
+
+  .pv-bento-wide {
+    grid-column: span 2;
+    padding: var(--p-space-card);
+  }
+
+  .pv-bento-std {
+    padding: var(--p-space-card);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* .pv-bento-std .pv-stat-value font-size set dynamically */
+
+  .pv-bento-cta {
+    grid-column: span 4;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: var(--p-space-card);
+    color: white;
+  }
+
+  .pv-bento-cta h3 {
+    font-family: var(--p-font-display);
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+
+  .pv-bento-cta p {
+    font-size: 13px;
+    opacity: 0.75;
+  }
+
+  .pv-bento-cta .pv-btn {
+    border: 1px solid white;
+    background: transparent;
+    color: white;
+    white-space: nowrap;
+  }
+
+  .pv-bento-cta .pv-btn:hover {
+    background: white;
+  }
+
+  /* Inset card */
+  .pv-bento-inset {
+    padding: var(--p-space-card);
+  }
+
+  .pv-profile-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  .pv-profile-key { color: var(--p-text-muted); }
+  .pv-profile-val {
+    font-weight: 700;
+    font-family: var(--p-font-display);
+    /* font-size set dynamically by renderPreview() */
+    color: var(--p-text);
+  }
+
+  /* Funnel bars */
+  .pv-funnel { margin-top: 24px; }
+
+  .pv-funnel-stage { margin-bottom: 16px; }
+
+  .pv-funnel-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--p-text-muted);
+    margin-bottom: 4px;
+  }
+
+  .pv-funnel-count {
+    font-weight: 700;
+    /* font-size set dynamically by renderPreview() */
+    color: var(--p-accent);
+    font-family: var(--p-font-display);
+    text-transform: none;
+  }
+
+  .pv-funnel-bar-bg {
+    height: 40px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .pv-funnel-bar {
+    height: 100%;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+    transition: width 0.5s ease;
+  }
+
+  /* Stepper */
+  .pv-stepper {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .pv-stepper-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--p-accent);
+    font-size: 18px;
+    cursor: pointer;
+    font-family: var(--p-font-body);
+  }
+
+  .pv-stepper-val {
+    min-width: 28px;
+    text-align: center;
+    font-family: var(--p-font-display);
+    font-size: 20px;
+    color: var(--p-accent);
+    padding: 0 4px;
+    line-height: 36px;
+  }
+
+  /* Separator */
+  .pv-sep {
+    border: none;
+    border-top: 1px solid rgba(0,0,0,0.06);
+    margin: 12px auto;
+    max-width: 360px;
+  }
+
+  .pv-insight {
+    font-size: 13px;
+    color: var(--p-text-muted);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    body { grid-template-columns: 1fr; grid-template-rows: auto 1fr auto; }
+    .controls { grid-row: auto; max-height: 40vh; border-right: none; border-bottom: 1px solid var(--shell-border); }
+    .pv-bento-grid { grid-template-columns: 1fr; }
+    .pv-bento-hero, .pv-bento-wide, .pv-bento-cta { grid-column: span 1; }
+    .pv-bento-hero { grid-row: span 1; }
+    .pv-stat-grid { grid-template-columns: 1fr; }
+  }
+</style>
+<!-- Google Fonts for preview -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,300;1,400&family=Instrument+Serif&family=DM+Sans:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&family=Source+Serif+4:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Controls -->
+<div class="controls">
+  <h1>IVF Design System</h1>
+  <p class="subtitle">Explore colors, typography, glass, and spacing</p>
+
+  <!-- Presets -->
+  <div class="presets">
+    <button class="preset-btn active" data-preset="current">Current</button>
+    <button class="preset-btn" data-preset="warm">Warm Blush</button>
+    <button class="preset-btn" data-preset="minimal">Minimal</button>
+    <button class="preset-btn" data-preset="bold">Bold Navy</button>
+    <button class="preset-btn" data-preset="earth">Earth Tone</button>
+  </div>
+
+  <!-- Color -->
+  <div class="ctrl-group" id="grpColor">
+    <div class="ctrl-group-title">Color Palette</div>
+    <div class="ctrl-group-body">
+      <div class="ctrl-row">
+        <span class="ctrl-label">Background</span>
+        <div class="color-ctrl">
+          <input type="color" id="colorBg" value="#FFFFFF">
+          <span class="ctrl-value" id="colorBgVal">#FFFFFF</span>
+        </div>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Accent</span>
+        <div class="color-ctrl">
+          <input type="color" id="colorAccent" value="#2F4A73">
+          <span class="ctrl-value" id="colorAccentVal">#2F4A73</span>
+        </div>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Highlight</span>
+        <div class="color-ctrl">
+          <input type="color" id="colorHighlight" value="#D4956B">
+          <span class="ctrl-value" id="colorHighlightVal">#D4956B</span>
+        </div>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Text</span>
+        <div class="color-ctrl">
+          <input type="color" id="colorText" value="#151619">
+          <span class="ctrl-value" id="colorTextVal">#151619</span>
+        </div>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Text Muted</span>
+        <div class="color-ctrl">
+          <input type="color" id="colorTextMuted" value="#6B7280">
+          <span class="ctrl-value" id="colorTextMutedVal">#6B7280</span>
+        </div>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Aura</span>
+        <label class="toggle-ctrl">
+          <input type="checkbox" id="showAura" checked>
+          <span class="toggle-track"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Typography -->
+  <div class="ctrl-group" id="grpTypo">
+    <div class="ctrl-group-title">Typography</div>
+    <div class="ctrl-group-body">
+      <div class="ctrl-row">
+        <span class="ctrl-label">Display Font</span>
+        <select id="fontDisplay">
+          <option value="'Playfair Display', Georgia, serif" selected>Playfair Display</option>
+          <option value="'Instrument Serif', Georgia, serif">Instrument Serif</option>
+          <option value="'Crimson Pro', Georgia, serif">Crimson Pro</option>
+          <option value="'Source Serif 4', Georgia, serif">Source Serif 4</option>
+          <option value="Georgia, serif">Georgia</option>
+        </select>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Body Font</span>
+        <select id="fontBody">
+          <option value="'Inter', -apple-system, sans-serif" selected>Inter</option>
+          <option value="'DM Sans', -apple-system, sans-serif">DM Sans</option>
+          <option value="-apple-system, BlinkMacSystemFont, sans-serif">System</option>
+        </select>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">H1 Size</span>
+        <input type="range" id="h1Size" min="32" max="72" value="48">
+        <span class="ctrl-value" id="h1SizeVal">48px</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Stat Size</span>
+        <input type="range" id="statSize" min="36" max="96" value="64">
+        <span class="ctrl-value" id="statSizeVal">64px</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Body Size</span>
+        <input type="range" id="bodySize" min="13" max="18" value="14">
+        <span class="ctrl-value" id="bodySizeVal">14px</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Glass & Cards -->
+  <div class="ctrl-group" id="grpGlass">
+    <div class="ctrl-group-title">Glass & Cards</div>
+    <div class="ctrl-group-body">
+      <div class="ctrl-row">
+        <span class="ctrl-label">Glass Opacity</span>
+        <input type="range" id="glassOpacity" min="0" max="100" value="40">
+        <span class="ctrl-value" id="glassOpacityVal">0.40</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Backdrop Blur</span>
+        <input type="range" id="backdropBlur" min="0" max="80" value="40">
+        <span class="ctrl-value" id="backdropBlurVal">40px</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Card Radius</span>
+        <input type="range" id="cardRadius" min="8" max="60" value="40">
+        <span class="ctrl-value" id="cardRadiusVal">40px</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Inner Radius</span>
+        <input type="range" id="innerRadius" min="4" max="40" value="24">
+        <span class="ctrl-value" id="innerRadiusVal">24px</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Shadow Y</span>
+        <input type="range" id="shadowY" min="0" max="40" value="20">
+        <span class="ctrl-value" id="shadowYVal">20px</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Shadow Blur</span>
+        <input type="range" id="shadowBlur" min="0" max="80" value="40">
+        <span class="ctrl-value" id="shadowBlurVal">40px</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Shadow Opacity</span>
+        <input type="range" id="shadowOpacity" min="0" max="30" value="5">
+        <span class="ctrl-value" id="shadowOpacityVal">0.05</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Border Opacity</span>
+        <input type="range" id="borderOpacity" min="0" max="50" value="20">
+        <span class="ctrl-value" id="borderOpacityVal">0.20</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Spacing -->
+  <div class="ctrl-group" id="grpSpacing">
+    <div class="ctrl-group-title">Spacing</div>
+    <div class="ctrl-group-body">
+      <div class="ctrl-row">
+        <span class="ctrl-label">Card Padding</span>
+        <input type="range" id="cardPadding" min="16" max="64" value="48">
+        <span class="ctrl-value" id="cardPaddingVal">48px</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Bento Gap</span>
+        <input type="range" id="bentoGap" min="8" max="32" value="16">
+        <span class="ctrl-value" id="bentoGapVal">16px</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Stat Grid Gap</span>
+        <input type="range" id="statGap" min="8" max="48" value="16">
+        <span class="ctrl-value" id="statGapVal">16px</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Components -->
+  <div class="ctrl-group" id="grpComp">
+    <div class="ctrl-group-title">Components</div>
+    <div class="ctrl-group-body">
+      <div class="ctrl-row">
+        <span class="ctrl-label">Slider Track</span>
+        <input type="range" id="sliderTrackH" min="2" max="8" value="3">
+        <span class="ctrl-value" id="sliderTrackHVal">3px</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Slider Thumb</span>
+        <input type="range" id="sliderThumb" min="14" max="28" value="20">
+        <span class="ctrl-value" id="sliderThumbVal">20px</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Bar Height</span>
+        <input type="range" id="barHeight" min="24" max="64" value="40">
+        <span class="ctrl-value" id="barHeightVal">40px</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Bar Radius</span>
+        <input type="range" id="barRadius" min="4" max="24" value="12">
+        <span class="ctrl-value" id="barRadiusVal">12px</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Preview -->
+<div class="preview-area" id="previewArea">
+  <div class="preview-frame" id="previewFrame">
+    <div class="pv-page" id="pvPage">
+      <div class="pv-aura" id="pvAura"></div>
+
+      <!-- Header -->
+      <div class="pv-header">
+        <h1 id="pvH1">IVF Outcome <em>Calculator</em></h1>
+        <p id="pvSubtitle">Precise modeling for every stage of your cycle</p>
+      </div>
+
+      <!-- Input Card -->
+      <div class="pv-glass-card" id="pvInputCard">
+        <h2>From Retrieval to Blastocyst</h2>
+
+        <div class="pv-input-group">
+          <span class="pv-input-label">Eggs Retrieved</span>
+          <div class="pv-input-row">
+            <input type="range" class="pv-slider" id="pvSlider1" min="1" max="40" value="12">
+            <div class="pv-value-display">12</div>
+          </div>
+          <div class="pv-help-text">Total number of eggs collected during retrieval</div>
+        </div>
+
+        <div class="pv-input-group">
+          <span class="pv-input-label">Mature Egg Rate (MII)</span>
+          <div class="pv-input-row">
+            <input type="range" class="pv-slider" id="pvSlider2" min="50" max="95" value="80">
+            <div class="pv-value-display">80%</div>
+          </div>
+          <div class="pv-help-text">Percentage of eggs that are mature and ready for fertilization</div>
+        </div>
+
+        <!-- Stat Cards -->
+        <div class="pv-stat-grid" id="pvStatGrid">
+          <div class="pv-stat-card" id="pvStatCard1">
+            <div class="pv-stat-value" id="pvStatVal1">10</div>
+            <div class="pv-stat-label">Mature Eggs</div>
+          </div>
+          <div class="pv-stat-card" id="pvStatCard2">
+            <div class="pv-stat-value" id="pvStatVal2">7</div>
+            <div class="pv-stat-label">Fertilized</div>
+          </div>
+          <div class="pv-stat-card" id="pvStatCard3">
+            <div class="pv-stat-value" id="pvStatVal3">4</div>
+            <div class="pv-stat-label">Blastocysts</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bento Outcomes Section -->
+      <div class="pv-bento-section">
+        <div class="pv-bento-header">
+          <h2>Expected Outcomes</h2>
+          <p>Personalized projections based on your inputs</p>
+        </div>
+
+        <div class="pv-bento-grid" id="pvBentoGrid">
+          <!-- Hero 2x2 -->
+          <div class="pv-glass-card pv-bento-hero" id="pvBentoHero">
+            <div>
+              <span class="pv-badge" id="pvBadge">Primary Outcome</span>
+              <div class="pv-stat-value">2.5</div>
+              <div class="pv-stat-label">Expected Usable Embryos</div>
+            </div>
+            <div>
+              <hr class="pv-sep">
+              <p class="pv-insight">Your projected outcome based on current parameters.</p>
+            </div>
+          </div>
+
+          <!-- Wide 2x1 -->
+          <div class="pv-glass-card pv-bento-wide" id="pvBentoWide">
+            <span class="pv-input-label">Per Embryo Success</span>
+            <div class="pv-stat-value" id="pvBentoWideStat" style="margin-top:8px;">41%</div>
+            <div class="pv-stat-label" style="margin-top:4px;">Combined pass rate</div>
+          </div>
+
+          <!-- Standard 1x1 -->
+          <div class="pv-glass-card pv-bento-std" id="pvBentoStd">
+            <span class="pv-input-label">Most Likely</span>
+            <div class="pv-stat-value">2–3</div>
+            <p class="pv-stat-label">Usable embryos</p>
+          </div>
+
+          <!-- Inset Profile 1x1 -->
+          <div class="pv-glass-card pv-bento-inset" id="pvBentoInset">
+            <span class="pv-input-label">Your Profile</span>
+            <div style="margin-top:12px;">
+              <div class="pv-profile-row"><span class="pv-profile-key">Age</span><span class="pv-profile-val">38</span></div>
+              <div class="pv-profile-row"><span class="pv-profile-key">Eggs</span><span class="pv-profile-val">12</span></div>
+              <div class="pv-profile-row"><span class="pv-profile-key">Blastocysts</span><span class="pv-profile-val">4</span></div>
+            </div>
+          </div>
+
+          <!-- CTA 4x1 -->
+          <div class="pv-glass-card pv-bento-cta" id="pvBentoCta">
+            <div>
+              <h3>Understanding Your Results</h3>
+              <p>A strong outcome — most patients with similar parameters achieve their goals.</p>
+            </div>
+            <button class="pv-btn">Print Results</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Funnel Chart Preview -->
+      <div class="pv-glass-card" id="pvFunnelCard" style="margin-top:24px;">
+        <h2>IVF Journey Funnel</h2>
+        <div class="pv-funnel">
+          <div class="pv-funnel-stage">
+            <div class="pv-funnel-label"><span>Eggs Retrieved</span><span class="pv-funnel-count">12</span></div>
+            <div class="pv-funnel-bar-bg" id="pvFunnelBg1"><div class="pv-funnel-bar" id="pvFunnelBar1" style="width:100%;">12</div></div>
+          </div>
+          <div class="pv-funnel-stage">
+            <div class="pv-funnel-label"><span>Mature (MII)</span><span class="pv-funnel-count">10</span></div>
+            <div class="pv-funnel-bar-bg" id="pvFunnelBg2"><div class="pv-funnel-bar" id="pvFunnelBar2" style="width:83%;">10</div></div>
+          </div>
+          <div class="pv-funnel-stage">
+            <div class="pv-funnel-label"><span>Fertilized</span><span class="pv-funnel-count">7</span></div>
+            <div class="pv-funnel-bar-bg" id="pvFunnelBg3"><div class="pv-funnel-bar" id="pvFunnelBar3" style="width:58%;">7</div></div>
+          </div>
+          <div class="pv-funnel-stage">
+            <div class="pv-funnel-label"><span>Blastocysts</span><span class="pv-funnel-count">4</span></div>
+            <div class="pv-funnel-bar-bg" id="pvFunnelBg4"><div class="pv-funnel-bar" id="pvFunnelBar4" style="width:33%;">4</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Prompt -->
+<div class="prompt-area">
+  <div class="prompt-text" id="promptOutput">Adjust the controls to generate a design prompt.</div>
+  <button class="copy-btn" id="copyBtn">Copy Prompt</button>
+</div>
+
+<script>
+// === DEFAULTS ===
+const DEFAULTS = {
+  colorBg: '#FFFFFF', colorAccent: '#2F4A73', colorHighlight: '#D4956B',
+  colorText: '#151619', colorTextMuted: '#6B7280', showAura: true,
+  fontDisplay: "'Playfair Display', Georgia, serif",
+  fontBody: "'Inter', -apple-system, sans-serif",
+  h1Size: 48, statSize: 64, bodySize: 14,
+  glassOpacity: 40, backdropBlur: 40, cardRadius: 40, innerRadius: 24,
+  shadowY: 20, shadowBlur: 40, shadowOpacity: 5, borderOpacity: 20,
+  cardPadding: 48, bentoGap: 16, statGap: 16,
+  sliderTrackH: 3, sliderThumb: 20, barHeight: 40, barRadius: 12,
+};
+
+const PRESETS = {
+  current: { ...DEFAULTS },
+  warm: {
+    colorBg: '#FAF8F5', colorAccent: '#2B5E49', colorHighlight: '#C4553A',
+    colorText: '#333334', colorTextMuted: '#6B6B6C', showAura: true,
+    fontDisplay: "'Instrument Serif', Georgia, serif",
+    fontBody: "'DM Sans', -apple-system, sans-serif",
+    h1Size: 52, statSize: 72, bodySize: 14,
+    glassOpacity: 35, backdropBlur: 40, cardRadius: 40, innerRadius: 24,
+    shadowY: 20, shadowBlur: 40, shadowOpacity: 5, borderOpacity: 20,
+    cardPadding: 48, bentoGap: 20, statGap: 20,
+    sliderTrackH: 3, sliderThumb: 20, barHeight: 48, barRadius: 12,
+  },
+  minimal: {
+    colorBg: '#FFFFFF', colorAccent: '#111827', colorHighlight: '#6B7280',
+    colorText: '#111827', colorTextMuted: '#9CA3AF', showAura: false,
+    fontDisplay: "'Source Serif 4', Georgia, serif",
+    fontBody: "'Inter', -apple-system, sans-serif",
+    h1Size: 44, statSize: 56, bodySize: 15,
+    glassOpacity: 0, backdropBlur: 0, cardRadius: 16, innerRadius: 12,
+    shadowY: 4, shadowBlur: 12, shadowOpacity: 8, borderOpacity: 8,
+    cardPadding: 40, bentoGap: 12, statGap: 12,
+    sliderTrackH: 2, sliderThumb: 16, barHeight: 32, barRadius: 8,
+  },
+  bold: {
+    colorBg: '#F0F4FF', colorAccent: '#1E3A5F', colorHighlight: '#E87461',
+    colorText: '#0F172A', colorTextMuted: '#64748B', showAura: true,
+    fontDisplay: "'Playfair Display', Georgia, serif",
+    fontBody: "'Inter', -apple-system, sans-serif",
+    h1Size: 56, statSize: 80, bodySize: 14,
+    glassOpacity: 50, backdropBlur: 50, cardRadius: 32, innerRadius: 20,
+    shadowY: 25, shadowBlur: 50, shadowOpacity: 8, borderOpacity: 25,
+    cardPadding: 48, bentoGap: 20, statGap: 24,
+    sliderTrackH: 4, sliderThumb: 22, barHeight: 48, barRadius: 16,
+  },
+  earth: {
+    colorBg: '#F5F0E8', colorAccent: '#5C4033', colorHighlight: '#B8860B',
+    colorText: '#2D2D2D', colorTextMuted: '#7A7A7A', showAura: true,
+    fontDisplay: "'Crimson Pro', Georgia, serif",
+    fontBody: "'DM Sans', -apple-system, sans-serif",
+    h1Size: 50, statSize: 68, bodySize: 15,
+    glassOpacity: 45, backdropBlur: 35, cardRadius: 28, innerRadius: 16,
+    shadowY: 16, shadowBlur: 36, shadowOpacity: 6, borderOpacity: 15,
+    cardPadding: 44, bentoGap: 18, statGap: 18,
+    sliderTrackH: 3, sliderThumb: 18, barHeight: 44, barRadius: 14,
+  },
+};
+
+const state = { ...DEFAULTS };
+
+// === CONTROL BINDINGS ===
+function $(id) { return document.getElementById(id); }
+
+const controls = {
+  colorBg: { el: $('colorBg'), val: $('colorBgVal'), type: 'color' },
+  colorAccent: { el: $('colorAccent'), val: $('colorAccentVal'), type: 'color' },
+  colorHighlight: { el: $('colorHighlight'), val: $('colorHighlightVal'), type: 'color' },
+  colorText: { el: $('colorText'), val: $('colorTextVal'), type: 'color' },
+  colorTextMuted: { el: $('colorTextMuted'), val: $('colorTextMutedVal'), type: 'color' },
+  showAura: { el: $('showAura'), type: 'toggle' },
+  fontDisplay: { el: $('fontDisplay'), type: 'select' },
+  fontBody: { el: $('fontBody'), type: 'select' },
+  h1Size: { el: $('h1Size'), val: $('h1SizeVal'), type: 'range', unit: 'px' },
+  statSize: { el: $('statSize'), val: $('statSizeVal'), type: 'range', unit: 'px' },
+  bodySize: { el: $('bodySize'), val: $('bodySizeVal'), type: 'range', unit: 'px' },
+  glassOpacity: { el: $('glassOpacity'), val: $('glassOpacityVal'), type: 'range', fmt: v => (v/100).toFixed(2) },
+  backdropBlur: { el: $('backdropBlur'), val: $('backdropBlurVal'), type: 'range', unit: 'px' },
+  cardRadius: { el: $('cardRadius'), val: $('cardRadiusVal'), type: 'range', unit: 'px' },
+  innerRadius: { el: $('innerRadius'), val: $('innerRadiusVal'), type: 'range', unit: 'px' },
+  shadowY: { el: $('shadowY'), val: $('shadowYVal'), type: 'range', unit: 'px' },
+  shadowBlur: { el: $('shadowBlur'), val: $('shadowBlurVal'), type: 'range', unit: 'px' },
+  shadowOpacity: { el: $('shadowOpacity'), val: $('shadowOpacityVal'), type: 'range', fmt: v => (v/100).toFixed(2) },
+  borderOpacity: { el: $('borderOpacity'), val: $('borderOpacityVal'), type: 'range', fmt: v => (v/100).toFixed(2) },
+  cardPadding: { el: $('cardPadding'), val: $('cardPaddingVal'), type: 'range', unit: 'px' },
+  bentoGap: { el: $('bentoGap'), val: $('bentoGapVal'), type: 'range', unit: 'px' },
+  statGap: { el: $('statGap'), val: $('statGapVal'), type: 'range', unit: 'px' },
+  sliderTrackH: { el: $('sliderTrackH'), val: $('sliderTrackHVal'), type: 'range', unit: 'px' },
+  sliderThumb: { el: $('sliderThumb'), val: $('sliderThumbVal'), type: 'range', unit: 'px' },
+  barHeight: { el: $('barHeight'), val: $('barHeightVal'), type: 'range', unit: 'px' },
+  barRadius: { el: $('barRadius'), val: $('barRadiusVal'), type: 'range', unit: 'px' },
+};
+
+// Bind events
+Object.keys(controls).forEach(key => {
+  const c = controls[key];
+  const event = c.type === 'color' ? 'input' : c.type === 'select' ? 'change' : c.type === 'toggle' ? 'change' : 'input';
+  c.el.addEventListener(event, () => {
+    if (c.type === 'toggle') state[key] = c.el.checked;
+    else if (c.type === 'range') state[key] = parseInt(c.el.value);
+    else state[key] = c.el.value;
+    clearActivePreset();
+    updateAll();
+  });
+});
+
+// Collapsible groups
+document.querySelectorAll('.ctrl-group-title').forEach(title => {
+  title.addEventListener('click', () => {
+    title.parentElement.classList.toggle('collapsed');
+  });
+});
+
+// Presets
+document.querySelectorAll('.preset-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const preset = PRESETS[btn.dataset.preset];
+    if (!preset) return;
+    Object.assign(state, preset);
+    syncControls();
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    updateAll();
+  });
+});
+
+function clearActivePreset() {
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+}
+
+function syncControls() {
+  Object.keys(controls).forEach(key => {
+    const c = controls[key];
+    if (c.type === 'toggle') c.el.checked = state[key];
+    else c.el.value = state[key];
+  });
+}
+
+// === HELPER: hex to hsl components ===
+function hexToHSL(hex) {
+  let r = parseInt(hex.slice(1,3),16)/255;
+  let g = parseInt(hex.slice(3,5),16)/255;
+  let b = parseInt(hex.slice(5,7),16)/255;
+  const max = Math.max(r,g,b), min = Math.min(r,g,b);
+  let h, s, l = (max+min)/2;
+  if (max === min) { h = s = 0; }
+  else {
+    const d = max - min;
+    s = l > 0.5 ? d/(2-max-min) : d/(max+min);
+    switch(max) {
+      case r: h = ((g-b)/d + (g<b?6:0))/6; break;
+      case g: h = ((b-r)/d + 2)/6; break;
+      case b: h = ((r-g)/d + 4)/6; break;
+    }
+  }
+  return [Math.round(h*360), Math.round(s*100), Math.round(l*100)];
+}
+
+// === RENDER ===
+function updateAll() {
+  renderPreview();
+  updateControlValues();
+  updatePrompt();
+}
+
+function updateControlValues() {
+  Object.keys(controls).forEach(key => {
+    const c = controls[key];
+    if (!c.val) return;
+    if (c.fmt) c.val.textContent = c.fmt(state[key]);
+    else if (c.unit) c.val.textContent = state[key] + c.unit;
+    else if (c.type === 'color') c.val.textContent = state[key].toUpperCase();
+  });
+}
+
+function renderPreview() {
+  const f = $('previewFrame');
+  const page = $('pvPage');
+  const aura = $('pvAura');
+
+  // Page background
+  page.style.background = state.colorBg;
+  page.style.fontFamily = state.fontBody;
+  page.style.fontSize = state.bodySize + 'px';
+  page.style.color = state.colorText;
+
+  // Aura gradient
+  if (state.showAura) {
+    const [ah] = hexToHSL(state.colorAccent);
+    const [hh] = hexToHSL(state.colorHighlight);
+    aura.style.background = `
+      radial-gradient(at 0% 0%, hsla(${ah}, 100%, 97%, 1) 0%, transparent 55%),
+      radial-gradient(at 100% 0%, hsla(${hh}, 100%, 97%, 1) 0%, transparent 55%)
+    `;
+    aura.style.display = 'block';
+  } else {
+    aura.style.display = 'none';
+  }
+
+  // Header
+  const pvH1 = $('pvH1');
+  pvH1.style.fontFamily = state.fontDisplay;
+  pvH1.style.fontSize = state.h1Size + 'px';
+  pvH1.style.color = state.colorText;
+
+  $('pvSubtitle').style.color = state.colorTextMuted;
+  $('pvSubtitle').style.fontSize = (state.bodySize + 2) + 'px';
+
+  // CSS vars on frame
+  f.style.setProperty('--p-accent', state.colorAccent);
+  f.style.setProperty('--p-highlight', state.colorHighlight);
+  f.style.setProperty('--p-text', state.colorText);
+  f.style.setProperty('--p-text-muted', state.colorTextMuted);
+  f.style.setProperty('--p-font-display', state.fontDisplay);
+  f.style.setProperty('--p-font-body', state.fontBody);
+
+  const shadow = `0 ${state.shadowY}px ${state.shadowBlur}px -${Math.round(state.shadowY*0.75)}px rgba(0,0,0,${state.shadowOpacity/100})`;
+  const glassBg = `rgba(255,255,255,${state.glassOpacity/100})`;
+  const glassBorder = `1px solid rgba(255,255,255,${state.borderOpacity/100})`;
+  const blur = `blur(${state.backdropBlur}px)`;
+
+  // Glass cards
+  const glassCards = [
+    $('pvInputCard'), $('pvBentoHero'), $('pvBentoWide'),
+    $('pvBentoStd'), $('pvFunnelCard')
+  ];
+  glassCards.forEach(card => {
+    card.style.background = glassBg;
+    card.style.border = glassBorder;
+    card.style.borderRadius = state.cardRadius + 'px';
+    card.style.backdropFilter = blur;
+    card.style.webkitBackdropFilter = blur;
+    card.style.boxShadow = shadow;
+    card.style.padding = state.cardPadding + 'px';
+  });
+
+  // Inset card
+  const inset = $('pvBentoInset');
+  inset.style.background = 'rgba(15, 23, 42, 0.04)';
+  inset.style.border = '1px solid rgba(15, 23, 42, 0.04)';
+  inset.style.borderRadius = state.cardRadius + 'px';
+  inset.style.boxShadow = 'inset 0 2px 4px rgba(0,0,0,0.04)';
+  inset.style.padding = state.cardPadding + 'px';
+
+  // CTA card
+  const cta = $('pvBentoCta');
+  cta.style.background = state.colorAccent;
+  cta.style.border = 'none';
+  cta.style.borderRadius = state.cardRadius + 'px';
+  cta.style.boxShadow = `0 25px 50px -15px ${state.colorAccent}33`;
+  cta.style.padding = state.cardPadding + 'px';
+  cta.querySelector('.pv-btn').style.borderRadius = '999px';
+  cta.querySelector('.pv-btn').addEventListener('mouseenter', function() {
+    this.style.color = state.colorAccent;
+  });
+
+  // Bento grid gap
+  $('pvBentoGrid').style.gap = state.bentoGap + 'px';
+
+  // Stat cards
+  const statCards = [$('pvStatCard1'), $('pvStatCard2'), $('pvStatCard3')];
+  statCards.forEach(card => {
+    card.style.background = `rgba(255,255,255,0.7)`;
+    card.style.backdropFilter = 'blur(12px)';
+    card.style.webkitBackdropFilter = 'blur(12px)';
+    card.style.border = `1px solid rgba(255,255,255,${state.borderOpacity/100})`;
+    card.style.borderRadius = state.innerRadius + 'px';
+    card.style.boxShadow = shadow;
+    card.style.padding = (state.cardPadding * 0.75) + 'px';
+  });
+
+  $('pvStatGrid').style.gap = state.statGap + 'px';
+
+  // === Unified stat number hierarchy (all derive from state.statSize) ===
+  // Apply shared font/color to ALL stat-like numbers
+  document.querySelectorAll('.pv-stat-value, .pv-funnel-count, .pv-value-display, .pv-profile-val').forEach(el => {
+    el.style.fontFamily = state.fontDisplay;
+    el.style.color = state.colorAccent;
+  });
+  // Profile vals use text color, not accent
+  document.querySelectorAll('.pv-profile-val').forEach(el => {
+    el.style.color = state.colorText;
+  });
+
+  const ss = state.statSize;
+
+  // Tier 1: Hero stat (100%)
+  $('pvBentoHero').querySelectorAll('.pv-stat-value').forEach(el => {
+    el.style.fontSize = ss + 'px';
+  });
+
+  // Tier 2: Stat cards (80%)
+  [$('pvStatVal1'), $('pvStatVal2'), $('pvStatVal3')].forEach(el => {
+    el.style.fontSize = Math.round(ss * 0.8) + 'px';
+  });
+
+  // Tier 3: Bento Wide & Bento Std (75% / 62.5%)
+  $('pvBentoWideStat').style.fontSize = Math.round(ss * 0.625) + 'px';
+  $('pvBentoStd').querySelectorAll('.pv-stat-value').forEach(el => {
+    el.style.fontSize = Math.round(ss * 0.75) + 'px';
+  });
+
+  // Tier 4: Slider value displays (31%)
+  document.querySelectorAll('.pv-value-display').forEach(el => {
+    el.style.fontSize = Math.round(ss * 0.31) + 'px';
+  });
+
+  // Tier 5: Funnel counts (28%)
+  document.querySelectorAll('.pv-funnel-count').forEach(el => {
+    el.style.fontSize = Math.round(ss * 0.28) + 'px';
+  });
+
+  // Tier 6: Profile values (25%)
+  document.querySelectorAll('.pv-profile-val').forEach(el => {
+    el.style.fontSize = Math.round(ss * 0.25) + 'px';
+  });
+
+  // Badge
+  $('pvBadge').style.background = state.colorAccent + '14';
+  $('pvBadge').style.color = state.colorAccent;
+
+  // Labels
+  document.querySelectorAll('.pv-input-label, .pv-stat-label').forEach(el => {
+    el.style.color = state.colorTextMuted;
+  });
+
+  document.querySelectorAll('.pv-help-text, .pv-insight').forEach(el => {
+    el.style.color = state.colorTextMuted;
+    el.style.fontSize = (state.bodySize - 1) + 'px';
+  });
+
+  // Section headings
+  document.querySelectorAll('.pv-glass-card h2, .pv-bento-header h2').forEach(el => {
+    el.style.fontFamily = state.fontDisplay;
+    el.style.color = state.colorText;
+  });
+
+  // Sliders
+  document.querySelectorAll('.pv-slider').forEach(sl => {
+    sl.style.height = state.sliderTrackH + 'px';
+    sl.style.background = `rgba(${hexToRGB(state.colorAccent)}, 0.12)`;
+  });
+
+  // Funnel bars
+  const barColors = [1.0, 0.8, 0.6, 0.4];
+  [1,2,3,4].forEach((n, i) => {
+    const bg = $('pvFunnelBg' + n);
+    const bar = $('pvFunnelBar' + n);
+    bg.style.height = state.barHeight + 'px';
+    bg.style.borderRadius = state.barRadius + 'px';
+    bg.style.background = `rgba(${hexToRGB(state.colorAccent)}, 0.06)`;
+    bar.style.borderRadius = state.barRadius + 'px';
+    bar.style.background = state.colorAccent;
+    bar.style.opacity = barColors[i];
+  });
+
+  // Profile keys
+  document.querySelectorAll('.pv-profile-key').forEach(el => {
+    el.style.color = state.colorTextMuted;
+  });
+
+  // Thumb styling via stylesheet
+  updateThumbStyle();
+}
+
+function hexToRGB(hex) {
+  return `${parseInt(hex.slice(1,3),16)}, ${parseInt(hex.slice(3,5),16)}, ${parseInt(hex.slice(5,7),16)}`;
+}
+
+// Dynamic thumb styling
+let thumbStyle = null;
+function updateThumbStyle() {
+  if (!thumbStyle) {
+    thumbStyle = document.createElement('style');
+    document.head.appendChild(thumbStyle);
+  }
+  thumbStyle.textContent = `
+    .pv-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: ${state.sliderThumb}px;
+      height: ${state.sliderThumb}px;
+      margin-top: -${(state.sliderThumb - state.sliderTrackH) / 2}px;
+      border-radius: 50%;
+      background: ${state.colorAccent};
+      cursor: pointer;
+      box-shadow: 0 2px 6px ${state.colorAccent}40;
+    }
+    .pv-slider::-webkit-slider-runnable-track {
+      height: ${state.sliderTrackH}px;
+      border-radius: ${state.sliderTrackH / 2}px;
+      background: rgba(${hexToRGB(state.colorAccent)}, 0.12);
+    }
+  `;
+}
+
+// === PROMPT ===
+function updatePrompt() {
+  const parts = [];
+  const d = DEFAULTS;
+
+  // Describe font change
+  const displayName = getFontName(state.fontDisplay);
+  const bodyName = getFontName(state.fontBody);
+  const defaultDisplayName = getFontName(d.fontDisplay);
+  const defaultBodyName = getFontName(d.fontBody);
+  if (displayName !== defaultDisplayName || bodyName !== defaultBodyName) {
+    parts.push(`Use ${displayName} for display headings and ${bodyName} for body text`);
+  }
+
+  // Colors
+  const colorChanges = [];
+  if (state.colorBg !== d.colorBg) colorChanges.push(`background ${state.colorBg}`);
+  if (state.colorAccent !== d.colorAccent) colorChanges.push(`accent ${state.colorAccent}`);
+  if (state.colorHighlight !== d.colorHighlight) colorChanges.push(`highlight ${state.colorHighlight}`);
+  if (state.colorText !== d.colorText) colorChanges.push(`text ${state.colorText}`);
+  if (state.colorTextMuted !== d.colorTextMuted) colorChanges.push(`muted text ${state.colorTextMuted}`);
+  if (colorChanges.length) parts.push(`Set colors to: ${colorChanges.join(', ')}`);
+
+  if (!state.showAura && d.showAura) parts.push('Remove the aura gradient background');
+
+  // Typography sizes
+  const typoChanges = [];
+  if (state.h1Size !== d.h1Size) typoChanges.push(`h1 to ${state.h1Size}px`);
+  if (state.statSize !== d.statSize) {
+    const ss = state.statSize;
+    typoChanges.push(`stat number hierarchy: hero ${ss}px, cards ${Math.round(ss*0.8)}px, secondary ${Math.round(ss*0.75)}px, compact ${Math.round(ss*0.625)}px, inline ${Math.round(ss*0.31)}px`);
+  }
+  if (state.bodySize !== d.bodySize) typoChanges.push(`body text to ${state.bodySize}px`);
+  if (typoChanges.length) parts.push(`Adjust type scale: ${typoChanges.join(', ')}`);
+
+  // Glass
+  const glassChanges = [];
+  if (state.glassOpacity !== d.glassOpacity) glassChanges.push(`${(state.glassOpacity/100).toFixed(0)*100}% glass opacity`);
+  if (state.backdropBlur !== d.backdropBlur) glassChanges.push(`${state.backdropBlur}px backdrop blur`);
+  if (state.cardRadius !== d.cardRadius) glassChanges.push(`${state.cardRadius}px card radius`);
+  if (state.borderOpacity !== d.borderOpacity) glassChanges.push(`${(state.borderOpacity/100).toFixed(2)} border opacity`);
+  if (glassChanges.length) parts.push(`Glass cards: ${glassChanges.join(', ')}`);
+
+  // Shadow
+  const shadowChanges = [];
+  if (state.shadowY !== d.shadowY || state.shadowBlur !== d.shadowBlur || state.shadowOpacity !== d.shadowOpacity) {
+    shadowChanges.push(`box-shadow: 0 ${state.shadowY}px ${state.shadowBlur}px rgba(0,0,0,${(state.shadowOpacity/100).toFixed(2)})`);
+  }
+  if (shadowChanges.length) parts.push(`Card shadow: ${shadowChanges.join(', ')}`);
+
+  // Spacing
+  const spaceChanges = [];
+  if (state.cardPadding !== d.cardPadding) spaceChanges.push(`${state.cardPadding}px card padding`);
+  if (state.bentoGap !== d.bentoGap) spaceChanges.push(`${state.bentoGap}px bento gap`);
+  if (state.statGap !== d.statGap) spaceChanges.push(`${state.statGap}px stat grid gap`);
+  if (spaceChanges.length) parts.push(`Spacing: ${spaceChanges.join(', ')}`);
+
+  // Components
+  const compChanges = [];
+  if (state.sliderTrackH !== d.sliderTrackH) compChanges.push(`${state.sliderTrackH}px slider track`);
+  if (state.sliderThumb !== d.sliderThumb) compChanges.push(`${state.sliderThumb}px thumb`);
+  if (state.barHeight !== d.barHeight) compChanges.push(`${state.barHeight}px funnel bar height`);
+  if (state.barRadius !== d.barRadius) compChanges.push(`${state.barRadius}px bar radius`);
+  if (compChanges.length) parts.push(`Components: ${compChanges.join(', ')}`);
+
+  if (parts.length === 0) {
+    $('promptOutput').textContent = 'Using the current design system defaults. Adjust controls to generate a prompt.';
+  } else {
+    $('promptOutput').textContent = `Update the IVF Calculator design system with these changes:\n\n${parts.map((p, i) => `${i+1}. ${p}`).join('\n')}`;
+  }
+}
+
+function getFontName(fontStack) {
+  const match = fontStack.match(/'([^']+)'/);
+  return match ? match[1] : fontStack.split(',')[0].trim();
+}
+
+// === COPY ===
+$('copyBtn').addEventListener('click', () => {
+  const text = $('promptOutput').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = $('copyBtn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy Prompt';
+      btn.classList.remove('copied');
+    }, 1500);
+  });
+});
+
+// === INIT ===
+syncControls();
+updateAll();
+</script>
+</body>
+</html>

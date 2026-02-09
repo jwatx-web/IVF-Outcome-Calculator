@@ -693,9 +693,12 @@ body {
 }
 
 .genetics-card {
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
   padding: var(--space-md);
   text-align: center;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -758,9 +761,11 @@ body {
 }
 
 .stat-card {
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   padding: var(--space-md);
   text-align: center;
@@ -794,15 +799,18 @@ body {
 
 .stat-value {
   font-family: var(--font-display);
-  font-size: 36px;
+  font-size: 72px;
   font-weight: 400;
   color: var(--color-accent);
-  margin-bottom: 6px;
-  line-height: 1.1;
+  margin-bottom: 8px;
+  line-height: 1.0;
 }
 
 .stat-label {
-  font-size: 14px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   color: var(--color-text-muted);
   line-height: 1.4;
 }
@@ -1064,9 +1072,12 @@ body {
 }
 
 .outcome-card {
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
   padding: var(--space-md);
   margin-bottom: var(--space-sm);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -1122,6 +1133,10 @@ body {
 
   .heading-section {
     font-size: 30px;
+  }
+
+  .stat-value {
+    font-size: 56px;
   }
 
   .stage-indicator {
@@ -1204,7 +1219,7 @@ body {
 
   .stat-value,
   .genetics-prob {
-    font-size: 28px;
+    font-size: 42px;
   }
 
   .grade-stepper-grid {

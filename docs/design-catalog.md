@@ -3,6 +3,8 @@
 **Purpose:** Documents every design element on the site with standardized rules.
 Each element has a consistent pattern. When adding new UI, reference this catalog.
 
+**Theme:** Oura-inspired "Hopeful Medical Luxury" (Helsinki Blue + Playfair Display)
+
 ---
 
 ## 1. Page Layout
@@ -18,6 +20,11 @@ Each element has a consistent pattern. When adding new UI, reference this catalo
 - **Role:** `main`
 - **Padding:** 0 (sections handle their own padding)
 
+### Background
+- **Desktop:** Sunrise aura — layered radial gradients (cool blue top-left, warm peach top-right)
+- **Mobile (768px):** Simplified linear gradient (blue-tinted top fading to white)
+- **Base Color:** `var(--color-bg)` (#FFFFFF)
+
 ---
 
 ## 2. Section Boxes
@@ -32,8 +39,8 @@ All content sections follow ONE of three patterns:
 |----------|-------|
 | Background | `var(--color-white)` (#FFFFFF) |
 | Border | `1px solid var(--color-border)` |
-| Border Top | `3px solid var(--color-accent)` |
-| Border Radius | `var(--radius-md)` (12px) |
+| Border Radius | `var(--radius-md)` (24px) |
+| Box Shadow | `var(--shadow-card)` |
 | Padding | `var(--space-md)` (32px) |
 | Margin Bottom | `var(--space-lg)` (56px) |
 
@@ -43,10 +50,10 @@ All content sections follow ONE of three patterns:
 
 | Property | Value |
 |----------|-------|
-| Background | `var(--color-bg-alt)` (#F2EFEB) |
+| Background | `var(--color-bg-alt)` (#FAFAFA) |
 | Border | `1px solid var(--color-border)` |
-| Border Top | None |
-| Border Radius | `var(--radius-md)` (12px) |
+| Border Radius | `var(--radius-md)` (24px) |
+| Box Shadow | `var(--shadow-card)` |
 | Padding | `var(--space-md)` (32px) |
 | Margin Bottom | `var(--space-lg)` (56px) |
 
@@ -58,15 +65,15 @@ All content sections follow ONE of three patterns:
 |----------|-------|
 | Background | `var(--color-white)` (#FFFFFF) |
 | Border | `1px solid var(--color-border)` |
-| Border Top | None |
-| Border Radius | `var(--radius-md)` (12px) |
+| Border Radius | `var(--radius-md)` (24px) |
+| Box Shadow | `var(--shadow-card)` |
 | Padding | `var(--space-md)` (32px) |
 | Margin Bottom | `var(--space-lg)` (56px) |
 
 ### Decision Rule
-> If the section **shows computed/dynamic data** → Pattern A (accent top border)
+> If the section **shows computed/dynamic data** → Pattern A
 > If the section **collects user input** → Pattern B (alt background)
-> If the section is **static informational content** → Pattern C (white, no accent)
+> If the section is **static informational content** → Pattern C
 
 ---
 
@@ -74,45 +81,35 @@ All content sections follow ONE of three patterns:
 
 ### H1 — Page Title
 - **Class:** `.header h1`
-- **Font:** Instrument Serif (var(--font-display))
+- **Font:** Playfair Display (var(--font-display))
 - **Size:** 44px (desktop), 34px (tablet), 28px (mobile)
 - **Weight:** 400
 - **Line Height:** 1.15
-- **Color:** `var(--color-text)` (#333334)
+- **Color:** `var(--color-text)` (#151619)
 - **Letter Spacing:** -0.01em
 - **Usage:** Only the main page title "IVF Outcome Calculator"
 
-### H2 — Major Section Header
-- **Font:** Instrument Serif (var(--font-display))
+### H2 — Section Header
+- **Font:** Playfair Display (var(--font-display))
 - **Size:** 28px
 - **Weight:** 400
 - **Line Height:** 1.3
-- **Color:** `var(--color-text)` (#333334)
+- **Color:** `var(--color-text)` (#151619)
 - **Margin Bottom:** `var(--space-md)` (32px)
 - **Text Align:** Left
-- **Usage:** Major stages/results — "Expected Outcomes", "Stage 5: Transfer & Pregnancy Success", "Sources & References"
-
-### H3 — Subsection Header
-- **Font:** Instrument Serif (var(--font-display))
-- **Size:** 22px
-- **Weight:** 400
-- **Line Height:** 1.3
-- **Color:** `var(--color-text)` (#333334)
-- **Margin Bottom:** 20px
-- **Usage:** All other section headers — "Stage 1-3", "Stage 4", "Genetic Inheritance", "Complete IVF Journey Funnel", "Probability Distribution", "Overall Success Probability"
+- **Usage:** ALL top-level section headings — "Stage 1-3", "Stage 4", "Genetic Inheritance", "Expected Outcomes", "Complete IVF Journey Funnel", "Probability Distribution", "Stage 5", "Overall Success Probability", "Sources & References"
 
 ### H4 — Component Header
-- **Font:** Instrument Serif (var(--font-display))
+- **Font:** Playfair Display (var(--font-display))
 - **Size:** 16px
 - **Weight:** 400
-- **Color:** `var(--color-text)` (#333334)
+- **Color:** `var(--color-text)` (#151619)
 - **Margin Bottom:** `var(--space-xs)` (8px)
 - **Usage:** Info box headers ("Understanding the Results")
 
 ### Decision Rule
-> **H2** = Starts a new major pipeline stage or major results area
-> **H3** = Everything else (subsections, supporting data, charts)
-> **H4** = Small component-level headers within a section
+> **H2** = Every top-level section box heading (all sections use H2)
+> **H4** = Small component-level headers within a section (e.g. "Understanding the Results")
 
 ---
 
@@ -124,12 +121,13 @@ All content sections follow ONE of three patterns:
 
 | Property | Value |
 |----------|-------|
-| Background | `var(--color-bg)` (#FAF8F5) |
+| Background | `var(--color-bg)` (#FFFFFF) |
 | Border | `1px solid var(--color-border)` |
-| Border Radius | `var(--radius-md)` (12px) |
+| Border Radius | `var(--radius-md)` (24px) |
+| Box Shadow | `var(--shadow-card)` |
 | Padding | `var(--space-md)` (32px) |
 | Text Align | Center |
-| Hover | border-color: rgba(43,94,73,0.3), box-shadow: 0 2px 12px rgba(0,0,0,0.04) |
+| Hover | border-color: rgba(47,74,115,0.3), box-shadow: var(--shadow-card-hover) |
 | Transition | all 0.2s ease |
 
 ### Outcome Card (Info Card)
@@ -138,24 +136,12 @@ All content sections follow ONE of three patterns:
 
 | Property | Value |
 |----------|-------|
-| Background | `var(--color-bg)` (#FAF8F5) |
+| Background | `var(--color-bg)` (#FFFFFF) |
 | Border | `1px solid var(--color-border)` |
-| Border Radius | `var(--radius-md)` (12px) |
+| Border Radius | `var(--radius-md)` (24px) |
 | Padding | `var(--space-md)` (32px) |
 | Text Align | Left |
-| Hover | border-color: rgba(43,94,73,0.3) |
-
-### Inline Summary Card
-**Use for:** Compact stat summaries within input sections
-**Class:** `.summary-stats`
-
-| Property | Value |
-|----------|-------|
-| Background | `var(--color-white)` (#FFFFFF) |
-| Border | `1px solid var(--color-border)` |
-| Border Radius | `var(--radius-md)` (12px) |
-| Padding | `var(--space-sm) var(--space-md)` (16px 32px) |
-| Margin Top | `var(--space-sm)` (16px) |
+| Hover | border-color: rgba(47,74,115,0.3), box-shadow: var(--shadow-card-hover) |
 
 ### Form Input Card
 **Use for:** Input controls within form sections
@@ -163,9 +149,9 @@ All content sections follow ONE of three patterns:
 
 | Property | Value |
 |----------|-------|
-| Background | `var(--color-bg)` (#FAF8F5) |
+| Background | `var(--color-bg)` (#FFFFFF) |
 | Border | `1px solid var(--color-border)` |
-| Border Radius | `var(--radius-md)` (12px) |
+| Border Radius | `var(--radius-md)` (24px) |
 | Padding | `var(--space-sm) var(--space-md)` (16px 32px) |
 | Margin Bottom | `var(--space-md)` (32px) |
 
@@ -179,23 +165,12 @@ All content sections follow ONE of three patterns:
 
 | Property | Value |
 |----------|-------|
-| Font | Instrument Serif (var(--font-display)) |
+| Font | Playfair Display (var(--font-display)) |
 | Size | 36px (desktop), 28px (mobile) |
 | Weight | 400 |
-| Color | `var(--color-accent)` (#2B5E49) |
+| Color | `var(--color-accent)` (#2F4A73) |
 | Line Height | 1.1 |
 | Margin Bottom | 6px |
-
-### Medium Display Number
-**Use for:** Compact inline stats
-**Classes:** `.summary-stat-value`
-
-| Property | Value |
-|----------|-------|
-| Font | Instrument Serif (var(--font-display)) |
-| Size | 24px |
-| Weight | 400 |
-| Color | `var(--color-accent)` (#2B5E49) |
 
 ### Inline Accent Number
 **Use for:** Numbers alongside text (outcome probabilities)
@@ -203,14 +178,13 @@ All content sections follow ONE of three patterns:
 
 | Property | Value |
 |----------|-------|
-| Font | Instrument Serif (var(--font-display)) |
+| Font | Playfair Display (var(--font-display)) |
 | Size | 22px |
 | Weight | 400 |
-| Color | `var(--color-accent)` (#2B5E49) |
+| Color | `var(--color-accent)` (#2F4A73) |
 
 ### Decision Rule
 > Card is centered with a big number as focal point → **Large Display** (36px)
-> Compact stat row within another section → **Medium Display** (24px)
 > Number sits alongside text in a row → **Inline Accent** (22px)
 
 ---
@@ -219,43 +193,43 @@ All content sections follow ONE of three patterns:
 
 ### Input Label
 - **Tag:** `<label>`
-- **Font:** DM Sans (var(--font-body))
+- **Font:** Inter (var(--font-body))
 - **Size:** 15px
 - **Weight:** 600
-- **Color:** `var(--color-text)` (#333334)
+- **Color:** `var(--color-text)` (#151619)
 - **Margin Bottom:** `var(--space-xs)` (8px)
 
 ### Help Text
 - **Class:** `.help-text`
-- **Font:** DM Sans (var(--font-body))
+- **Font:** Inter (var(--font-body))
 - **Size:** 14px
 - **Weight:** 400
-- **Color:** `var(--color-text-muted)` (#6B6B6C)
+- **Color:** `var(--color-text-muted)` (#6B7280)
 - **Line Height:** 1.5
 - **Margin Top:** 8px
 
 ### Card Label (below numbers)
 - **Class:** `.stat-label`, `.genetics-desc`
-- **Font:** DM Sans (var(--font-body))
+- **Font:** Inter (var(--font-body))
 - **Size:** 14px
 - **Weight:** 400
-- **Color:** `var(--color-text-muted)` (#6B6B6C)
+- **Color:** `var(--color-text-muted)` (#6B7280)
 - **Line Height:** 1.4
 
 ### Card Title (bold text in card)
 - **Class:** `.genetics-title`
-- **Font:** DM Sans (var(--font-body))
+- **Font:** Inter (var(--font-body))
 - **Size:** 14px
 - **Weight:** 600
-- **Color:** `var(--color-text)` (#333334)
+- **Color:** `var(--color-text)` (#151619)
 - **Margin Bottom:** 4px
 
 ### Header Subtitle
 - **Element:** `.header p`
-- **Font:** DM Sans (var(--font-body))
+- **Font:** Inter (var(--font-body))
 - **Size:** 17px
 - **Weight:** 400
-- **Color:** `var(--color-text-muted)` (#6B6B6C)
+- **Color:** `var(--color-text-muted)` (#6B7280)
 - **Max Width:** 520px
 
 ---
@@ -273,13 +247,13 @@ All content sections follow ONE of three patterns:
 - **Class:** `.value-display`
 - **Min Width:** 60px
 - **Text Align:** Right
-- **Font:** DM Sans, 16px, weight 700
+- **Font:** Inter, 16px, weight 700
 - **Color:** `var(--color-accent)`
 
 ### Stepper Controls
 - **Button Size:** 44x44px (WCAG touch target)
-- **Value Font:** Instrument Serif, 22px
-- **Border:** 1px solid `var(--color-border)`, radius 6px
+- **Value Font:** Playfair Display, 22px
+- **Border:** 1px solid `var(--color-border)`, radius 8px
 - **Button Hover:** accent-bg background
 - **Button Active:** accent bg, white text
 
@@ -292,22 +266,24 @@ All content sections follow ONE of three patterns:
 ### Number Inputs (AMH)
 - **Width:** 100%
 - **Padding:** 6px 10px
-- **Border:** 1px solid `var(--color-border)`, radius 6px
-- **Font:** DM Sans, 14px
+- **Border:** 1px solid `var(--color-border)`, radius 8px
+- **Font:** Inter, 14px
 - **Background:** white
 
 ---
 
 ## 8. Buttons
 
-### Toolbar Button
+### Toolbar Button (Capsule)
 - **Class:** `.btn.btn-secondary`
-- **Font:** DM Sans, 13px, weight 600
-- **Padding:** 8px 16px
-- **Border:** 1px solid `var(--color-border)`, radius 6px
-- **Background:** white
-- **Hover:** bg alt, border accent, text accent
+- **Font:** Inter, 0.875rem, weight 600
+- **Padding:** 14px 32px
+- **Border:** 2px solid `var(--color-accent)`, radius 999px (capsule)
+- **Background:** transparent
+- **Color:** `var(--color-accent)` (#2F4A73)
+- **Hover:** accent bg, white text, scale 1.02
 - **Active:** scale 0.98
+- **Transition:** all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
 
 ### Copied State
 - **Class:** `.btn-copied`
@@ -315,13 +291,13 @@ All content sections follow ONE of three patterns:
 - **Color:** white
 - **Border:** accent
 
-### AMH Toggle Link
+### AMH Toggle Link (Capsule)
 - **Class:** `.amh-toggle`
-- **Font:** DM Sans, 14px, weight 600
-- **Padding:** 8px 16px
-- **Border:** 1px solid accent, radius 6px
-- **Background:** white
-- **Hover:** accent-bg
+- **Font:** Inter, 0.875rem, weight 600
+- **Padding:** 10px 24px
+- **Border:** 2px solid accent, radius 999px (capsule)
+- **Background:** transparent
+- **Hover:** accent bg, white text
 
 ---
 
@@ -330,17 +306,17 @@ All content sections follow ONE of three patterns:
 ### Funnel Chart
 - **Container:** `.chart-section` (Pattern A section)
 - **Bar Height:** 48px
-- **Bar Radius:** 6px
-- **Color:** Monochromatic teal (accent color at decreasing opacity: 1.0 → 0.34)
+- **Bar Radius:** 8px
+- **Color:** Monochromatic Helsinki Blue (accent color at decreasing opacity: 1.0 → 0.34)
 - **Label Font:** 14px, muted color
-- **Count Font:** DM Sans, bold
+- **Count Font:** Inter, bold
 - **Animation:** Width transition 0.5s ease, staggered 80ms per bar
 
 ### Probability Distribution Bars
 - **Bar Height:** 28px
-- **Bar Radius:** 6px
+- **Bar Radius:** 8px
 - **Default Color:** `var(--color-accent)`
-- **Highlight Color:** `var(--color-highlight)` (#C4553A)
+- **Highlight Color:** `var(--color-highlight)` (#EF4444)
 - **Label Font:** 14px, muted color
 - **Animation:** Width transition 0.4s ease, staggered 60ms
 
@@ -348,7 +324,7 @@ All content sections follow ONE of three patterns:
 - **Class:** `.info-box`
 - **Background:** `var(--color-bg)`
 - **Border Left:** 3px solid accent
-- **Radius:** 6px
+- **Radius:** 8px
 - **Padding:** 16px 32px
 
 ---
@@ -357,9 +333,9 @@ All content sections follow ONE of three patterns:
 
 ### Medical Disclaimer Banner
 - **Class:** `.disclaimer-banner`
-- **Background:** rgba(43,94,73,0.12)
-- **Border:** 1px solid rgba(43,94,73,0.18) + 4px left accent
-- **Radius:** 6px
+- **Background:** rgba(47,74,115,0.12)
+- **Border:** 1px solid rgba(47,74,115,0.18) + 4px left accent
+- **Radius:** 8px
 - **Font:** 14px
 - **Accent Text:** bold, accent color
 
@@ -372,7 +348,7 @@ All content sections follow ONE of three patterns:
 
 ### Glossary Tooltips
 - **Trigger:** `.glossary-term` (dotted underline, cursor help)
-- **Tooltip:** Dark bg (#333334), white text, 13px
+- **Tooltip:** Dark bg (var(--color-text)), white text, 13px
 - **Max Width:** 280px, min 180px
 - **Shadow:** 0 4px 12px rgba(0,0,0,0.2)
 - **Position:** Above element with arrow
@@ -393,19 +369,19 @@ All content sections follow ONE of three patterns:
 ## CSS Variables Reference (Current)
 
 ```
---color-bg: #FAF8F5          (page background)
---color-bg-alt: #F2EFEB      (section alternate bg)
---color-text: #333334         (primary text)
---color-text-muted: #6B6B6C  (secondary/label text)
---color-accent: #2B5E49       (primary accent — teal/green)
---color-accent-light: #3A7A60 (hover accent)
---color-accent-bg: rgba(43,94,73,0.08) (subtle accent background)
---color-border: rgba(51,51,52,0.15) (standard borders)
---color-highlight: #C4553A    (highlight/emphasis — terracotta)
+--color-bg: #FFFFFF           (page background)
+--color-bg-alt: #FAFAFA       (section alternate bg)
+--color-text: #151619          (primary text — Oura Black)
+--color-text-muted: #6B7280   (secondary/label text)
+--color-accent: #2F4A73        (primary accent — Helsinki Blue)
+--color-accent-light: #4A6FA5  (hover accent)
+--color-accent-bg: rgba(47,74,115,0.08) (subtle accent background)
+--color-border: rgba(0,0,0,0.05) (ghost borders)
+--color-highlight: #EF4444     (highlight/emphasis — red)
 --color-white: #FFFFFF
 
---font-display: 'Instrument Serif', Georgia, serif
---font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif
+--font-display: 'Playfair Display', Georgia, 'Times New Roman', serif
+--font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif
 
 --space-xs: 8px
 --space-sm: 16px
@@ -413,27 +389,12 @@ All content sections follow ONE of three patterns:
 --space-lg: 56px
 --space-xl: 80px
 
---radius-sm: 6px
---radius-md: 12px
---radius-lg: 20px
+--radius-sm: 8px
+--radius-md: 24px
+--radius-lg: 32px
+--radius-full: 999px
+
+--shadow-card: 0 20px 40px -15px rgba(0, 0, 0, 0.05)
+--shadow-card-hover: 0 25px 50px -12px rgba(0, 0, 0, 0.08)
+--shadow-button: 0 8px 16px -4px rgba(0, 0, 0, 0.1)
 ```
-
----
-
-## Future Theme Migration Notes
-
-When migrating to the Oura-inspired "Hopeful Medical Luxury" theme, swap these CSS variables:
-
-| Current | New Theme |
-|---------|-----------|
-| `--font-display: Instrument Serif` | `--font-display: Playfair Display` |
-| `--font-body: DM Sans` | `--font-body: Inter` |
-| `--color-accent: #2B5E49` | `--color-accent: #2F4A73` (Helsinki Blue) |
-| `--color-text: #333334` | `--color-text: #151619` (Oura Black) |
-| `--radius-md: 12px` | `--radius-md: 24px` |
-| `--radius-sm: 6px` | `--radius-sm: 16px` |
-| Borders: 1px solid | Ghost borders: rgba(0,0,0,0.05) + shadows |
-| Flat backgrounds | Aura mesh gradients + glassmorphism |
-| Buttons: rounded rectangle | Buttons: capsule (999px radius) |
-
-The standardized class structure from this catalog ensures a clean swap.

@@ -34,9 +34,9 @@
     <!-- Google Fonts: preconnect + load -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=2.1">
+    <link rel="stylesheet" href="style.css?v=3.0">
 </head>
 <body>
     <div class="container">
@@ -87,7 +87,7 @@
 
             <!-- Stage 1-3: Retrieval to Blastocyst -->
             <div class="input-section pristine" aria-label="Stage 1 through 3: From Retrieval to Blastocyst">
-                <h3>Stage 1 &ndash; 3: From Retrieval to Blastocyst</h3>
+                <h2>Stage 1 &ndash; 3: From Retrieval to Blastocyst</h2>
 
                 <div class="input-group">
                     <a href="#" class="amh-toggle" id="amhToggle">Don't know your egg count? Estimate from AMH level &darr;</a>
@@ -143,27 +143,25 @@
                 </div>
 
                 <!-- Summary Stats -->
-                <div class="summary-stats">
-                    <div class="summary-stats-grid">
-                        <div>
-                            <div class="summary-stat-label">Mature Eggs</div>
-                            <div class="summary-stat-value" id="matureEggs">10</div>
-                        </div>
-                        <div>
-                            <div class="summary-stat-label">Fertilized</div>
-                            <div class="summary-stat-value" id="fertilizedEggs">7</div>
-                        </div>
-                        <div>
-                            <div class="summary-stat-label">Blastocysts</div>
-                            <div class="summary-stat-value" id="blastocysts">4</div>
-                        </div>
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="matureEggs">10</div>
+                        <div class="stat-label">Mature Eggs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="fertilizedEggs">7</div>
+                        <div class="stat-label">Fertilized</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="blastocysts">4</div>
+                        <div class="stat-label">Blastocysts</div>
                     </div>
                 </div>
             </div>
 
             <!-- Stage 4: Genetic Testing -->
             <div class="input-section" aria-label="Stage 4: Genetic Testing">
-                <h3>Stage 4: Genetic Testing</h3>
+                <h2>Stage 4: Genetic Testing</h2>
 
                 <div class="input-group">
                     <label for="embryoCount">Blastocysts Sent for Testing</label>
@@ -268,7 +266,7 @@
 
             <!-- Genetic Inheritance -->
             <div class="genetics-section" id="geneticInheritanceSection" aria-label="Genetic Inheritance Information">
-                <h3>Genetic Inheritance (Both Parents Carriers)</h3>
+                <h2>Genetic Inheritance (Both Parents Carriers)</h2>
                 <div class="genetics-grid">
                     <div class="genetics-card">
                         <div class="genetics-title">Unaffected (AA)</div>
@@ -315,13 +313,13 @@
 
             <!-- Funnel Chart -->
             <div class="chart-section" aria-label="IVF Journey Funnel Chart">
-                <h3>Complete IVF Journey Funnel</h3>
+                <h2>Complete IVF Journey Funnel</h2>
                 <div id="funnelChart"></div>
             </div>
 
             <!-- Probability Distribution -->
             <div class="chart-section" aria-label="Probability Distribution">
-                <h3>Probability Distribution</h3>
+                <h2>Probability Distribution</h2>
                 <div id="probabilityBars"></div>
 
                 <div class="info-box">
@@ -383,7 +381,7 @@
 
             <!-- Overall Pregnancy Outcomes -->
             <div class="pregnancy-outcomes" aria-label="Overall Pregnancy Outcomes">
-                <h3>Overall Success Probability (Combining All Stages)</h3>
+                <h2>Overall Success Probability (Combining All Stages)</h2>
 
                 <div class="outcome-card">
                     <h4>

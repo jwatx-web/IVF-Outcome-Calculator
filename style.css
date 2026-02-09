@@ -478,7 +478,7 @@ body {
 /* --- Value Display --- */
 .value-display {
   min-width: 60px;
-  text-align: right;
+  text-align: left;
   font-weight: 700;
   font-size: 16px;
   color: var(--color-accent);
@@ -728,11 +728,11 @@ body {
 
 .genetics-prob {
   font-family: var(--font-display);
-  font-size: 36px;
+  font-size: 72px;
   font-weight: 400;
   color: var(--color-accent);
-  line-height: 1.1;
-  margin-bottom: 6px;
+  line-height: 1.0;
+  margin-bottom: 8px;
 }
 
 .genetics-desc {
@@ -951,7 +951,7 @@ body {
 
 .bar-fill {
   height: 100%;
-  background: var(--color-accent);
+  background: linear-gradient(90deg, #2F4A73 0%, #4A6FA5 100%);
   transition: width 0.4s ease;
   display: flex;
   align-items: center;
@@ -1098,29 +1098,39 @@ body {
   box-shadow: var(--shadow-card-hover);
 }
 
-.outcome-card h4 {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--color-text);
-  margin-bottom: var(--space-xs);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.outcome-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-sm);
+}
+
+.outcome-card {
+  text-align: center;
 }
 
 .outcome-prob {
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 72px;
   font-weight: 400;
   color: var(--color-accent);
-  flex-shrink: 0;
-  margin-left: var(--space-sm);
+  line-height: 1.0;
+  margin-bottom: 8px;
+}
+
+.outcome-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  margin-bottom: var(--space-xs);
 }
 
 .outcome-description {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--color-text-muted);
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 /* --- Responsive: Tablet --- */
@@ -1149,7 +1159,8 @@ body {
     font-size: 30px;
   }
 
-  .stat-value {
+  .stat-value,
+  .genetics-prob {
     font-size: 56px;
   }
 
@@ -1600,6 +1611,44 @@ textarea:focus-visible,
   line-height: 1.2;
   letter-spacing: -0.02em;
   text-align: left;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.toggle-references {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-accent);
+  background: var(--color-accent-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  padding: 6px 16px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  letter-spacing: 0;
+}
+
+.toggle-references:hover {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+.references-section #referencesList {
+  display: none;
+}
+
+.references-section.expanded #referencesList {
+  display: block;
+}
+
+.references-section.expanded h2 {
+  margin-bottom: var(--space-md);
+}
+
+.references-section:not(.expanded) h2 {
+  margin-bottom: 0;
 }
 
 .reference-item {

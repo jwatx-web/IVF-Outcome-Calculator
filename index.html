@@ -383,35 +383,31 @@
             <div class="pregnancy-outcomes" aria-label="Overall Pregnancy Outcomes">
                 <h2>Overall Success Probability (Combining All Stages)</h2>
 
-                <div class="outcome-card">
-                    <h4>
-                        <span>At least 1 live birth from this cycle</span>
-                        <span class="outcome-prob" id="atLeast1Birth" aria-live="polite">--</span>
-                    </h4>
-                    <div class="outcome-description" id="atLeast1Description"></div>
-                </div>
+                <div class="outcome-grid">
+                    <div class="outcome-card">
+                        <div class="outcome-prob" id="atLeast1Birth" aria-live="polite">--</div>
+                        <div class="outcome-label">At Least 1 Live Birth</div>
+                        <div class="outcome-description" id="atLeast1Description"></div>
+                    </div>
 
-                <div class="outcome-card">
-                    <h4>
-                        <span>2 or more live births possible</span>
-                        <span class="outcome-prob" id="atLeast2Births" aria-live="polite">--</span>
-                    </h4>
-                    <div class="outcome-description" id="atLeast2Description"></div>
-                </div>
+                    <div class="outcome-card">
+                        <div class="outcome-prob" id="atLeast2Births" aria-live="polite">--</div>
+                        <div class="outcome-label">2+ Live Births Possible</div>
+                        <div class="outcome-description" id="atLeast2Description"></div>
+                    </div>
 
-                <div class="outcome-card">
-                    <h4>
-                        <span>No successful pregnancy from this cycle</span>
-                        <span class="outcome-prob" id="noSuccess" aria-live="polite">--</span>
-                    </h4>
-                    <div class="outcome-description">Despite having usable embryos, all transfers fail to result in live birth</div>
+                    <div class="outcome-card">
+                        <div class="outcome-prob" id="noSuccess" aria-live="polite">--</div>
+                        <div class="outcome-label">No Successful Pregnancy</div>
+                        <div class="outcome-description">All transfers fail to result in live birth</div>
+                    </div>
                 </div>
 
             </div>
 
             <!-- Sources & References -->
             <div class="references-section" id="referencesSection" aria-label="Sources and References">
-                <h2>Sources &amp; References</h2>
+                <h2>Sources &amp; References <button class="toggle-references" id="toggleReferences">Show</button></h2>
                 <div id="referencesList"></div>
             </div>
 

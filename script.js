@@ -960,6 +960,23 @@ if (frozenTransferToggle) {
         observer.observe(section);
     });
 
+    // Observe input section stat cards — tick up funnel numbers
+    const inputStatGrid = document.querySelector('.input-section .stat-grid');
+    if (inputStatGrid) {
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !animated.has(inputStatGrid)) {
+                    animated.add(inputStatGrid);
+                    tickUpNumber('matureEggs', 'integer', 600);
+                    tickUpNumber('fertilizedEggs', 'integer', 600);
+                    tickUpNumber('blastocysts', 'integer', 600);
+                    observer.unobserve(inputStatGrid);
+                }
+            });
+        }, { threshold: 0.3 });
+        observer.observe(inputStatGrid);
+    }
+
     // Observe results section — tick up stat numbers
     const resultsSection = document.querySelector('.results-section');
     if (resultsSection) {
@@ -1060,4 +1077,16 @@ if (frozenTransferToggle) {
         }
         requestAnimationFrame(tick);
     }
+})();
+
+// --- References Toggle ---
+(function() {
+    const btn = document.getElementById('toggleReferences');
+    const section = document.querySelector('.references-section');
+    if (!btn || !section) return;
+
+    btn.addEventListener('click', function() {
+        section.classList.toggle('expanded');
+        btn.textContent = section.classList.contains('expanded') ? 'Hide' : 'Show';
+    });
 })();

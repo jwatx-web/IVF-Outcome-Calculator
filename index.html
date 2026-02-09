@@ -267,32 +267,77 @@
             </div>
 
             <!-- Expected Outcomes -->
-            <div class="results-section" aria-label="Expected Outcomes">
-                <h2>Expected Outcomes</h2>
-                <div class="stat-grid">
-                    <div class="stat-card">
-                        <div class="stat-value" id="expectedValue" aria-live="polite">2.5</div>
-                        <hr class="insight-separator">
-                        <div class="stat-label">Expected Usable<br>Embryos</div>
+            <div class="bento-wrapper">
+                <div class="bento-blob bento-blob-1" aria-hidden="true"></div>
+                <div class="bento-blob bento-blob-2" aria-hidden="true"></div>
+                <div class="bento-header">
+                    <h2>Expected Outcomes</h2>
+                    <p>Personalized projections based on your inputs</p>
+                </div>
+
+            <div class="bento-grid" aria-label="Expected Outcomes">
+                <!-- Hero Score (2×2) -->
+                <div class="bento-card bento-hero">
+                    <span class="bento-badge">Primary Outcome</span>
+                    <div class="stat-value" id="expectedValue" aria-live="polite">2.5</div>
+                    <div class="stat-label">Expected Usable Embryos</div>
+                    <hr class="insight-separator">
+                    <p class="bento-insight" id="bentoHeroInsight">Your projected outcome based on current parameters.</p>
+                </div>
+
+                <!-- Wide Stat (2×1) — Per Embryo Success -->
+                <div class="bento-card bento-wide">
+                    <span class="bento-label">Per Embryo Success</span>
+                    <div class="bento-wide-content">
+                        <div>
+                            <div class="stat-value bento-stat-medium" id="combinedProb" aria-live="polite">41%</div>
+                            <p class="bento-sublabel">Combined pass rate</p>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="mostLikely" aria-live="polite">2-3</div>
-                        <hr class="insight-separator">
-                        <div class="stat-label">Most Likely<br>Outcome</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="combinedProb" aria-live="polite">41%</div>
-                        <hr class="insight-separator">
-                        <div class="stat-label">Per Embryo<br>Success Rate</div>
+                    <div id="gradeBreakdown" style="margin-top: 15px; display: none;">
+                        <div class="grade-breakdown-panel">
+                            <div class="grade-breakdown-title">Expected Usable by Grade:</div>
+                            <div id="gradeBreakdownContent" class="grade-breakdown-content"></div>
+                        </div>
                     </div>
                 </div>
-                <div id="gradeBreakdown" style="margin-top: 15px; display: none;">
-                    <div class="grade-breakdown-panel">
-                        <div class="grade-breakdown-title">Expected Usable by Grade:</div>
-                        <div id="gradeBreakdownContent" class="grade-breakdown-content"></div>
+
+                <!-- Standard Stat (1×1) — Most Likely -->
+                <div class="bento-card bento-standard">
+                    <span class="bento-label">Most Likely</span>
+                    <div class="stat-value bento-stat-compact" id="mostLikely" aria-live="polite">2-3</div>
+                    <p class="bento-sublabel">Usable embryos</p>
+                </div>
+
+                <!-- Patient Profile (1×1 inset) -->
+                <div class="bento-card bento-inset">
+                    <span class="bento-label">Your Profile</span>
+                    <div class="bento-profile-rows">
+                        <div class="bento-profile-row">
+                            <span class="bento-profile-key">Age</span>
+                            <span class="bento-profile-val" id="bentoAge">38</span>
+                        </div>
+                        <div class="bento-profile-row">
+                            <span class="bento-profile-key">Eggs</span>
+                            <span class="bento-profile-val" id="bentoEggs">12</span>
+                        </div>
+                        <div class="bento-profile-row">
+                            <span class="bento-profile-key">Blastocysts</span>
+                            <span class="bento-profile-val" id="bentoBlasts">4</span>
+                        </div>
                     </div>
+                </div>
+
+                <!-- Expert Insight (4×1 full-width CTA) -->
+                <div class="bento-card bento-cta">
+                    <div class="bento-cta-content">
+                        <h3 class="bento-cta-title">Understanding Your Results</h3>
+                        <p class="bento-cta-text" id="interpretation"></p>
+                    </div>
+                    <button class="btn btn-secondary bento-cta-btn" onclick="window.print()" aria-label="Print your results">Print Results</button>
                 </div>
             </div>
+            </div> <!-- /.bento-wrapper -->
 
             <!-- Funnel Chart -->
             <div class="chart-section" aria-label="IVF Journey Funnel Chart">
@@ -304,11 +349,6 @@
             <div class="chart-section" aria-label="Probability Distribution">
                 <h2>Probability Distribution</h2>
                 <div id="probabilityBars"></div>
-
-                <div class="info-box">
-                    <h3>Understanding the Results</h3>
-                    <p id="interpretation"></p>
-                </div>
             </div>
 
             <!-- Transfer & Pregnancy -->

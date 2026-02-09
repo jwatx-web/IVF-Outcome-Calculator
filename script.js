@@ -346,6 +346,20 @@ function updateSimulation() {
         `Your most likely outcome is ${mostLikelyLabel} usable embryo${mostLikelyMax !== 1 ? 's' : ''} ` +
         `(${(mostLikelyProb * 100).toFixed(0)}% chance). ` +
         `Overall, you have a ${(atLeast1 * 100).toFixed(0)}% chance of at least 1 usable embryo.`;
+
+    // Update bento profile card
+    const bentoAge = document.getElementById('bentoAge');
+    if (bentoAge) bentoAge.textContent = document.getElementById('maternalAge').value;
+    const bentoEggs = document.getElementById('bentoEggs');
+    if (bentoEggs) bentoEggs.textContent = eggsRetrieved;
+    const bentoBlasts = document.getElementById('bentoBlasts');
+    if (bentoBlasts) bentoBlasts.textContent = blastocysts;
+
+    // Update bento hero insight
+    const heroInsight = document.getElementById('bentoHeroInsight');
+    if (heroInsight) {
+        heroInsight.textContent = `Starting from ${eggsRetrieved} eggs, you can expect approximately ${expectedValue.toFixed(1)} usable embryos with a ${(combinedProb * 100).toFixed(0)}% per-embryo pass rate.`;
+    }
 }
 
 // Event listeners for all inputs
@@ -932,6 +946,8 @@ if (frozenTransferToggle) {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         // Still add .in-view so bars render at full width
         document.querySelectorAll('.chart-section').forEach(s => s.classList.add('in-view'));
+        const bentoEl = document.querySelector('.bento-grid');
+        if (bentoEl) bentoEl.classList.add('in-view');
         return;
     }
 
@@ -977,22 +993,22 @@ if (frozenTransferToggle) {
         observer.observe(inputStatGrid);
     }
 
-    // Observe results section — tick up stat numbers
-    const resultsSection = document.querySelector('.results-section');
-    if (resultsSection) {
+    // Observe bento grid — tick up stat numbers
+    const bentoGrid = document.querySelector('.bento-grid');
+    if (bentoGrid) {
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
-                if (entry.isIntersecting && !animated.has(resultsSection)) {
-                    animated.add(resultsSection);
-                    resultsSection.classList.add('in-view');
+                if (entry.isIntersecting && !animated.has(bentoGrid)) {
+                    animated.add(bentoGrid);
+                    bentoGrid.classList.add('in-view');
                     tickUpNumber('expectedValue', 'decimal', 600);
                     tickUpNumber('combinedProb', 'percent', 600);
                     tickUpNumber('mostLikely', 'integer', 600);
-                    observer.unobserve(resultsSection);
+                    observer.unobserve(bentoGrid);
                 }
             });
-        }, { threshold: 0.3 });
-        observer.observe(resultsSection);
+        }, { threshold: 0.15 });
+        observer.observe(bentoGrid);
     }
 
     // Observe pregnancy stats — tick up those numbers too

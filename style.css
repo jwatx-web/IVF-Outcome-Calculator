@@ -177,9 +177,6 @@ body {
   font-size: 16px;
   line-height: 1.6;
   color: var(--color-text);
-  background:
-    radial-gradient(circle at 10% 15%, hsla(210, 80%, 92%, 0.6) 0%, transparent 50%),
-    radial-gradient(circle at 90% 80%, hsla(25, 80%, 92%, 0.5) 0%, transparent 45%);
   background-color: var(--color-bg);
   min-height: 100vh;
   padding: var(--space-sm);
@@ -217,6 +214,9 @@ body {
 .header {
   padding: var(--space-xl) 0 var(--space-lg) 0;
   animation: fadeInUp 0.5s ease-out 0.1s both;
+  background:
+    radial-gradient(ellipse at 0% 0%, hsla(210, 60%, 95%, 0.8) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 0%, hsla(25, 60%, 95%, 0.7) 0%, transparent 50%);
 }
 
 .header h1 {
@@ -762,6 +762,26 @@ body {
   box-shadow: var(--shadow-card-hover);
 }
 
+/* Hopeful Glow — subtle aura behind primary result card */
+.results-section .stat-grid .stat-card:first-child {
+  position: relative;
+  overflow: visible;
+}
+
+.results-section .stat-grid .stat-card:first-child::before {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(47, 74, 115, 0.08) 0%,
+    transparent 70%
+  );
+  border-radius: var(--radius-lg);
+  z-index: -1;
+  pointer-events: none;
+}
+
 .stat-value {
   font-family: var(--font-display);
   font-size: 36px;
@@ -1070,7 +1090,6 @@ body {
 @media (max-width: 768px) {
   body {
     padding: var(--space-sm);
-    background: linear-gradient(180deg, hsla(210, 80%, 92%, 0.5) 0%, var(--color-bg) 100%);
   }
 
   .header {
@@ -1613,6 +1632,10 @@ textarea:focus-visible,
     box-shadow: none;
     border: 1px solid #ddd;
     background: white !important;
+  }
+
+  .results-section .stat-grid .stat-card:first-child::before {
+    display: none;
   }
 
   .summary-stats {

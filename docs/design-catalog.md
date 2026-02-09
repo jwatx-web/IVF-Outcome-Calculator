@@ -316,7 +316,7 @@ All content sections follow ONE of three patterns:
 - **Bar Height:** 28px
 - **Bar Radius:** 8px
 - **Default Color:** `var(--color-accent)`
-- **Highlight Color:** `var(--color-highlight)` (#EF4444)
+- **Highlight Color:** `var(--color-highlight)` (#D4956B)
 - **Label Font:** 14px, muted color
 - **Animation:** Width transition 0.4s ease, staggered 60ms
 
@@ -377,7 +377,7 @@ All content sections follow ONE of three patterns:
 --color-accent-light: #4A6FA5  (hover accent)
 --color-accent-bg: rgba(47,74,115,0.08) (subtle accent background)
 --color-border: rgba(0,0,0,0.05) (ghost borders)
---color-highlight: #EF4444     (highlight/emphasis — red)
+--color-highlight: #D4956B     (highlight/emphasis — warm amber)
 --color-white: #FFFFFF
 
 --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif

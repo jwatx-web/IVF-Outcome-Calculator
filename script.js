@@ -984,6 +984,7 @@ if (frozenTransferToggle) {
             entries.forEach(entry => {
                 if (entry.isIntersecting && !animated.has(resultsSection)) {
                     animated.add(resultsSection);
+                    resultsSection.classList.add('in-view');
                     tickUpNumber('expectedValue', 'decimal', 600);
                     tickUpNumber('combinedProb', 'percent', 600);
                     tickUpNumber('mostLikely', 'integer', 600);

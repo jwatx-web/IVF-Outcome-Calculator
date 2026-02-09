@@ -739,8 +739,6 @@ body {
 
 .genetics-prob .unit {
   font-size: 28px;
-  font-weight: 300;
-  opacity: 0.4;
   margin-left: 2px;
 }
 
@@ -750,13 +748,6 @@ body {
   line-height: 1.6;
 }
 
-.genetics-card.affected {
-  opacity: 0.65;
-}
-
-.genetics-card.affected .genetics-prob {
-  color: var(--color-text-muted);
-}
 
 /* --- Results Section --- */
 .results-section {

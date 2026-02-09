@@ -5,7 +5,7 @@
 - [x] Create tasks/todo.md and tasks/lessons.md
 - [x] Decompose ivf_simulator.html into index.html, style.css, script.js
 - [x] Verify decomposed site works identically
-- [ ] Create GitHub repo and push initial commit
+- [x] Create GitHub repo and push initial commit
 
 ## Phase 1: Visual Redesign (/frontend-design skill)
 - [x] Define design system (CSS variables, fonts, colors)
@@ -45,7 +45,7 @@
 - [x] Deployment files (CNAME, robots.txt, sitemap.xml)
 - [x] DNS setup instructions (docs/dns-setup.md)
 - [x] README.md
-- [ ] Create GitHub repo, push, enable Pages
+- [x] Create GitHub repo, push, enable Pages
 
 ## Phase 6: QA Verification
 - [ ] HTML validation (balanced tags, no duplicate IDs)
@@ -203,4 +203,4 @@ _Phase 0-5 complete. v2.1 QA fixes applied._
 - [ ] File cleanup and archive (e.g. handoff files, old docs)
 
 ### Bug Fixes
-- [ ] Fix bug: "Understanding the Results" always says "between 1-4 embryos" regardless of input
+- [x] Fix bug: "Understanding the Results" always says "between 1-4 embryos" regardless of input

@@ -1114,7 +1114,7 @@ body {
   font-weight: 400;
   color: var(--color-accent);
   line-height: 1.0;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .outcome-label {
@@ -1124,13 +1124,22 @@ body {
   letter-spacing: 0.1em;
   color: var(--color-text-muted);
   line-height: 1.4;
-  margin-bottom: var(--space-xs);
+}
+
+.insight-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  margin: var(--space-sm) auto;
+  max-width: 480px;
 }
 
 .outcome-description {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--color-text-muted);
-  line-height: 1.5;
+  line-height: 1.8;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* --- Responsive: Tablet --- */

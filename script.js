@@ -1079,6 +1079,15 @@ if (frozenTransferToggle) {
     }
 })();
 
+// --- Outcome Card Toggle ---
+document.querySelectorAll('.outcome-toggle').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        const card = btn.closest('.outcome-card');
+        card.classList.toggle('expanded');
+        btn.textContent = card.classList.contains('expanded') ? 'Hide' : 'Learn more';
+    });
+});
+
 // --- References Toggle ---
 (function() {
     const btn = document.getElementById('toggleReferences');

@@ -270,17 +270,20 @@
                 <div class="genetics-grid">
                     <div class="genetics-card">
                         <div class="genetics-title">Unaffected (AA)</div>
-                        <div class="genetics-prob">25%</div>
+                        <div class="genetics-prob">25<span class="unit">%</span></div>
+                        <hr class="insight-separator">
                         <div class="genetics-desc">Usable &mdash; No disease gene</div>
                     </div>
                     <div class="genetics-card">
                         <div class="genetics-title">Carrier (Aa)</div>
-                        <div class="genetics-prob">50%</div>
+                        <div class="genetics-prob">50<span class="unit">%</span></div>
+                        <hr class="insight-separator">
                         <div class="genetics-desc">Usable &mdash; Healthy carrier</div>
                     </div>
-                    <div class="genetics-card">
+                    <div class="genetics-card affected">
                         <div class="genetics-title">Affected (aa)</div>
-                        <div class="genetics-prob">25%</div>
+                        <div class="genetics-prob">25<span class="unit">%</span></div>
+                        <hr class="insight-separator">
                         <div class="genetics-desc">Unusable &mdash; Has disease</div>
                     </div>
                 </div>
@@ -292,14 +295,17 @@
                 <div class="stat-grid">
                     <div class="stat-card">
                         <div class="stat-value" id="expectedValue" aria-live="polite">2.5</div>
+                        <hr class="insight-separator">
                         <div class="stat-label">Expected Usable<br>Embryos</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-value" id="mostLikely" aria-live="polite">2-3</div>
+                        <hr class="insight-separator">
                         <div class="stat-label">Most Likely<br>Outcome</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-value" id="combinedProb" aria-live="polite">41%</div>
+                        <hr class="insight-separator">
                         <div class="stat-label">Per Embryo<br>Success Rate</div>
                     </div>
                 </div>

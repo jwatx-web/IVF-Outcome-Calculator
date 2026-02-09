@@ -766,7 +766,7 @@ body {
 .stat-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: var(--space-sm);
+  gap: var(--space-xl);
   margin-bottom: var(--space-md);
 }
 
@@ -1101,7 +1101,7 @@ body {
 .outcome-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--space-sm);
+  gap: var(--space-xl);
 }
 
 .outcome-card {
@@ -1191,6 +1191,11 @@ body {
 
   .stat-grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+  }
+
+  .outcome-grid {
+    gap: var(--space-md);
   }
 
   .grade-stepper-grid {
@@ -1254,6 +1259,11 @@ body {
 
   .stat-grid {
     grid-template-columns: 1fr;
+    gap: var(--space-sm);
+  }
+
+  .outcome-grid {
+    gap: var(--space-sm);
   }
 
   .stat-value,
@@ -1443,7 +1453,7 @@ textarea:focus-visible,
 .toolbar {
   display: flex;
   gap: var(--space-sm);
-  margin-bottom: var(--space-md);
+  margin-bottom: 64px;
   flex-wrap: wrap;
   animation: fadeInUp 0.5s ease-out 0.15s both;
 }

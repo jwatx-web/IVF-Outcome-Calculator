@@ -254,13 +254,13 @@ function updateSimulation() {
     funnelData.forEach((stage, index) => {
         const percentage = (parseFloat(stage.count) / maxCount * 100);
         const colors = [
-            'linear-gradient(90deg, #2F4A73 0%, #4A6FA5 100%)',
-            'linear-gradient(90deg, #3A5A85 0%, #5A80B5 100%)',
-            'linear-gradient(90deg, #456A97 0%, #6A90C5 100%)',
-            'linear-gradient(90deg, #507AA9 0%, #7AA0D5 100%)',
-            'linear-gradient(90deg, #5B8ABB 0%, #8AB0E5 100%)',
-            'linear-gradient(90deg, #669ACD 0%, #9AC0F0 100%)',
-            'linear-gradient(90deg, #71AADF 0%, #AAD0FA 100%)'
+            'rgba(47, 74, 115, 1.0)',
+            'rgba(47, 74, 115, 0.85)',
+            'rgba(47, 74, 115, 0.70)',
+            'rgba(47, 74, 115, 0.55)',
+            'rgba(47, 74, 115, 0.40)',
+            'rgba(47, 74, 115, 0.30)',
+            'rgba(47, 74, 115, 0.20)'
         ];
 
         funnelHtml += `

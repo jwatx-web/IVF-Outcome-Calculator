@@ -1577,7 +1577,9 @@ body {
   .bento-cta {
     grid-column: span 2;
     flex-direction: column;
-    text-align: left;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
     gap: var(--space-sm);
   }
 

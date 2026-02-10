@@ -488,6 +488,7 @@ body {
   padding: var(--space-sm);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  isolation: isolate;
 }
 
 /* Fixed aura gradient — works on iOS Safari (background-attachment: fixed does not) */
@@ -1844,7 +1845,7 @@ body::before {
   }
 
   .input-group:first-of-type {
-    margin-top: -40px;
+    margin-top: -20px;
   }
 
   .input-section h2,

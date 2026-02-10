@@ -317,12 +317,12 @@ function updateSimulation() {
     document.getElementById('atLeast2Births').textContent = (probAtLeast2Births * 100).toFixed(1) + '%';
     document.getElementById('noSuccess').textContent = (probNoSuccess * 100).toFixed(1) + '%';
 
-    // Update "Success in a Future Cycle" description
+    // Update "No Live Birth This Cycle" description
     const noSuccessDescEl = document.getElementById('noSuccessDescription');
     if (noSuccessDescEl) {
         noSuccessDescEl.textContent = probNoSuccess < 0.5
-            ? `There is only a ${(probNoSuccess * 100).toFixed(1)}% chance that none of these embryos lead to a live birth. The odds are in your favor.`
-            : `This represents a ${(probNoSuccess * 100).toFixed(1)}% chance this cycle's embryos don't result in a live birth — but many families succeed on a subsequent cycle with refined protocols.`;
+            ? `There is only a ${(probNoSuccess * 100).toFixed(1)}% chance that none of this cycle's embryos lead to a live birth. The odds are in your favor.`
+            : `A ${(probNoSuccess * 100).toFixed(1)}% chance that none of this cycle's embryos result in a live birth. Many families succeed on a subsequent cycle with refined protocols.`;
     }
 
     // Update cumulative success context

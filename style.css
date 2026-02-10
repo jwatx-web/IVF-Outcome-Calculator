@@ -499,8 +499,9 @@ body {
 
 /* --- Medical Disclaimer Banner --- */
 .disclaimer-banner {
-  background: transparent;
+  background: var(--color-bg);
   border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: 0;
   padding: var(--space-md) 0 var(--space-sm);
   margin-bottom: var(--space-md);
@@ -512,6 +513,9 @@ body {
   margin-left: auto;
   margin-right: auto;
   animation: fadeInUp 0.5s ease-out;
+  position: sticky;
+  top: 0;
+  z-index: 0;
 }
 
 .disclaimer-banner strong {
@@ -537,6 +541,8 @@ body {
   padding: var(--space-2xl) 0 var(--space-xl);
   text-align: center;
   animation: fadeInUp 0.5s ease-out 0.1s both;
+  position: relative;
+  z-index: 1;
 }
 
 .header h1 {
@@ -1713,7 +1719,11 @@ body {
   }
 
   .bento-card.bento-cta {
-    padding: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .bento-cta-content {
+    text-align: center;
   }
 
   .bento-hero .stat-value {
@@ -1805,6 +1815,21 @@ body {
 
   .input-group:first-of-type {
     margin-top: -40px;
+  }
+
+  .input-section h2,
+  .chart-section h2,
+  .pregnancy-section h2,
+  .pregnancy-outcomes h2 {
+    margin-bottom: var(--space-lg);
+  }
+
+  .grade-progress {
+    display: none;
+  }
+
+  .grade-stepper-grid {
+    margin-top: var(--space-md);
   }
 
   .value-display {

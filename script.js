@@ -75,6 +75,7 @@ function updateSimulation() {
     const blastocysts = Math.round(fertilizedEggs * blastocystRate);
 
     // Update early stage displays
+    document.getElementById('eggsRetrievedStat').textContent = eggsRetrieved;
     document.getElementById('matureEggs').textContent = matureEggs;
     document.getElementById('fertilizedEggs').textContent = fertilizedEggs;
     document.getElementById('blastocysts').textContent = blastocysts;

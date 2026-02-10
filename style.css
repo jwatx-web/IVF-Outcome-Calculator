@@ -2171,7 +2171,7 @@ textarea:focus-visible,
 
 .references-section h2 {
   font-family: var(--font-display);
-  font-size: 36px;
+  font-size: 24px;
   font-weight: 400;
   color: var(--color-text);
   margin-bottom: var(--space-md);

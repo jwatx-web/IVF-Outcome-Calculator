@@ -38,7 +38,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=5.7">
+    <link rel="stylesheet" href="style.css?v=6.0">
 </head>
 <body>
     <div class="aura-bg" aria-hidden="true"></div>
@@ -46,14 +46,39 @@
 
         <!-- Medical Disclaimer Banner -->
         <div class="disclaimer-banner" id="disclaimerBanner" role="alert">
-            <p><strong>Medical Disclaimer:</strong> This calculator provides statistical estimates based on published research and population-level data. It is not a medical device and does not constitute medical advice, diagnosis, or treatment. Individual outcomes vary significantly. Always consult your reproductive endocrinologist for guidance specific to your situation.</p>
+            <p><strong>Medical Disclaimer:</strong> This tool provides statistical estimates based on published research and population-level data. It is not a medical device and does not constitute medical advice, diagnosis, or treatment. Individual outcomes vary significantly. Always consult your reproductive endocrinologist for guidance specific to your situation.</p>
         </div>
 
         <!-- Header -->
         <header class="header">
-            <h1>IVF Outcome <em>Calculator</em></h1>
-            <p>Precise modeling for every stage of your cycle, based on <span class="glossary-term" tabindex="0" data-tooltip="Preimplantation Genetic Testing for Aneuploidy — screens for chromosome number">PGT-A</span> and <span class="glossary-term" tabindex="0" data-tooltip="Preimplantation Genetic Testing for Monogenic disorders — screens for specific genetic diseases">PGT-M</span> testing</p>
+            <h1>Your IVF Journey, <em>Mapped.</em></h1>
+            <p>Gain clarity with data-driven insights tailored to your unique cycle, from retrieval to a hopeful outcome.</p>
         </header>
+
+        <!-- How It Works -->
+        <div class="input-section how-it-works-section" aria-label="How It Works">
+            <h2>How It Works</h2>
+
+            <div class="info-box how-it-works-card">
+                <h3>Rooted in Clinical Reality</h3>
+                <p>Our model uses established clinical benchmarks from thousands of IVF cycles, analyzing attrition rates at every stage — from mature eggs to blastocysts — to give you a realistic view of how a typical cycle progresses.</p>
+            </div>
+
+            <div class="info-box how-it-works-card">
+                <h3>Personalized to Your Story</h3>
+                <p>Your inputs matter. We use maternal age to estimate euploid rates and incorporate optional details like embryo grading to move from general averages to a projection that reflects your specific data. <sup class="cite-ref"><a href="#ref-1">[1]</a></sup><sup class="cite-ref"><a href="#ref-2">[2]</a></sup></p>
+            </div>
+
+            <div class="info-box how-it-works-card">
+                <h3>From Data to a Complete Picture</h3>
+                <p>We model implantation rates — including the 5–10% boost from frozen transfers <sup class="cite-ref"><a href="#ref-6">[6]</a></sup> — and factor in live birth rates after positive pregnancy <sup class="cite-ref"><a href="#ref-7">[7]</a></sup> to give you a full-journey outlook.</p>
+            </div>
+
+            <div class="info-box how-it-works-card">
+                <h3>A Tool for Your Next Conversation</h3>
+                <p>These numbers are a baseline, not a verdict. Use these insights to have a more informed, confident conversation with your fertility specialist — whether that means celebrating a strong outlook or planning a multi-cycle approach.</p>
+            </div>
+        </div>
 
         <!-- Toolbar -->
         <div class="toolbar">
@@ -89,8 +114,8 @@
             </div>
 
             <!-- Retrieval to Blastocyst -->
-            <div class="input-section pristine" aria-label="From Retrieval to Blastocyst">
-                <h2>From Retrieval to Blastocyst</h2>
+            <div class="input-section pristine" aria-label="Starting Your Path: From Retrieval to Blastocyst">
+                <h2>Starting Your Path: From Retrieval to Blastocyst</h2>
 
                 <div class="input-group">
                     <a href="#" class="amh-toggle" id="amhToggle">Don't know your egg count? Estimate from AMH level &darr;</a>
@@ -167,8 +192,9 @@
             </div>
 
             <!-- Genetic Testing -->
-            <div class="input-section" aria-label="Genetic Testing">
-                <h2>Genetic Testing</h2>
+            <div class="input-section" aria-label="Refining the Search: Genetic Insights">
+                <h2>Refining the Search: Genetic Insights</h2>
+                <p class="section-intro-copy">Screening helps identify the healthiest embryos, giving you the best possible start for a transfer.</p>
 
                 <div class="input-group">
                     <label for="embryoCount">Blastocysts Sent for Testing</label>
@@ -276,16 +302,17 @@
                 <div class="bento-blob bento-blob-1" aria-hidden="true"></div>
                 <div class="bento-blob bento-blob-2" aria-hidden="true"></div>
                 <div class="bento-header">
-                    <h2>Expected Outcomes</h2>
-                    <p>Personalized projections based on your inputs</p>
+                    <h2>Your Potential Outlook</h2>
+                    <p>A personalized outlook based on your unique inputs</p>
                 </div>
 
-            <div class="bento-grid" aria-label="Expected Outcomes">
+            <div class="bento-grid" aria-label="Your Potential Outlook">
                 <!-- Hero Score (2×2) -->
                 <div class="bento-card bento-hero">
                     <span class="bento-badge">Primary Outcome</span>
                     <div class="stat-value" id="expectedValue" aria-live="polite">2.5</div>
                     <div class="stat-label">Expected Usable Embryos</div>
+                    <p class="bento-decimal-insight" id="decimalInsight"></p>
                     <hr class="insight-separator">
                     <p class="bento-insight" id="bentoHeroInsight">Your projected outcome based on current parameters.</p>
                 </div>
@@ -333,20 +360,21 @@
             </div> <!-- /.bento-wrapper -->
 
             <!-- Probability Distribution -->
-            <div class="chart-section" aria-label="Probability Distribution">
-                <h2>Probability Distribution</h2>
+            <div class="chart-section" aria-label="Understanding the Possibilities">
+                <h2>Understanding the Possibilities</h2>
                 <div id="probabilityBars"></div>
+                <p class="section-micro-copy">Remember, these are averages. Every cycle is a new opportunity for your medical team to learn and refine your protocol.</p>
             </div>
 
             <!-- Funnel Chart -->
-            <div class="chart-section" aria-label="IVF Journey Funnel Chart">
-                <h2>Complete IVF Journey Funnel</h2>
+            <div class="chart-section" aria-label="Your Cycle at a Glance">
+                <h2>Your Cycle at a Glance</h2>
                 <div id="funnelChart"></div>
             </div>
 
             <!-- Transfer & Pregnancy -->
-            <div class="pregnancy-section" aria-label="Transfer and Pregnancy Success">
-                <h2>Transfer &amp; Pregnancy Success</h2>
+            <div class="pregnancy-section" aria-label="The Final Step: Looking Toward Success">
+                <h2>The Final Step: Looking Toward Success</h2>
 
                 <div class="input-group">
                     <label>Transfer Type</label>
@@ -396,15 +424,15 @@
             </div>
 
             <!-- Overall Pregnancy Outcomes -->
-            <div class="pregnancy-outcomes" aria-label="Overall Pregnancy Outcomes">
-                <h2>Overall Success Probability <span class="heading-subtitle">Combining All Stages</span></h2>
+            <div class="pregnancy-outcomes" aria-label="Your Path Toward Parenthood">
+                <h2>Your Path Toward Parenthood <span class="heading-subtitle">Combining All Stages</span></h2>
 
                 <div class="outcome-grid">
                     <div class="outcome-card">
                         <div class="outcome-prob" id="atLeast1Birth" aria-live="polite">--</div>
                         <div class="outcome-label">At Least 1 Live Birth</div>
                         <hr class="insight-separator">
-                        <button class="outcome-toggle" aria-label="Learn more about at least 1 live birth probability">Learn more</button>
+                        <button class="outcome-toggle" aria-label="Why this matters — at least 1 live birth probability">Why this matters</button>
                         <div class="outcome-description" id="atLeast1Description"></div>
                     </div>
 
@@ -412,19 +440,25 @@
                         <div class="outcome-prob" id="atLeast2Births" aria-live="polite">--</div>
                         <div class="outcome-label">2+ Live Births Possible</div>
                         <hr class="insight-separator">
-                        <button class="outcome-toggle" aria-label="Learn more about 2+ live births probability">Learn more</button>
+                        <button class="outcome-toggle" aria-label="Why this matters — 2+ live births probability">Why this matters</button>
                         <div class="outcome-description" id="atLeast2Description"></div>
                     </div>
 
                     <div class="outcome-card">
                         <div class="outcome-prob" id="noSuccess" aria-live="polite">--</div>
-                        <div class="outcome-label">No Successful Pregnancy</div>
+                        <div class="outcome-label">Success in a Future Cycle</div>
                         <hr class="insight-separator">
-                        <button class="outcome-toggle" aria-label="Learn more about no successful pregnancy probability">Learn more</button>
-                        <div class="outcome-description">All transfers fail to result in live birth</div>
+                        <button class="outcome-toggle" aria-label="Why this matters — success in a future cycle">Why this matters</button>
+                        <div class="outcome-description" id="noSuccessDescription">This represents the chance that this particular cycle's embryos don't result in a live birth — but it does not define your journey. Many families succeed on a subsequent cycle with refined protocols.</div>
                     </div>
                 </div>
+                <p class="section-micro-copy cumulative-context" id="cumulativeContext"></p>
 
+            </div>
+
+            <!-- Results Sign-Off -->
+            <div class="results-signoff" aria-label="Closing encouragement">
+                <p>You are doing the brave work of staying informed. Take these results to your specialist to discuss how to optimize your specific plan.</p>
             </div>
 
             <!-- Sources & References -->
@@ -442,6 +476,6 @@
         </footer>
     </div>
 
-    <script src="script.js?v=2.1"></script>
+    <script src="script.js?v=3.0"></script>
 </body>
 </html>

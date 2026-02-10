@@ -1375,6 +1375,77 @@ body {
   line-height: 1.7;
 }
 
+/* --- Section Micro-Copy (warm footer text below charts / sections) --- */
+.section-micro-copy {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  margin-top: var(--space-md);
+  max-width: 600px;
+}
+
+.cumulative-context {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --- Decimal Insight (dynamic micro-copy in bento hero) --- */
+.bento-decimal-insight {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  font-style: italic;
+  line-height: 1.6;
+  margin-top: var(--space-xs);
+  max-width: 320px;
+}
+
+/* --- Section Intro Copy (below h2 in input sections) --- */
+.section-intro-copy {
+  font-size: 15px;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  margin-top: calc(-1 * var(--space-sm));
+  margin-bottom: var(--space-md);
+  max-width: 560px;
+}
+
+/* --- How It Works Section --- */
+.how-it-works-section .info-box {
+  margin-bottom: var(--space-sm);
+}
+
+.how-it-works-section .info-box:last-child {
+  margin-bottom: 0;
+}
+
+.how-it-works-card h3 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--color-text);
+  margin-bottom: var(--space-xs);
+}
+
+/* --- Results Sign-Off --- */
+.results-signoff {
+  text-align: center;
+  padding: var(--space-lg) var(--space-md);
+  margin-bottom: var(--space-2xl);
+}
+
+.results-signoff p {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 /* --- Pregnancy / Transfer Section --- */
 .pregnancy-section {
   background: rgba(255, 255, 255, 0.4);
@@ -1829,6 +1900,19 @@ body {
   .value-display {
     min-width: 48px;
     font-size: 24px;
+  }
+
+  .section-intro-copy {
+    font-size: 14px;
+    margin-bottom: var(--space-lg);
+  }
+
+  .results-signoff p {
+    font-size: 16px;
+  }
+
+  .how-it-works-card h3 {
+    font-size: 16px;
   }
 }
 

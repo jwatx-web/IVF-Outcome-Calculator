@@ -100,6 +100,12 @@ function updateSimulation() {
         document.getElementById('interpretation').textContent = 'No blastocysts expected with current parameters. Try increasing eggs retrieved or development rates.';
         document.getElementById('atLeast1Description').textContent = 'No blastocysts expected from the current pipeline parameters.';
         document.getElementById('atLeast2Description').textContent = '';
+        var noSuccessDescGuard = document.getElementById('noSuccessDescription');
+        if (noSuccessDescGuard) noSuccessDescGuard.textContent = '';
+        var cumulativeGuard = document.getElementById('cumulativeContext');
+        if (cumulativeGuard) cumulativeGuard.textContent = '';
+        var decimalInsightGuard = document.getElementById('decimalInsight');
+        if (decimalInsightGuard) { decimalInsightGuard.textContent = ''; decimalInsightGuard.style.display = 'none'; }
         embryoCountSlider.disabled = true;
         return;
     }
@@ -280,6 +286,21 @@ function updateSimulation() {
 
     // Update display
     document.getElementById('expectedValue').textContent = expectedValue.toFixed(1);
+
+    // Dynamic decimal micro-copy
+    var decimalInsightEl = document.getElementById('decimalInsight');
+    if (decimalInsightEl) {
+        var isWholeNumber = Math.abs(expectedValue - Math.round(expectedValue)) < 0.05;
+        if (!isWholeNumber && expectedValue > 0) {
+            var roundedUp = Math.ceil(expectedValue);
+            decimalInsightEl.textContent = 'While the math shows ' + expectedValue.toFixed(1) + ', your most likely outcome is ' + roundedUp + ' usable embryo' + (roundedUp !== 1 ? 's' : '') + ' \u2014 ' + roundedUp + ' real chance' + (roundedUp !== 1 ? 's' : '') + ' at success.';
+            decimalInsightEl.style.display = '';
+        } else {
+            decimalInsightEl.textContent = '';
+            decimalInsightEl.style.display = 'none';
+        }
+    }
+
     document.getElementById('combinedProb').textContent = (combinedProb * 100).toFixed(0) + '%';
     document.getElementById('perTransferSuccess').textContent = (perTransferSuccess * 100).toFixed(0) + '%';
     document.getElementById('expectedTransfers').textContent = (1 / perTransferSuccess).toFixed(1);
@@ -295,6 +316,26 @@ function updateSimulation() {
     document.getElementById('atLeast1Birth').textContent = (probAtLeast1Birth * 100).toFixed(1) + '%';
     document.getElementById('atLeast2Births').textContent = (probAtLeast2Births * 100).toFixed(1) + '%';
     document.getElementById('noSuccess').textContent = (probNoSuccess * 100).toFixed(1) + '%';
+
+    // Update "Success in a Future Cycle" description
+    const noSuccessDescEl = document.getElementById('noSuccessDescription');
+    if (noSuccessDescEl) {
+        noSuccessDescEl.textContent = probNoSuccess < 0.5
+            ? `There is only a ${(probNoSuccess * 100).toFixed(1)}% chance that none of these embryos lead to a live birth. The odds are in your favor.`
+            : `This represents a ${(probNoSuccess * 100).toFixed(1)}% chance this cycle's embryos don't result in a live birth — but many families succeed on a subsequent cycle with refined protocols.`;
+    }
+
+    // Update cumulative success context
+    const cumulativeEl = document.getElementById('cumulativeContext');
+    if (cumulativeEl) {
+        if (probAtLeast1Birth >= 0.7) {
+            cumulativeEl.textContent = `With a ${(probAtLeast1Birth * 100).toFixed(0)}% chance of at least one live birth from this cycle alone, the data is strongly in your favor. Discuss these results with your specialist to make your plan.`;
+        } else if (probAtLeast1Birth >= 0.4) {
+            cumulativeEl.textContent = `A ${(probAtLeast1Birth * 100).toFixed(0)}% chance of at least one live birth is a meaningful starting point. Your specialist can discuss strategies to optimize your protocol.`;
+        } else {
+            cumulativeEl.textContent = `While the numbers from a single cycle may feel modest, many families build their path across multiple cycles. Your specialist can help plan the best approach.`;
+        }
+    }
 
     // Update descriptions
     const medianUsableEmbryos = Math.round(expectedValue);
@@ -1112,7 +1153,7 @@ document.querySelectorAll('.outcome-toggle').forEach(function(btn) {
     btn.addEventListener('click', function() {
         const card = btn.closest('.outcome-card');
         card.classList.toggle('expanded');
-        btn.textContent = card.classList.contains('expanded') ? 'Hide' : 'Learn more';
+        btn.textContent = card.classList.contains('expanded') ? 'Hide' : 'Why this matters';
     });
 });
 

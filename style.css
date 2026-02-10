@@ -491,12 +491,11 @@ body {
   isolation: isolate;
 }
 
-/* Fixed aura gradient — works on iOS Safari (background-attachment: fixed does not) */
-body::before {
-  content: '';
+/* Fixed aura gradient — real DOM element, reliable on iOS Safari */
+.aura-bg {
   position: fixed;
   inset: 0;
-  background-image: var(--aura-sunrise);
+  background: var(--aura-sunrise);
   z-index: -1;
   pointer-events: none;
 }
@@ -2363,7 +2362,7 @@ textarea:focus-visible,
     print-color-adjust: exact;
   }
 
-  body::before {
+  .aura-bg {
     display: none !important;
   }
 

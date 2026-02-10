@@ -38,7 +38,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=5.6">
+    <link rel="stylesheet" href="style.css?v=5.7">
 </head>
 <body>
     <div class="aura-bg" aria-hidden="true"></div>
@@ -290,13 +290,13 @@
                     <p class="bento-insight" id="bentoHeroInsight">Your projected outcome based on current parameters.</p>
                 </div>
 
-                <!-- Wide Stat (2×1) — Per Embryo Success -->
+                <!-- Wide Stat (2×1) — Testing Pass Rate -->
                 <div class="bento-card bento-wide">
-                    <span class="bento-label">Per Embryo Success</span>
+                    <span class="bento-label">Testing Pass Rate</span>
                     <div class="bento-wide-content">
                         <div>
                             <div class="stat-value bento-stat-medium" id="combinedProb" aria-live="polite">41%</div>
-                            <p class="bento-sublabel">Combined pass rate</p>
+                            <p class="bento-sublabel">Chance each embryo passes PGT</p>
                         </div>
                     </div>
                     <div id="gradeBreakdown" style="margin-top: 15px; display: none;">
@@ -314,23 +314,11 @@
                     <p class="bento-sublabel">Usable embryos</p>
                 </div>
 
-                <!-- Patient Profile (1×1 inset) -->
-                <div class="bento-card bento-inset">
-                    <span class="bento-label">Your Profile</span>
-                    <div class="bento-profile-rows">
-                        <div class="bento-profile-row">
-                            <span class="bento-profile-key">Age</span>
-                            <span class="bento-profile-val" id="bentoAge">38</span>
-                        </div>
-                        <div class="bento-profile-row">
-                            <span class="bento-profile-key">Eggs</span>
-                            <span class="bento-profile-val" id="bentoEggs">12</span>
-                        </div>
-                        <div class="bento-profile-row">
-                            <span class="bento-profile-key">Blastocysts</span>
-                            <span class="bento-profile-val" id="bentoBlasts">4</span>
-                        </div>
-                    </div>
+                <!-- At Least 1 Usable (1×1) -->
+                <div class="bento-card bento-standard">
+                    <span class="bento-label">≥1 Usable</span>
+                    <div class="stat-value bento-stat-compact" id="bentoAtLeast1" aria-live="polite">98%</div>
+                    <p class="bento-sublabel">Chance of at least 1</p>
                 </div>
 
                 <!-- Expert Insight (4×1 full-width CTA) -->

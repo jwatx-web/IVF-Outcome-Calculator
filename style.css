@@ -163,17 +163,6 @@
   box-shadow: 0 25px 50px -15px rgba(0, 0, 0, 0.07);
 }
 
-/* Inset/recessed variant for Patient Profile */
-.bento-inset {
-  background: rgba(15, 23, 42, 0.04);
-  border: 1px solid rgba(15, 23, 42, 0.04);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
-}
-
-.bento-inset:hover {
-  background: rgba(15, 23, 42, 0.06);
-}
-
 /* Solid accent variant for CTA */
 .bento-cta {
   background: var(--color-accent);
@@ -273,31 +262,6 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-md);
-}
-
-/* Patient Profile rows */
-.bento-profile-rows {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.bento-profile-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
-}
-
-.bento-profile-key {
-  color: var(--color-text-muted);
-}
-
-.bento-profile-val {
-  font-weight: 700;
-  color: var(--color-text);
-  font-family: var(--font-display);
-  font-size: 16px;
 }
 
 /* CTA card content */

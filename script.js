@@ -88,6 +88,7 @@ function updateSimulation() {
         document.getElementById('expectedValue').textContent = '0.0';
         document.getElementById('mostLikely').textContent = '0';
         document.getElementById('combinedProb').textContent = '0%';
+        document.getElementById('bentoAtLeast1').textContent = '0%';
         document.getElementById('perTransferSuccess').textContent = '0%';
         document.getElementById('expectedTransfers').textContent = '\u2014';
         document.getElementById('atLeast1Birth').textContent = '0.0%';
@@ -178,9 +179,6 @@ function updateSimulation() {
             ${gradeAA > 0 ? `<div>• AA/AB: ${expectedUsableByGrade.AA.toFixed(1)} expected usable (${(gradeAAEuploid * pgtmRate * 100).toFixed(0)}% pass rate)</div>` : ''}
             ${gradeBA > 0 ? `<div>• BA/BB: ${expectedUsableByGrade.BA.toFixed(1)} expected usable (${(gradeBAEuploid * pgtmRate * 100).toFixed(0)}% pass rate)</div>` : ''}
             ${gradeBC > 0 ? `<div>• BC/CC: ${expectedUsableByGrade.BC.toFixed(1)} expected usable (${(gradeBCEuploid * pgtmRate * 100).toFixed(0)}% pass rate)</div>` : ''}
-            <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(51, 51, 52, 0.15);">
-                <strong>Weighted avg implantation: ${(weightedImplantationRate * 100).toFixed(0)}%</strong>
-            </div>
         `;
 
         combinedProb = expectedValue / embryoCount;
@@ -348,18 +346,13 @@ function updateSimulation() {
         `(${(mostLikelyProb * 100).toFixed(0)}% chance). ` +
         `Overall, you have a ${(atLeast1 * 100).toFixed(0)}% chance of at least 1 usable embryo.`;
 
-    // Update bento profile card
-    const bentoAge = document.getElementById('bentoAge');
-    if (bentoAge) bentoAge.textContent = document.getElementById('maternalAge').value;
-    const bentoEggs = document.getElementById('bentoEggs');
-    if (bentoEggs) bentoEggs.textContent = eggsRetrieved;
-    const bentoBlasts = document.getElementById('bentoBlasts');
-    if (bentoBlasts) bentoBlasts.textContent = blastocysts;
+    // Update bento ≥1 usable card
+    document.getElementById('bentoAtLeast1').textContent = (atLeast1 * 100).toFixed(0) + '%';
 
     // Update bento hero insight
     const heroInsight = document.getElementById('bentoHeroInsight');
     if (heroInsight) {
-        heroInsight.textContent = `Starting from ${eggsRetrieved} eggs, you can expect approximately ${expectedValue.toFixed(1)} usable embryos with a ${(combinedProb * 100).toFixed(0)}% per-embryo pass rate.`;
+        heroInsight.textContent = `Starting from ${eggsRetrieved} eggs, you can expect approximately ${expectedValue.toFixed(1)} usable embryos with a ${(combinedProb * 100).toFixed(0)}% testing pass rate per embryo.`;
     }
 }
 
@@ -1021,6 +1014,7 @@ if (frozenTransferToggle) {
                     tickUpNumber('expectedValue', 'decimal', 600);
                     tickUpNumber('combinedProb', 'percent', 600);
                     tickUpNumber('mostLikely', 'integer', 600);
+                    tickUpNumber('bentoAtLeast1', 'percent', 600);
                     observer.unobserve(bentoGrid);
                 }
             });

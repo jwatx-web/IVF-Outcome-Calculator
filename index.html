@@ -38,7 +38,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=5.1">
+    <link rel="stylesheet" href="style.css?v=5.2">
 </head>
 <body>
     <div class="container">
@@ -175,7 +175,7 @@
                 </div>
 
                 <div class="input-group">
-                    <label id="label-grading">Embryo Grading (Optional &mdash; improves accuracy)</label>
+                    <label id="label-grading">Embryo Grading<span class="label-hint">Optional — improves accuracy</span></label>
                     <div class="help-text">Assign grades to embryos being tested. Leave at 0 to use average rates. <sup class="cite-ref"><a href="#ref-2">[2]</a></sup><sup class="cite-ref"><a href="#ref-3">[3]</a></sup></div>
                     <div class="grade-stepper-grid">
                         <div class="grade-stepper-group">
@@ -339,16 +339,16 @@
             </div>
             </div> <!-- /.bento-wrapper -->
 
-            <!-- Funnel Chart -->
-            <div class="chart-section" aria-label="IVF Journey Funnel Chart">
-                <h2>Complete IVF Journey Funnel</h2>
-                <div id="funnelChart"></div>
-            </div>
-
             <!-- Probability Distribution -->
             <div class="chart-section" aria-label="Probability Distribution">
                 <h2>Probability Distribution</h2>
                 <div id="probabilityBars"></div>
+            </div>
+
+            <!-- Funnel Chart -->
+            <div class="chart-section" aria-label="IVF Journey Funnel Chart">
+                <h2>Complete IVF Journey Funnel</h2>
+                <div id="funnelChart"></div>
             </div>
 
             <!-- Transfer & Pregnancy -->

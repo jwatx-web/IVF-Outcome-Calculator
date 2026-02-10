@@ -690,6 +690,17 @@ body {
   margin-bottom: var(--space-xs);
 }
 
+.label-hint {
+  display: block;
+  font-style: italic;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  letter-spacing: 0;
+  text-transform: none;
+  margin-top: 2px;
+}
+
 .input-row {
   display: flex;
   align-items: center;
@@ -1281,7 +1292,7 @@ body {
   border-radius: 24px;
   overflow: hidden;
   position: relative;
-  height: 63px;
+  height: 36px;
 }
 
 /* Override the inline gradient backgrounds set by JS */

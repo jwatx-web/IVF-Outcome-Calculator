@@ -1449,6 +1449,7 @@ body {
 
 .heading-subtitle {
   display: block;
+  font-family: var(--font-body);
   font-size: 14px;
   font-weight: 400;
   color: var(--color-text-muted);
@@ -1740,28 +1741,7 @@ body {
   }
 
   .stage-indicator {
-    flex-wrap: wrap;
-    gap: 8px 0;
-    justify-content: center;
-    padding: 0;
-  }
-
-  .stage-indicator::before {
     display: none;
-  }
-
-  .stage {
-    flex: 0 0 33.33%;
-    width: auto;
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    gap: 4px;
-  }
-
-  .stage-number {
-    width: 28px;
-    height: 28px;
-    font-size: 12px;
   }
 
   .stat-grid {
@@ -1829,7 +1809,7 @@ body {
 
   .value-display {
     min-width: 48px;
-    font-size: 16px;
+    font-size: 24px;
   }
 }
 
